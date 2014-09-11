@@ -12,6 +12,7 @@
 		EE50C80A19C13E970005A207 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE50C80919C13E970005A207 /* Images.xcassets */; };
 		EE50C80D19C13E970005A207 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE50C80B19C13E970005A207 /* MainMenu.xib */; };
 		EE50C81919C13E970005A207 /* IDOLMenubarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50C81819C13E970005A207 /* IDOLMenubarTests.swift */; };
+		EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEE20A919C1443500BB8A72 /* hp-logo-small.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,7 @@
 		EE50C81219C13E970005A207 /* IDOLMenubarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IDOLMenubarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE50C81719C13E970005A207 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE50C81819C13E970005A207 /* IDOLMenubarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDOLMenubarTests.swift; sourceTree = "<group>"; };
+		EEEE20A919C1443500BB8A72 /* hp-logo-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-small.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 		EE50C80319C13E970005A207 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EEEE20A919C1443500BB8A72 /* hp-logo-small.png */,
 				EE50C80419C13E970005A207 /* Info.plist */,
 				EE50C80519C13E970005A207 /* main.swift */,
 			);
@@ -189,6 +192,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */,
 				EE50C80A19C13E970005A207 /* Images.xcassets in Resources */,
 				EE50C80D19C13E970005A207 /* MainMenu.xib in Resources */,
 			);
@@ -397,6 +401,7 @@
 				EE50C81E19C13E970005A207 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EE50C81F19C13E970005A207 /* Build configuration list for PBXNativeTarget "IDOLMenubarTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +410,7 @@
 				EE50C82119C13E970005A207 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
