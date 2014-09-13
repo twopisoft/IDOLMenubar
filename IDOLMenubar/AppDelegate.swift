@@ -14,6 +14,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var menu: NSMenu!
     
+    @IBOutlet weak var currentView: NSView!
+    
+    var currentViewController : NSViewController? = nil
+    var prefViewController : PreferenceViewController? = nil
+    var searchViewController : SearchViewController? = nil
+    
     var statusItem : NSStatusItem = NSStatusItem()
     
     override func awakeFromNib() {
@@ -33,13 +39,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func preferences(sender: AnyObject) {
         NSApp.activateIgnoringOtherApps(true)
+        
+        if prefViewController == nil {
+            prefViewController = PreferenceViewController(nibName: "PreferenceViewController", bundle: nil)
+        }
+        changeViewController(prefViewController)
+        prefViewController?.reloadView()
         self.window!.title = "Preferences"
         self.window!.makeKeyAndOrderFront(self)
     }
 
     @IBAction func conceptSearch(sender: AnyObject) {
         NSApp.activateIgnoringOtherApps(true)
-        self.window!.title = "Concept Search"
+        
+        if searchViewController == nil {
+            searchViewController = SearchViewController(nibName: "SearchViewController", bundle: nil)
+        }
+        changeViewController(searchViewController)
+        self.window!.title = "Conceptual Search"
         self.window!.makeKeyAndOrderFront(self)
     }
     
@@ -48,6 +65,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBAction func quit(sender: AnyObject) {
         NSApplication.sharedApplication().terminate(self)
+    }
+    
+    func changeViewController(controller: NSViewController?) {
+        assert(controller != nil, "Nil View Controller passed")
+        
+        if currentViewController != nil {
+            currentViewController!.view.removeFromSuperview()
+        }
+        currentViewController = controller
+        currentView.addSubview(currentViewController!.view)
+        currentViewController!.view.frame = currentView.bounds
     }
 }
 

@@ -12,6 +12,11 @@
 		EE50C80A19C13E970005A207 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE50C80919C13E970005A207 /* Images.xcassets */; };
 		EE50C80D19C13E970005A207 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE50C80B19C13E970005A207 /* MainMenu.xib */; };
 		EE50C81919C13E970005A207 /* IDOLMenubarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50C81819C13E970005A207 /* IDOLMenubarTests.swift */; };
+		EE6BA6BB19C2A5BD004F5149 /* PreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE6BA6B919C2A5BD004F5149 /* PreferenceViewController.xib */; };
+		EE6BA6BE19C2A5DA004F5149 /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6BA6BD19C2A5DA004F5149 /* PreferenceViewController.swift */; };
+		EE6BA6C019C2A633004F5149 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6BA6BF19C2A633004F5149 /* Preferences.swift */; };
+		EE6BA6C319C2A6B0004F5149 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6BA6C119C2A6B0004F5149 /* SearchViewController.swift */; };
+		EE6BA6C419C2A6B0004F5149 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE6BA6C219C2A6B0004F5149 /* SearchViewController.xib */; };
 		EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEE20A919C1443500BB8A72 /* hp-logo-small.png */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +40,11 @@
 		EE50C81219C13E970005A207 /* IDOLMenubarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IDOLMenubarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE50C81719C13E970005A207 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE50C81819C13E970005A207 /* IDOLMenubarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDOLMenubarTests.swift; sourceTree = "<group>"; };
+		EE6BA6B919C2A5BD004F5149 /* PreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferenceViewController.xib; sourceTree = "<group>"; };
+		EE6BA6BD19C2A5DA004F5149 /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
+		EE6BA6BF19C2A633004F5149 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		EE6BA6C119C2A6B0004F5149 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		EE6BA6C219C2A6B0004F5149 /* SearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 		EEEE20A919C1443500BB8A72 /* hp-logo-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-small.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +87,11 @@
 		EE50C80219C13E970005A207 /* IDOLMenubar */ = {
 			isa = PBXGroup;
 			children = (
+				EE6BA6C119C2A6B0004F5149 /* SearchViewController.swift */,
+				EE6BA6C219C2A6B0004F5149 /* SearchViewController.xib */,
+				EE6BA6BF19C2A633004F5149 /* Preferences.swift */,
+				EE6BA6BD19C2A5DA004F5149 /* PreferenceViewController.swift */,
+				EE6BA6B919C2A5BD004F5149 /* PreferenceViewController.xib */,
 				EE50C80719C13E970005A207 /* AppDelegate.swift */,
 				EE50C80919C13E970005A207 /* Images.xcassets */,
 				EE50C80B19C13E970005A207 /* MainMenu.xib */,
@@ -195,6 +210,8 @@
 				EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */,
 				EE50C80A19C13E970005A207 /* Images.xcassets in Resources */,
 				EE50C80D19C13E970005A207 /* MainMenu.xib in Resources */,
+				EE6BA6C419C2A6B0004F5149 /* SearchViewController.xib in Resources */,
+				EE6BA6BB19C2A5BD004F5149 /* PreferenceViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,8 +229,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE6BA6C319C2A6B0004F5149 /* SearchViewController.swift in Sources */,
 				EE50C80819C13E970005A207 /* AppDelegate.swift in Sources */,
 				EE50C80619C13E970005A207 /* main.swift in Sources */,
+				EE6BA6C019C2A633004F5149 /* Preferences.swift in Sources */,
+				EE6BA6BE19C2A5DA004F5149 /* PreferenceViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +351,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = IDOLMenubar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -342,6 +363,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = IDOLMenubar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
