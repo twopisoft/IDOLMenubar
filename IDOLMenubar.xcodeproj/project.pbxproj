@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE02905D19C416EF00142D36 /* SelectIndexSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */; };
 		EE50C80619C13E970005A207 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50C80519C13E970005A207 /* main.swift */; };
 		EE50C80819C13E970005A207 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50C80719C13E970005A207 /* AppDelegate.swift */; };
 		EE50C80A19C13E970005A207 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE50C80919C13E970005A207 /* Images.xcassets */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectIndexSheet.xib; sourceTree = "<group>"; };
 		EE50C80019C13E970005A207 /* IDOLMenubar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IDOLMenubar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE50C80419C13E970005A207 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE50C80519C13E970005A207 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				EE6BA6B919C2A5BD004F5149 /* PreferenceViewController.xib */,
 				EE50C80719C13E970005A207 /* AppDelegate.swift */,
 				EE50C80919C13E970005A207 /* Images.xcassets */,
+				EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */,
 				EE50C80B19C13E970005A207 /* MainMenu.xib */,
 				EE50C80319C13E970005A207 /* Supporting Files */,
 			);
@@ -207,6 +210,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE02905D19C416EF00142D36 /* SelectIndexSheet.xib in Resources */,
 				EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */,
 				EE50C80A19C13E970005A207 /* Images.xcassets in Resources */,
 				EE50C80D19C13E970005A207 /* MainMenu.xib in Resources */,

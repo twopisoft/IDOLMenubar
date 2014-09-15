@@ -15,6 +15,8 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     @IBOutlet weak var apiKeyTextField: NSTextField!
     
+    @IBOutlet var selectIndexSheet : NSWindow!
+    
     var prefs = Preferences()
     
     override func viewDidLoad() {
@@ -94,7 +96,26 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
             alert.messageText = "IDOL API Key not configured"
             alert.informativeText = "IDOL API Key is not configured. Please set the API Key first."
             alert.beginSheetModalForWindow(parentWindow(), completionHandler: nil)
+        } else {
+            showSelectIndexSheet()
         }
+    }
+    
+    private func showSelectIndexSheet() {
+        if selectIndexSheet == nil {
+            NSBundle.mainBundle().loadNibNamed("SelectIndexSheet", owner: self, topLevelObjects: nil)
+        }
+        NSApplication.sharedApplication().beginSheet(self.selectIndexSheet,
+            modalForWindow: parentWindow(),
+            modalDelegate: self,
+            didEndSelector: nil,
+            contextInfo: nil)
+    }
+    
+    @IBAction func closeIndexSheet(sender: AnyObject) {
+        NSApplication.sharedApplication().endSheet(self.selectIndexSheet)
+        self.selectIndexSheet.close()
+        //self.selectIndexSheet = nil
     }
     
     @IBAction func insertNewEntry(sender: AnyObject) {
