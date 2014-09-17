@@ -44,7 +44,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             prefViewController = PreferenceViewController(nibName: "PreferenceViewController", bundle: nil)
         }
         changeViewController(prefViewController)
-        prefViewController?.reloadView()
         self.window!.title = "Preferences"
         self.window!.makeKeyAndOrderFront(self)
     }

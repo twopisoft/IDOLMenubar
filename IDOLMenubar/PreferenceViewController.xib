@@ -8,6 +8,8 @@
             <connections>
                 <outlet property="apiKeyTextField" destination="2Lg-GY-9aM" id="FNW-Nc-JxV"/>
                 <outlet property="dirPrefTableView" destination="1cT-hk-kh8" id="Zdz-en-wKG"/>
+                <outlet property="prefArrayController" destination="ptk-ei-Y5h" id="87c-jH-hMI"/>
+                <outlet property="userDefaultsController" destination="Rwl-C4-P6J" id="cw3-qz-26E"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -38,6 +40,9 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <binding destination="Rwl-C4-P6J" name="value" keyPath="values.idolApiKey" id="UWm-gS-8yb"/>
+                                </connections>
                             </textField>
                         </subviews>
                     </view>
@@ -98,11 +103,25 @@
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="44b-FM-h3y">
                                                                     <rect key="frame" x="1" y="5" width="246" height="17"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="BRx-Gh-XmS">
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" usesSingleLineMode="YES" id="BRx-Gh-XmS">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        <connections>
+                                                                            <binding destination="8WN-AF-bel" name="value" keyPath="objectValue.idolDirPath" id="aet-NU-K8K">
+                                                                                <dictionary key="options">
+                                                                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                                </dictionary>
+                                                                            </binding>
+                                                                        </connections>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <binding destination="8WN-AF-bel" name="value" keyPath="objectValue.idolDirPath" id="xrH-Sl-mzL">
+                                                                            <dictionary key="options">
+                                                                                <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                    </connections>
                                                                 </textField>
                                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="sTH-74-fl0">
                                                                     <rect key="frame" x="253" y="2" width="29" height="22"/>
@@ -132,6 +151,13 @@
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
+                                                    <connections>
+                                                        <binding destination="ptk-ei-Y5h" name="value" keyPath="arrangedObjects.idolDirPath" id="x6G-ja-IW6">
+                                                            <dictionary key="options">
+                                                                <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                            </dictionary>
+                                                        </binding>
+                                                    </connections>
                                                 </tableColumn>
                                                 <tableColumn identifier="IndexCell" width="191" minWidth="40" maxWidth="1000" id="Sq0-pY-i67">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="IDOL Index">
@@ -166,10 +192,17 @@
                                                                 </button>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PwG-Ox-sGW">
                                                                     <rect key="frame" x="1" y="4" width="155" height="17"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="g5n-Fj-llB">
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="g5n-Fj-llB">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        <connections>
+                                                                            <binding destination="ptk-ei-Y5h" name="value" keyPath="selection.IdolIndexName" id="rtu-4W-F37">
+                                                                                <dictionary key="options">
+                                                                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                                </dictionary>
+                                                                            </binding>
+                                                                        </connections>
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
@@ -185,9 +218,18 @@
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
+                                                    <connections>
+                                                        <binding destination="ptk-ei-Y5h" name="value" keyPath="arrangedObjects.idolIndexName" id="7AE-Zv-NoV">
+                                                            <dictionary key="options">
+                                                                <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                            </dictionary>
+                                                        </binding>
+                                                    </connections>
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
+                                                <binding destination="ptk-ei-Y5h" name="content" keyPath="arrangedObjects" id="9b3-n7-or3"/>
+                                                <binding destination="ptk-ei-Y5h" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="9b3-n7-or3" id="VAV-lm-mCG"/>
                                                 <outlet property="dataSource" destination="-2" id="H0Y-7x-zZU"/>
                                                 <outlet property="delegate" destination="-2" id="RZg-pp-jx2"/>
                                             </connections>
@@ -216,9 +258,16 @@
                                 <buttonCell key="cell" type="roundTextured" title="-" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NOD-Qv-K9w">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                    <connections>
+                                        <binding destination="ptk-ei-Y5h" name="enabled" keyPath="canRemove" id="bF5-Rm-dkE"/>
+                                    </connections>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="removeEntry:" target="-2" id="I9O-KL-aAo"/>
+                                    <action selector="remove:" target="ptk-ei-Y5h" id="yzu-bV-PPR"/>
+                                    <binding destination="ptk-ei-Y5h" name="enabled" keyPath="canRemove" id="1ao-3I-J5i"/>
                                     <outlet property="nextKeyView" destination="dij-FM-NSR" id="7Dz-4r-1aW"/>
                                 </connections>
                             </button>
@@ -232,7 +281,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="save:" target="-2" id="OWz-bX-CBh"/>
+                                    <action selector="save:" target="-2" id="j8b-ER-xpI"/>
                                 </connections>
                             </button>
                             <button horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dij-FM-NSR">
@@ -245,7 +294,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="cancel:" target="-2" id="IeZ-UF-YLR"/>
+                                    <action selector="cancel:" target="-2" id="Lir-xp-wwN"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CUL-LJ-R3b">
@@ -258,7 +307,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="insertNewEntry:" target="-2" id="kVz-cz-pIa"/>
+                                    <action selector="add:" target="ptk-ei-Y5h" id="dkH-oG-fk5"/>
                                     <outlet property="nextKeyView" destination="dij-FM-NSR" id="9PX-za-PgO"/>
                                 </connections>
                             </button>
@@ -296,6 +345,20 @@
             </constraints>
             <point key="canvasLocation" x="294.5" y="507"/>
         </customView>
+        <arrayController id="ptk-ei-Y5h" userLabel="PrefArrayController">
+            <declaredKeys>
+                <string>idolDirPath</string>
+                <string>idolIndexName</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="Rwl-C4-P6J" name="contentArray" keyPath="values.idolDirectories" id="7Ns-ka-xyI">
+                    <dictionary key="options">
+                        <bool key="NSHandlesContentAsCompoundValue" value="YES"/>
+                    </dictionary>
+                </binding>
+            </connections>
+        </arrayController>
+        <userDefaultsController representsSharedInstance="YES" id="Rwl-C4-P6J"/>
     </objects>
     <resources>
         <image name="NSFolder" width="32" height="32"/>

@@ -17,18 +17,16 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     @IBOutlet var selectIndexSheet : NSWindow!
     
-    var prefs = Preferences()
+    @IBOutlet var userDefaultsController: NSUserDefaultsController!
+    
+    @IBOutlet var prefArrayController: NSArrayController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    func reloadView() {
-        if dirPrefTableView != nil {
-            prefs.loadPreferences()
-            apiKeyTextField.stringValue = prefs.apiKey
-            dirPrefTableView.reloadData()
-        }
+    override func awakeFromNib() {
+        userDefaultsController.appliesImmediately = false
     }
     
     private func parentWindow() -> NSWindow? {
@@ -39,59 +37,35 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         parentWindow()!.close()
     }
     
-    func numberOfRowsInTableView(tableView: NSTableView!) -> Int {
-        return prefs.dirEntryCount()
-    }
-    
-    func tableView(tableView: NSTableView!, viewForTableColumn tableColumn: NSTableColumn!, row: Int) -> NSView! {
-        if let dirPref = prefs.getDirEntry(row) {
-            var identifier = tableColumn.identifier!
-           
-            var cellView : NSTableCellView = tableView.makeViewWithIdentifier(identifier, owner: self) as NSTableCellView
-            switch identifier {
-            case "DirectoryCell": cellView.textField.stringValue = dirPref.path
-            case "IndexCell"    : cellView.textField.stringValue = dirPref.index
-            default: break
-            }
-        
-            return cellView
-        }
-        
-        return nil
-    }
-    
     @IBAction func cancel(sender: AnyObject) {
+        userDefaultsController.revert(self)
         doneEditing()
     }
     
     @IBAction func save(sender: AnyObject) {
-        if let apiKey = apiKeyTextField.stringValue {
-            prefs.apiKey = apiKey
-        }
-        prefs.savePreferences()
+        userDefaultsController.save(self)
         doneEditing()
     }
     
     @IBAction func locateDir(sender: AnyObject) {
-        let selectedRow = dirPrefTableView.rowForView(sender as NSView)
-        var dirPref = prefs.getDirEntry(selectedRow)!
-        var path = dirPref.path.isEmpty ? "~/" : dirPref.path
+        let row = dirPrefTableView.rowForView(sender as NSView)
+        prefArrayController.setSelectionIndex(row)
         
         var panel = NSOpenPanel()
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.beginSheetModalForWindow(parentWindow(), completionHandler: { (response : NSModalResponse) in
-                if response == 1 {
-                    dirPref.path = panel.URL!.path!
-                    self.prefs.updateDirEntry(dirPref, atIndex: selectedRow)
-                    self.dirPrefTableView.reloadData()
-                }
-            })
+            if response == 1 {
+                self.prefArrayController.setValue(panel.URL!.path!, forKeyPath: "selection.idolDirPath")
+            }
+        })
+        
     }
     
     @IBAction func locateIndex(sender: AnyObject) {
-        if prefs.apiKey.isEmpty {
+        let apiKey: AnyObject! = userDefaultsController.values.valueForKey("idolApiKey")
+        if apiKey == nil  {
             let alert = NSAlert()
             alert.messageText = "IDOL API Key not configured"
             alert.informativeText = "IDOL API Key is not configured. Please set the API Key first."
@@ -116,23 +90,6 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         NSApplication.sharedApplication().endSheet(self.selectIndexSheet)
         self.selectIndexSheet.close()
         //self.selectIndexSheet = nil
-    }
-    
-    @IBAction func insertNewEntry(sender: AnyObject) {
-        let selectedRow = dirPrefTableView.selectedRow+1
-        prefs.insertDirEntry(DirEntry(), atIndex: selectedRow)
-        dirPrefTableView.beginUpdates()
-        dirPrefTableView.insertRowsAtIndexes(NSIndexSet(index: selectedRow), withAnimation: NSTableViewAnimationOptions.EffectGap)
-        dirPrefTableView.scrollRowToVisible(selectedRow)
-        dirPrefTableView.endUpdates()
-    }
-    
-    @IBAction func removeEntry(sender: AnyObject) {
-        let selectedRows = dirPrefTableView.selectedRowIndexes
-        if selectedRows.count > 0 {
-            prefs.removeDirEntry(selectedRows.firstIndex)
-            dirPrefTableView.removeRowsAtIndexes(selectedRows, withAnimation: NSTableViewAnimationOptions.SlideDown)
-        }
     }
     
 }
