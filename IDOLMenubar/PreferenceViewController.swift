@@ -21,6 +21,8 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     @IBOutlet var prefArrayController: NSArrayController!
     
+    var managedObjectContext : NSManagedObjectContext!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -39,12 +41,19 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     @IBAction func cancel(sender: AnyObject) {
         userDefaultsController.revert(self)
+        managedObjectContext.undo()
         doneEditing()
     }
     
     @IBAction func save(sender: AnyObject) {
         userDefaultsController.save(self)
+        managedObjectContext.save(nil)
         doneEditing()
+    }
+    
+    @IBAction func add(sender: AnyObject) {
+        IdolDirectories(entity: NSEntityDescription.entityForName("IdolDirectories", inManagedObjectContext: self.managedObjectContext),
+            insertIntoManagedObjectContext: self.managedObjectContext)
     }
     
     @IBAction func locateDir(sender: AnyObject) {

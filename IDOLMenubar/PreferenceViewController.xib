@@ -9,7 +9,7 @@
                 <outlet property="apiKeyTextField" destination="2Lg-GY-9aM" id="FNW-Nc-JxV"/>
                 <outlet property="dirPrefTableView" destination="1cT-hk-kh8" id="Zdz-en-wKG"/>
                 <outlet property="prefArrayController" destination="ptk-ei-Y5h" id="87c-jH-hMI"/>
-                <outlet property="userDefaultsController" destination="Rwl-C4-P6J" id="cw3-qz-26E"/>
+                <outlet property="userDefaultsController" destination="6fq-C9-Q9H" id="CET-my-4SJ"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -41,7 +41,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
-                                    <binding destination="Rwl-C4-P6J" name="value" keyPath="values.idolApiKey" id="UWm-gS-8yb"/>
+                                    <binding destination="6fq-C9-Q9H" name="value" keyPath="values.idolApiKey" id="K2s-FL-TeI"/>
                                 </connections>
                             </textField>
                         </subviews>
@@ -196,13 +196,6 @@
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                        <connections>
-                                                                            <binding destination="ptk-ei-Y5h" name="value" keyPath="selection.IdolIndexName" id="rtu-4W-F37">
-                                                                                <dictionary key="options">
-                                                                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                                                                </dictionary>
-                                                                            </binding>
-                                                                        </connections>
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
@@ -267,7 +260,6 @@ CA
                                 </buttonCell>
                                 <connections>
                                     <action selector="remove:" target="ptk-ei-Y5h" id="yzu-bV-PPR"/>
-                                    <binding destination="ptk-ei-Y5h" name="enabled" keyPath="canRemove" id="1ao-3I-J5i"/>
                                     <outlet property="nextKeyView" destination="dij-FM-NSR" id="7Dz-4r-1aW"/>
                                 </connections>
                             </button>
@@ -307,7 +299,7 @@ CA
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="add:" target="ptk-ei-Y5h" id="dkH-oG-fk5"/>
+                                    <action selector="add:" target="-2" id="b0X-v8-JH8"/>
                                     <outlet property="nextKeyView" destination="dij-FM-NSR" id="9PX-za-PgO"/>
                                 </connections>
                             </button>
@@ -345,20 +337,16 @@ CA
             </constraints>
             <point key="canvasLocation" x="294.5" y="507"/>
         </customView>
-        <arrayController id="ptk-ei-Y5h" userLabel="PrefArrayController">
+        <arrayController mode="entity" entityName="IdolDirectories" automaticallyPreparesContent="YES" id="ptk-ei-Y5h" userLabel="PrefArrayController">
             <declaredKeys>
                 <string>idolDirPath</string>
                 <string>idolIndexName</string>
             </declaredKeys>
             <connections>
-                <binding destination="Rwl-C4-P6J" name="contentArray" keyPath="values.idolDirectories" id="7Ns-ka-xyI">
-                    <dictionary key="options">
-                        <bool key="NSHandlesContentAsCompoundValue" value="YES"/>
-                    </dictionary>
-                </binding>
+                <binding destination="-2" name="managedObjectContext" keyPath="managedObjectContext" id="WeQ-Nd-LeK"/>
             </connections>
         </arrayController>
-        <userDefaultsController representsSharedInstance="YES" id="Rwl-C4-P6J"/>
+        <userDefaultsController representsSharedInstance="YES" id="6fq-C9-Q9H"/>
     </objects>
     <resources>
         <image name="NSFolder" width="32" height="32"/>
