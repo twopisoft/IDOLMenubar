@@ -29,7 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var manualDataAdd : Bool = {
         let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext) as NSManagedObject
         mo.setValue("Test Index", forKey: "name")
-        mo.setValue(false, forKey: "isPublic")
+        mo.setValue(true, forKey: "isPublic")
         mo.setValue("Explorer",forKey: "flavor")
         mo.setValue("Information about this index.", forKey: "info")
         return true

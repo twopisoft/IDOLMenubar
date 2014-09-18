@@ -21,7 +21,11 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     @IBOutlet var prefArrayController: NSArrayController!
     
+    @IBOutlet var indexArrayController: NSArrayController!
+    
     var managedObjectContext : NSManagedObjectContext!
+    
+    var origUndoManager : NSUndoManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,17 +56,24 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     }
     
     @IBAction func add(sender: AnyObject) {
-        IdolDirectories(entity: NSEntityDescription.entityForName("IdolDirectories", inManagedObjectContext: self.managedObjectContext),
-            insertIntoManagedObjectContext: self.managedObjectContext)
+        let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolDirectories", inManagedObjectContext: self.managedObjectContext) as NSManagedObject
+        
+        mo.setValue(nil, forKey: "idolDirPath")
     }
     
     @IBAction func addIndex(sender: AnyObject) {
         let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext) as NSManagedObject
-        mo.setValue("<New Index Name>", forKey: "name")
+        
+        mo.setValue(nil, forKey: "name")
         mo.setValue(false, forKey: "isPublic")
         mo.setValue("Standard",forKey: "flavor")
         mo.setValue("", forKey: "info")
-        
+    }
+    
+    @IBAction func cancelIndex(sender: AnyObject) {
+        //self.managedObjectContext.undoManager.endUndoGrouping()
+        self.managedObjectContext.undoManager.undo()
+        closeIndexSheet(sender)
     }
     
     @IBAction func locateDir(sender: AnyObject) {
@@ -78,7 +89,6 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
                 self.prefArrayController.setValue(panel.URL!.path!, forKeyPath: "selection.idolDirPath")
             }
         })
-        
     }
     
     @IBAction func locateIndex(sender: AnyObject) {
@@ -89,6 +99,9 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
             alert.informativeText = "IDOL API Key is not configured. Please set the API Key first."
             alert.beginSheetModalForWindow(parentWindow(), completionHandler: nil)
         } else {
+            //self.managedObjectContext.undoManager.beginUndoGrouping()
+            self.origUndoManager = self.managedObjectContext.undoManager
+            self.managedObjectContext.undoManager = NSUndoManager()
             showSelectIndexSheet()
         }
     }
@@ -97,6 +110,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         if selectIndexSheet == nil {
             NSBundle.mainBundle().loadNibNamed("SelectIndexSheet", owner: self, topLevelObjects: nil)
         }
+        
         NSApplication.sharedApplication().beginSheet(self.selectIndexSheet,
             modalForWindow: parentWindow(),
             modalDelegate: self,
@@ -107,6 +121,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     @IBAction func closeIndexSheet(sender: AnyObject) {
         NSApplication.sharedApplication().endSheet(self.selectIndexSheet)
         self.selectIndexSheet.close()
+        self.managedObjectContext.undoManager = self.origUndoManager
         //self.selectIndexSheet = nil
     }
     

@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferenceViewController" customModule="IDOLMenubar" customModuleProvider="target">
             <connections>
+                <outlet property="indexArrayController" destination="xYR-Do-FVB" id="eB3-UF-7Xf"/>
                 <outlet property="selectIndexSheet" destination="QvC-M9-y7g" id="nUI-F5-kjZ"/>
             </connections>
         </customObject>
@@ -61,7 +62,7 @@ Gw
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="closeIndexSheet:" target="-2" id="Nge-BM-haN"/>
+                            <action selector="cancelIndex:" target="-2" id="54k-jX-EGM"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BLq-2h-hS2">
@@ -89,7 +90,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <progressIndicator hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="lBa-5H-xad">
-                        <rect key="frame" x="436" y="75" width="16" height="16"/>
+                        <rect key="frame" x="298" y="190" width="16" height="16"/>
                     </progressIndicator>
                     <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSn-48-BRC">
                         <rect key="frame" x="326" y="111" width="240" height="163"/>
@@ -173,13 +174,18 @@ Gw
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x4H-x0-1Te">
                                                             <rect key="frame" x="0.0" y="-5" width="254" height="22"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="sx2-Fx-jeK">
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="&lt;Type in Index name>" id="sx2-Fx-jeK">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="up6-vz-e8X" name="value" keyPath="objectValue" id="F96-pT-vES"/>
+                                                                <binding destination="up6-vz-e8X" name="value" keyPath="objectValue" id="Puo-OC-go8">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEditable" value="YES"/>
+                                                                        <string key="NSNullPlaceholder">&lt;Type in Index name&gt;</string>
+                                                                    </dictionary>
+                                                                </binding>
                                                             </connections>
                                                         </textField>
                                                     </subviews>
@@ -215,6 +221,21 @@ Gw
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m0E-nk-wBN">
+                        <rect key="frame" x="325" y="87" width="61" height="18"/>
+                        <buttonCell key="cell" type="check" title="Public" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="npV-5K-6CN">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" size="11" name="Arial-Black"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="xYR-Do-FVB" name="value" keyPath="selection.isPublic" id="VYV-2b-7WF">
+                                <dictionary key="options">
+                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                    <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="200" y="202"/>
@@ -224,11 +245,19 @@ Gw
                 <binding destination="-2" name="managedObjectContext" keyPath="managedObjectContext" id="OeB-Qa-cE5"/>
             </connections>
         </arrayController>
-        <userDefaultsController representsSharedInstance="YES" id="Ci5-lu-Ht2"/>
         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="BVk-i1-Z0f">
             <rect key="frame" x="0.0" y="0.0" width="38" height="17"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="3Fo-de-bbn">
+                <font key="font" metaFont="system"/>
+                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+            </textFieldCell>
+        </textField>
+        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="EMr-E1-XLJ">
+            <rect key="frame" x="0.0" y="0.0" width="38" height="17"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Max-SE-5U9">
                 <font key="font" metaFont="system"/>
                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
