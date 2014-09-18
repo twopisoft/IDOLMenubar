@@ -143,7 +143,7 @@ Gw
                         </connections>
                     </comboBox>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bzt-aG-sd0">
-                        <rect key="frame" x="20" y="59" width="270" height="272"/>
+                        <rect key="frame" x="20" y="56" width="270" height="272"/>
                         <clipView key="contentView" ambiguous="YES" misplaced="YES" id="bSF-uL-WYW">
                             <rect key="frame" x="1" y="17" width="238" height="117"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -195,6 +195,7 @@ Gw
                                     </tableColumns>
                                     <connections>
                                         <binding destination="xYR-Do-FVB" name="content" keyPath="arrangedObjects.name" id="qTx-kL-QIF"/>
+                                        <binding destination="xYR-Do-FVB" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="qTx-kL-QIF" id="CJL-h3-qHK"/>
                                         <outlet property="delegate" destination="-2" id="Ayy-mF-7x1"/>
                                     </connections>
                                 </tableView>

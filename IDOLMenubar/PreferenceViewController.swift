@@ -57,9 +57,12 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     }
     
     @IBAction func addIndex(sender: AnyObject) {
-        let ind = IdolIndexes(entity: NSEntityDescription.entityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext), insertIntoManagedObjectContext: self.managedObjectContext)
-        ind.isPublic = false
-        //ind.flavor = "Standard"
+        let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext) as NSManagedObject
+        mo.setValue("<New Index Name>", forKey: "name")
+        mo.setValue(false, forKey: "isPublic")
+        mo.setValue("Standard",forKey: "flavor")
+        mo.setValue("", forKey: "info")
+        
     }
     
     @IBAction func locateDir(sender: AnyObject) {
