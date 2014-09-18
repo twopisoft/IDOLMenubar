@@ -56,6 +56,12 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
             insertIntoManagedObjectContext: self.managedObjectContext)
     }
     
+    @IBAction func addIndex(sender: AnyObject) {
+        let ind = IdolIndexes(entity: NSEntityDescription.entityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext), insertIntoManagedObjectContext: self.managedObjectContext)
+        ind.isPublic = false
+        //ind.flavor = "Standard"
+    }
+    
     @IBAction func locateDir(sender: AnyObject) {
         let row = dirPrefTableView.rowForView(sender as NSView)
         prefArrayController.setSelectionIndex(row)

@@ -223,8 +223,7 @@
                                             <connections>
                                                 <binding destination="ptk-ei-Y5h" name="content" keyPath="arrangedObjects" id="9b3-n7-or3"/>
                                                 <binding destination="ptk-ei-Y5h" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="9b3-n7-or3" id="VAV-lm-mCG"/>
-                                                <outlet property="dataSource" destination="-2" id="H0Y-7x-zZU"/>
-                                                <outlet property="delegate" destination="-2" id="RZg-pp-jx2"/>
+                                                <outlet property="delegate" destination="-2" id="piO-Yw-xzv"/>
                                             </connections>
                                         </tableView>
                                     </subviews>

@@ -26,6 +26,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return SearchViewController(nibName: "SearchViewController", bundle: NSBundle.mainBundle())
     }()
     
+    lazy var manualDataAdd : Bool = {
+        let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext) as NSManagedObject
+        mo.setValue("Test Index", forKey: "name")
+        mo.setValue(false, forKey: "isPublic")
+        mo.setValue("Explorer",forKey: "flavor")
+        mo.setValue("Information about this index.", forKey: "info")
+        return true
+    }()
+    
     var statusItem : NSStatusItem = NSStatusItem()
     
     override func awakeFromNib() {
@@ -38,6 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
         // Insert code here to initialize your application
         //println("managedObjectModel=\(self.managedObjectModel)")
+        NSValueTransformer.setValueTransformer(ScopeValueTransformer(), forName: "ScopeValueTransformer")
+        let x = self.manualDataAdd
     }
 
     func applicationWillTerminate(aNotification: NSNotification?) {
@@ -56,6 +67,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func conceptSearch(sender: AnyObject) {
         NSApp.activateIgnoringOtherApps(true)
         
+        self.searchViewController.managedObjectContext = self.managedObjectContext
         changeViewController(self.searchViewController)
         self.window!.title = "Conceptual Search"
         self.window!.makeKeyAndOrderFront(self)

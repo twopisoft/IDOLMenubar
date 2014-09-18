@@ -3,8 +3,16 @@
     <entity name="IdolDirectories" representedClassName="IdolDirectories" syncable="YES">
         <attribute name="idolDirPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="idolIndexName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isSyncing" optional="YES" attributeType="Boolean" syncable="YES"/>
+    </entity>
+    <entity name="IdolIndexes" representedClassName="IdolIndexes" syncable="YES">
+        <attribute name="flavor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="info" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isPublic" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="IdolDirectories" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="IdolDirectories" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="IdolIndexes" positionX="-63" positionY="0" width="128" height="103"/>
     </elements>
 </model>

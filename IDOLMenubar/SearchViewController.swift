@@ -10,6 +10,8 @@ import Cocoa
 
 class SearchViewController: NSViewController {
 
+    var managedObjectContext : NSManagedObjectContext!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
