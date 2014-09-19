@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EE02905D19C416EF00142D36 /* SelectIndexSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */; };
 		EE14F10019C99A04007620AE /* IDOLMenubar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EE14F0FE19C99A04007620AE /* IDOLMenubar.xcdatamodeld */; };
+		EE3EAB9F19CBE52E0002D930 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */; };
 		EE50C80619C13E970005A207 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50C80519C13E970005A207 /* main.swift */; };
 		EE50C80819C13E970005A207 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50C80719C13E970005A207 /* AppDelegate.swift */; };
 		EE50C80A19C13E970005A207 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE50C80919C13E970005A207 /* Images.xcassets */; };
@@ -38,6 +39,7 @@
 		EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectIndexSheet.xib; sourceTree = "<group>"; };
 		EE14F0FF19C99A04007620AE /* IDOLMenubar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IDOLMenubar.xcdatamodel; sourceTree = "<group>"; };
 		EE14F10119C99A73007620AE /* IDOLMenubar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IDOLMenubar-Bridging-Header.h"; sourceTree = "<group>"; };
+		EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		EE50C80019C13E970005A207 /* IDOLMenubar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IDOLMenubar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE50C80419C13E970005A207 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE50C80519C13E970005A207 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				EE50C80319C13E970005A207 /* Supporting Files */,
 				EE14F0FE19C99A04007620AE /* IDOLMenubar.xcdatamodeld */,
 				EE14F10119C99A73007620AE /* IDOLMenubar-Bridging-Header.h */,
+				EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */,
 			);
 			path = IDOLMenubar;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				EE6BA6BE19C2A5DA004F5149 /* PreferenceViewController.swift in Sources */,
 				EE743F0B19CA852200740954 /* IdolDirectories.swift in Sources */,
 				EE743F0D19CA852200740954 /* IdolIndexes.swift in Sources */,
+				EE3EAB9F19CBE52E0002D930 /* CustomTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

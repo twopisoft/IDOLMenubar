@@ -33,9 +33,9 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Lg-GY-9aM">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Lg-GY-9aM" customClass="CustomTextField" customModule="IDOLMenubar" customModuleProvider="target">
                                 <rect key="frame" x="18" y="14" width="501" height="22"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="vwk-hb-cEJ">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="&lt;Copy IDOL API Key>" drawsBackground="YES" id="vwk-hb-cEJ">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -104,7 +104,7 @@
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="44b-FM-h3y">
                                                                     <rect key="frame" x="1" y="5" width="246" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="&lt;Select a Directory>" id="BRx-Gh-XmS">
-                                                                        <font key="font" metaFont="system"/>
+                                                                        <font key="font" size="13" name="ArialMT"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -128,6 +128,11 @@
                                                                     </buttonCell>
                                                                     <connections>
                                                                         <action selector="locateDir:" target="-2" id="ofY-Km-ajR"/>
+                                                                        <binding destination="8WN-AF-bel" name="enabled" keyPath="objectValue.isSyncing" id="tE2-iP-WtI">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                            </dictionary>
+                                                                        </binding>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
@@ -175,21 +180,33 @@
                                                                         <constraint firstAttribute="height" constant="18" id="RyW-X4-I7s"/>
                                                                         <constraint firstAttribute="width" constant="32" id="cV4-lo-cF2"/>
                                                                     </constraints>
-                                                                    <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="NSRevealFreestandingTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lu5-fS-acf">
+                                                                    <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="NSRevealFreestandingTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lu5-fS-acf">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="cellTitle"/>
                                                                     </buttonCell>
                                                                     <connections>
                                                                         <action selector="locateIndex:" target="-2" id="B3C-Os-n2u"/>
+                                                                        <binding destination="j8R-wb-ixd" name="enabled" keyPath="objectValue.isSyncing" id="iY9-5l-Iyg">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                            </dictionary>
+                                                                        </binding>
                                                                     </connections>
                                                                 </button>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PwG-Ox-sGW">
                                                                     <rect key="frame" x="1" y="4" width="155" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="&lt;Select an Index>" id="g5n-Fj-llB">
-                                                                        <font key="font" metaFont="system"/>
+                                                                        <font key="font" size="13" name="ArialMT"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <binding destination="j8R-wb-ixd" name="value" keyPath="objectValue.idolIndexName" id="OKO-HK-Cow">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSNullPlaceholder">&lt;Select an Index&gt;</string>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
@@ -291,7 +308,7 @@ CA
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="add:" target="-2" id="b0X-v8-JH8"/>
+                                    <action selector="addDir:" target="-2" id="pfO-NL-aOJ"/>
                                     <outlet property="nextKeyView" destination="dij-FM-NSR" id="9PX-za-PgO"/>
                                 </connections>
                             </button>

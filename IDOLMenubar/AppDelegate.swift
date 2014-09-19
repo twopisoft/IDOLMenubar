@@ -27,11 +27,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
     
     lazy var manualDataAdd : Bool = {
-        let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext) as NSManagedObject
-        mo.setValue("Test Index", forKey: "name")
+        let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext!) as NSManagedObject
+        /*mo.setValue("Test Index", forKey: "name")
         mo.setValue(true, forKey: "isPublic")
         mo.setValue("Explorer",forKey: "flavor")
-        mo.setValue("Information about this index.", forKey: "info")
+        mo.setValue("Information about this index.", forKey: "info")*/
         return true
     }()
     
@@ -103,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
         let modelURL = NSBundle.mainBundle().URLForResource("IDOLMenubar", withExtension: "momd")
-        return NSManagedObjectModel(contentsOfURL: modelURL)
+        return NSManagedObjectModel(contentsOfURL: modelURL!)
         }()
     
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
@@ -143,7 +143,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if error != nil {
                 dict[NSUnderlyingErrorKey] = error
             }
-            error = NSError.errorWithDomain("IDOLMenubar", code: 9999, userInfo: dict)
+            //error = NSError.errorWithDomain("IDOLMenubar", code: 9999, userInfo: dict)
+            error = NSError(domain: "IDOLMenubar", code: 9999, userInfo: dict)
             NSApplication.sharedApplication().presentError(error)
             return nil
         } else {

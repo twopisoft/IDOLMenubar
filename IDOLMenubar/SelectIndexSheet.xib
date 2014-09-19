@@ -6,7 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferenceViewController" customModule="IDOLMenubar" customModuleProvider="target">
             <connections>
-                <outlet property="indexArrayController" destination="xYR-Do-FVB" id="eB3-UF-7Xf"/>
+                <outlet property="indexArrayController" destination="xYR-Do-FVB" id="Oud-8c-nNE"/>
                 <outlet property="selectIndexSheet" destination="QvC-M9-y7g" id="nUI-F5-kjZ"/>
             </connections>
         </customObject>
@@ -30,26 +30,17 @@
 DQ
 </string>
                         </buttonCell>
-                    </button>
-                    <button toolTip="Create New Index" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uGU-UC-ZUz">
-                        <rect key="frame" x="20" y="27" width="37" height="25"/>
-                        <buttonCell key="cell" type="roundTextured" title="+" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="G2k-zj-yWU">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
                         <connections>
-                            <action selector="addIndex:" target="-2" id="gsY-62-k79"/>
-                        </connections>
-                    </button>
-                    <button toolTip="Delete Index" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MU2-ZW-osp">
-                        <rect key="frame" x="65" y="27" width="37" height="25"/>
-                        <buttonCell key="cell" type="roundTextured" title="-" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5jq-yN-hsw">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="remove:" target="xYR-Do-FVB" id="Rk7-9s-2t0"/>
-                            <binding destination="xYR-Do-FVB" name="enabled" keyPath="canRemove" id="B4m-he-aTt"/>
+                            <action selector="selectIndex:" target="-2" id="prd-UW-OoO"/>
+                            <binding destination="xYR-Do-FVB" name="enabled2" keyPath="arrangedObjects.@count" previousBinding="XIN-09-69M" id="vI0-de-DPt">
+                                <dictionary key="options">
+                                    <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                    <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                    <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                    <integer key="NSNullPlaceholder" value="-1"/>
+                                </dictionary>
+                            </binding>
+                            <binding destination="xYR-Do-FVB" name="enabled" keyPath="selection.@count" id="XIN-09-69M"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s8f-aa-tG8">
@@ -62,7 +53,7 @@ Gw
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="cancelIndex:" target="-2" id="54k-jX-EGM"/>
+                            <action selector="closeIndexSheet:" target="-2" id="kLI-0u-W1M"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BLq-2h-hS2">
@@ -92,57 +83,6 @@ Gw
                     <progressIndicator hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="lBa-5H-xad">
                         <rect key="frame" x="298" y="190" width="16" height="16"/>
                     </progressIndicator>
-                    <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSn-48-BRC">
-                        <rect key="frame" x="326" y="111" width="240" height="163"/>
-                        <clipView key="contentView" ambiguous="YES" misplaced="YES" id="yVH-Bf-cdb">
-                            <rect key="frame" x="1" y="1" width="223" height="133"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <textView ambiguous="YES" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="cuk-Bh-4t6">
-                                    <rect key="frame" x="0.0" y="0.0" width="223" height="161"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="223" height="161"/>
-                                    <size key="maxSize" width="463" height="10000000"/>
-                                    <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="223" height="161"/>
-                                    <size key="maxSize" width="463" height="10000000"/>
-                                    <connections>
-                                        <binding destination="xYR-Do-FVB" name="attributedString" keyPath="selection.info" id="3So-AX-CAm"/>
-                                    </connections>
-                                </textView>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="nVV-Vs-KKi">
-                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="grj-Zl-GoQ">
-                            <rect key="frame" x="224" y="1" width="15" height="133"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                    </scrollView>
-                    <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k1I-VO-ytf">
-                        <rect key="frame" x="327" y="304" width="242" height="26"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="3" id="AjU-Ir-nYo">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                            <objectValues>
-                                <string>Standard</string>
-                                <string>Explorer</string>
-                                <string>Categorization</string>
-                            </objectValues>
-                        </comboBoxCell>
-                        <connections>
-                            <binding destination="xYR-Do-FVB" name="value" keyPath="selection.flavor" id="sG1-fF-pJ1">
-                                <dictionary key="options">
-                                    <string key="NSNoSelectionPlaceholder">Standard</string>
-                                </dictionary>
-                            </binding>
-                        </connections>
-                    </comboBox>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bzt-aG-sd0">
                         <rect key="frame" x="20" y="56" width="270" height="272"/>
                         <clipView key="contentView" ambiguous="YES" misplaced="YES" id="bSF-uL-WYW">
@@ -173,17 +113,16 @@ Gw
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x4H-x0-1Te">
-                                                            <rect key="frame" x="0.0" y="-5" width="254" height="22"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="&lt;Type in Index name>" id="sx2-Fx-jeK">
-                                                                <font key="font" metaFont="system"/>
+                                                            <rect key="frame" x="5" y="-3" width="254" height="22"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="" id="sx2-Fx-jeK">
+                                                                <font key="font" size="13" name="ArialMT"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="up6-vz-e8X" name="value" keyPath="objectValue" id="Puo-OC-go8">
+                                                                <binding destination="up6-vz-e8X" name="value" keyPath="objectValue" id="ra6-aH-GLB">
                                                                     <dictionary key="options">
-                                                                        <bool key="NSConditionallySetsEditable" value="YES"/>
-                                                                        <string key="NSNullPlaceholder">&lt;Type in Index name&gt;</string>
+                                                                        <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
                                                                     </dictionary>
                                                                 </binding>
                                                             </connections>
@@ -195,13 +134,19 @@ Gw
                                                 </tableCellView>
                                             </prototypeCellViews>
                                             <connections>
-                                                <binding destination="xYR-Do-FVB" name="value" keyPath="arrangedObjects.name" id="rxl-XO-ld6"/>
+                                                <binding destination="xYR-Do-FVB" name="value" keyPath="arrangedObjects.name" id="8ia-3h-IOF">
+                                                    <dictionary key="options">
+                                                        <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                        <bool key="NSConditionallySetsEditable" value="NO"/>
+                                                        <string key="NSNullPlaceholder">&lt;No IDOL indexes found&gt;</string>
+                                                    </dictionary>
+                                                </binding>
                                             </connections>
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
                                         <binding destination="xYR-Do-FVB" name="content" keyPath="arrangedObjects.name" id="qTx-kL-QIF"/>
-                                        <binding destination="xYR-Do-FVB" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="qTx-kL-QIF" id="CJL-h3-qHK"/>
+                                        <binding destination="xYR-Do-FVB" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="qTx-kL-QIF" id="3u2-Go-nH8"/>
                                         <outlet property="delegate" destination="-2" id="Ayy-mF-7x1"/>
                                     </connections>
                                 </tableView>
@@ -236,6 +181,57 @@ Gw
                             </binding>
                         </connections>
                     </button>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a69-zj-wSD">
+                        <rect key="frame" x="327" y="306" width="239" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="Vjo-26-XZv">
+                            <font key="font" size="13" name="ArialMT"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="xYR-Do-FVB" name="value" keyPath="selection.flavor" id="Hb4-Lg-Vyg">
+                                <dictionary key="options">
+                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </textField>
+                    <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSn-48-BRC">
+                        <rect key="frame" x="326" y="111" width="240" height="163"/>
+                        <clipView key="contentView" ambiguous="YES" misplaced="YES" id="yVH-Bf-cdb">
+                            <rect key="frame" x="1" y="1" width="223" height="133"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView ambiguous="YES" editable="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="cuk-Bh-4t6">
+                                    <rect key="frame" x="0.0" y="0.0" width="223" height="161"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="223" height="161"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="minSize" width="223" height="161"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <connections>
+                                        <binding destination="xYR-Do-FVB" name="attributedString" keyPath="selection.info" id="U2e-Sd-jmp">
+                                            <dictionary key="options">
+                                                <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                <bool key="NSConditionallySetsEditable" value="NO"/>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="nVV-Vs-KKi">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="grj-Zl-GoQ">
+                            <rect key="frame" x="224" y="1" width="15" height="133"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                 </subviews>
             </view>
             <point key="canvasLocation" x="200" y="202"/>

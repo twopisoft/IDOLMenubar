@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import AppKit
 
 class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     
@@ -25,22 +26,12 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     var managedObjectContext : NSManagedObjectContext!
     
-    var origUndoManager : NSUndoManager!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func awakeFromNib() {
         userDefaultsController.appliesImmediately = false
-    }
-    
-    private func parentWindow() -> NSWindow? {
-        return self.view.superview?.window
-    }
-    
-    private func doneEditing() {
-        parentWindow()!.close()
     }
     
     @IBAction func cancel(sender: AnyObject) {
@@ -55,25 +46,12 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         doneEditing()
     }
     
-    @IBAction func add(sender: AnyObject) {
+    @IBAction func addDir(sender: AnyObject) {
         let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolDirectories", inManagedObjectContext: self.managedObjectContext) as NSManagedObject
         
         mo.setValue(nil, forKey: "idolDirPath")
-    }
-    
-    @IBAction func addIndex(sender: AnyObject) {
-        let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext) as NSManagedObject
-        
-        mo.setValue(nil, forKey: "name")
-        mo.setValue(false, forKey: "isPublic")
-        mo.setValue("Standard",forKey: "flavor")
-        mo.setValue("", forKey: "info")
-    }
-    
-    @IBAction func cancelIndex(sender: AnyObject) {
-        //self.managedObjectContext.undoManager.endUndoGrouping()
-        self.managedObjectContext.undoManager.undo()
-        closeIndexSheet(sender)
+        mo.setValue(nil, forKey: "idolIndexName")
+        mo.setValue(false, forKey: "isSyncing")
     }
     
     @IBAction func locateDir(sender: AnyObject) {
@@ -99,11 +77,18 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
             alert.informativeText = "IDOL API Key is not configured. Please set the API Key first."
             alert.beginSheetModalForWindow(parentWindow(), completionHandler: nil)
         } else {
-            //self.managedObjectContext.undoManager.beginUndoGrouping()
-            self.origUndoManager = self.managedObjectContext.undoManager
-            self.managedObjectContext.undoManager = NSUndoManager()
             showSelectIndexSheet()
         }
+    }
+    
+    @IBAction func closeIndexSheet(sender: AnyObject) {
+        NSApplication.sharedApplication().endSheet(self.selectIndexSheet)
+        self.selectIndexSheet.close()
+    }
+    
+    @IBAction func selectIndex(sender: AnyObject) {
+        self.prefArrayController.setValue(self.indexArrayController.valueForKeyPath("selection.name"), forKeyPath: "selection.idolIndexName")
+        closeIndexSheet(sender)
     }
     
     private func showSelectIndexSheet() {
@@ -118,11 +103,12 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
             contextInfo: nil)
     }
     
-    @IBAction func closeIndexSheet(sender: AnyObject) {
-        NSApplication.sharedApplication().endSheet(self.selectIndexSheet)
-        self.selectIndexSheet.close()
-        self.managedObjectContext.undoManager = self.origUndoManager
-        //self.selectIndexSheet = nil
+    private func parentWindow() -> NSWindow? {
+        return self.view.superview?.window
+    }
+    
+    private func doneEditing() {
+        parentWindow()!.close()
     }
     
 }
