@@ -67,8 +67,9 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     }
     
     @IBAction func locateIndex(sender: AnyObject) {
-        let apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
-        if apiKey == nil  {
+        //let apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
+        let apiKey = apiKeyTextField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        if apiKey.isEmpty  {
             let alert = NSAlert()
             alert.messageText = "IDOL API Key not configured"
             alert.informativeText = "IDOL API Key is not configured. Please set the API Key first."

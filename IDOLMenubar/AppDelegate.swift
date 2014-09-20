@@ -26,14 +26,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return SearchViewController(nibName: "SearchViewController", bundle: NSBundle.mainBundle())
     }()
     
-    lazy var manualDataAdd : Bool = {
+    /*lazy var manualDataAdd : Bool = {
         let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext!) as NSManagedObject
-        /*mo.setValue("Test Index", forKey: "name")
-        mo.setValue(true, forKey: "isPublic")
-        mo.setValue("Explorer",forKey: "flavor")
-        mo.setValue("Information about this index.", forKey: "info")*/
+
         return true
-    }()
+    }()*/
     
     var statusItem : NSStatusItem = NSStatusItem()
     
@@ -45,13 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
-        // Insert code here to initialize your application
-        //println("managedObjectModel=\(self.managedObjectModel)")
-        //NSValueTransformer.setValueTransformer(ScopeValueTransformer(), forName: "ScopeValueTransformer")
-        //let x = self.manualDataAdd
-        
-        //IDOLService.sharedInstance.registerApiKey("efc9f04f-1650-4003-a22d-50b17377ffa4", friendlyName: "topcoder")
-        //IDOLService.sharedInstance.fetchIndexList(friendlyKeyName: "topcoder1")
+
     }
 
     func applicationWillTerminate(aNotification: NSNotification?) {
