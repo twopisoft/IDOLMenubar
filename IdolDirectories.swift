@@ -14,5 +14,6 @@ class IdolDirectories: NSManagedObject {
     @NSManaged var idolDirPath: String
     @NSManaged var idolIndexName: String
     @NSManaged var isSyncing: NSNumber
+    @NSManaged var syncFinished: NSNumber
 
 }

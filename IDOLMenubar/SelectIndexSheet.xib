@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6206.8"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PreferenceViewController" customModule="IDOLMenubar" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="SelectIndexPanel" customModule="IDOLMenubar" customModuleProvider="target">
             <connections>
-                <outlet property="indexArrayController" destination="xYR-Do-FVB" id="Oud-8c-nNE"/>
-                <outlet property="selectIndexSheet" destination="QvC-M9-y7g" id="nUI-F5-kjZ"/>
+                <outlet property="indexArrayController" destination="xYR-Do-FVB" id="uHO-hW-anz"/>
+                <outlet property="selectIndexPanel" destination="QvC-M9-y7g" id="gP4-BA-OKf"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="Select IDOL Index" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
+        <window title="Select IDOL Index" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="608" height="378"/>
@@ -21,9 +21,9 @@
                 <rect key="frame" x="0.0" y="0.0" width="608" height="378"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U0h-6k-cTb">
-                        <rect key="frame" x="512" y="13" width="82" height="32"/>
-                        <buttonCell key="cell" type="push" title="Select" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="42j-Py-EOA">
+                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="U0h-6k-cTb">
+                        <rect key="frame" x="516" y="17" width="74" height="26"/>
+                        <buttonCell key="cell" type="bevel" title="Select" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="42j-Py-EOA">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
@@ -31,7 +31,7 @@ DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="selectIndex:" target="-2" id="prd-UW-OoO"/>
+                            <action selector="select:" target="-2" id="0aD-zh-FI3"/>
                             <binding destination="xYR-Do-FVB" name="enabled2" keyPath="arrangedObjects.@count" previousBinding="XIN-09-69M" id="vI0-de-DPt">
                                 <dictionary key="options">
                                     <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -44,8 +44,8 @@ DQ
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s8f-aa-tG8">
-                        <rect key="frame" x="430" y="13" width="82" height="32"/>
-                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="De7-uR-X0p">
+                        <rect key="frame" x="438" y="17" width="74" height="26"/>
+                        <buttonCell key="cell" type="bevel" title="Cancel" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="De7-uR-X0p">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
@@ -53,7 +53,12 @@ Gw
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="closeIndexSheet:" target="-2" id="kLI-0u-W1M"/>
+                            <action selector="cancel:" target="-2" id="H5Y-Z6-gG3"/>
+                            <binding destination="-2" name="enabled" keyPath="isRefreshing" id="PbL-Ov-6wg">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BLq-2h-hS2">
@@ -80,9 +85,6 @@ Gw
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <progressIndicator hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="lBa-5H-xad">
-                        <rect key="frame" x="298" y="190" width="16" height="16"/>
-                    </progressIndicator>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bzt-aG-sd0">
                         <rect key="frame" x="20" y="56" width="270" height="272"/>
                         <clipView key="contentView" ambiguous="YES" misplaced="YES" id="bSF-uL-WYW">
@@ -232,32 +234,43 @@ Gw
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
+                    <button toolTip="Refresh" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mak-5f-1Gf">
+                        <rect key="frame" x="18" y="17" width="32" height="26"/>
+                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSRefreshFreestandingTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="elh-yp-K8n">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system" size="10"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="refresh:" target="-2" id="s0W-Ki-m72"/>
+                            <binding destination="-2" name="enabled" keyPath="isRefreshing" id="vRg-TP-Frt">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
+                    <progressIndicator hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="lBa-5H-xad">
+                        <rect key="frame" x="56" y="20" width="16" height="16"/>
+                        <connections>
+                            <binding destination="-2" name="animate" keyPath="isRefreshing" id="UKq-2C-I5L"/>
+                            <binding destination="-2" name="hidden" keyPath="isRefreshing" id="eIM-gW-Umr">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </progressIndicator>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="200" y="202"/>
+            <point key="canvasLocation" x="72" y="145"/>
         </window>
         <arrayController mode="entity" entityName="IdolIndexes" automaticallyPreparesContent="YES" id="xYR-Do-FVB" userLabel="IndexArrayController">
             <connections>
                 <binding destination="-2" name="managedObjectContext" keyPath="managedObjectContext" id="OeB-Qa-cE5"/>
             </connections>
         </arrayController>
-        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="BVk-i1-Z0f">
-            <rect key="frame" x="0.0" y="0.0" width="38" height="17"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="3Fo-de-bbn">
-                <font key="font" metaFont="system"/>
-                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-            </textFieldCell>
-        </textField>
-        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="EMr-E1-XLJ">
-            <rect key="frame" x="0.0" y="0.0" width="38" height="17"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Max-SE-5U9">
-                <font key="font" metaFont="system"/>
-                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-            </textFieldCell>
-        </textField>
     </objects>
+    <resources>
+        <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
+    </resources>
 </document>

@@ -10,6 +10,7 @@
 		EE02905D19C416EF00142D36 /* SelectIndexSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */; };
 		EE14F10019C99A04007620AE /* IDOLMenubar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EE14F0FE19C99A04007620AE /* IDOLMenubar.xcdatamodeld */; };
 		EE3EAB9F19CBE52E0002D930 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */; };
+		EE3EABA119CC30D20002D930 /* IDOLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EABA019CC30D20002D930 /* IDOLService.swift */; };
 		EE50C80619C13E970005A207 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50C80519C13E970005A207 /* main.swift */; };
 		EE50C80819C13E970005A207 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50C80719C13E970005A207 /* AppDelegate.swift */; };
 		EE50C80A19C13E970005A207 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE50C80919C13E970005A207 /* Images.xcassets */; };
@@ -22,6 +23,7 @@
 		EE743F0B19CA852200740954 /* IdolDirectories.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE743F0A19CA852200740954 /* IdolDirectories.swift */; };
 		EE743F0D19CA852200740954 /* IdolIndexes.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE743F0C19CA852200740954 /* IdolIndexes.swift */; };
 		EE743F0F19CA8F9000740954 /* ScopeValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE743F0E19CA8F9000740954 /* ScopeValueTransformer.swift */; };
+		EEEC59B119CD75820095C000 /* SelectIndexPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEC59B019CD75820095C000 /* SelectIndexPanel.swift */; };
 		EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEE20A919C1443500BB8A72 /* hp-logo-small.png */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +42,7 @@
 		EE14F0FF19C99A04007620AE /* IDOLMenubar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IDOLMenubar.xcdatamodel; sourceTree = "<group>"; };
 		EE14F10119C99A73007620AE /* IDOLMenubar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IDOLMenubar-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		EE3EABA019CC30D20002D930 /* IDOLService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDOLService.swift; sourceTree = "<group>"; };
 		EE50C80019C13E970005A207 /* IDOLMenubar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IDOLMenubar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE50C80419C13E970005A207 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE50C80519C13E970005A207 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -56,6 +59,7 @@
 		EE743F0A19CA852200740954 /* IdolDirectories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IdolDirectories.swift; path = ../IdolDirectories.swift; sourceTree = "<group>"; };
 		EE743F0C19CA852200740954 /* IdolIndexes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IdolIndexes.swift; path = ../IdolIndexes.swift; sourceTree = "<group>"; };
 		EE743F0E19CA8F9000740954 /* ScopeValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScopeValueTransformer.swift; sourceTree = "<group>"; };
+		EEEC59B019CD75820095C000 /* SelectIndexPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectIndexPanel.swift; sourceTree = "<group>"; };
 		EEEE20A919C1443500BB8A72 /* hp-logo-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-small.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +81,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EE12648E19CD8BC800ADA149 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EE743F0A19CA852200740954 /* IdolDirectories.swift */,
+				EE743F0C19CA852200740954 /* IdolIndexes.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		EE12648F19CD8BE200ADA149 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				EE50C80B19C13E970005A207 /* MainMenu.xib */,
+				EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */,
+				EE6BA6B919C2A5BD004F5149 /* PreferenceViewController.xib */,
+				EE6BA6C219C2A6B0004F5149 /* SearchViewController.xib */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		EE12649019CD8C2700ADA149 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				EE14F0FE19C99A04007620AE /* IDOLMenubar.xcdatamodeld */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		EE12649119CD8C5000ADA149 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				EE50C80719C13E970005A207 /* AppDelegate.swift */,
+				EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */,
+				EEEC59B019CD75820095C000 /* SelectIndexPanel.swift */,
+				EE6BA6BD19C2A5DA004F5149 /* PreferenceViewController.swift */,
+				EE6BA6C119C2A6B0004F5149 /* SearchViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		EE12649219CD8C8600ADA149 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				EE743F0E19CA8F9000740954 /* ScopeValueTransformer.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		EE12649319CD8C9A00ADA149 /* IDOL */ = {
+			isa = PBXGroup;
+			children = (
+				EE3EABA019CC30D20002D930 /* IDOLService.swift */,
+			);
+			name = IDOL;
+			sourceTree = "<group>";
+		};
 		EE50C7F719C13E970005A207 = {
 			isa = PBXGroup;
 			children = (
@@ -98,21 +158,15 @@
 		EE50C80219C13E970005A207 /* IDOLMenubar */ = {
 			isa = PBXGroup;
 			children = (
-				EE743F0C19CA852200740954 /* IdolIndexes.swift */,
-				EE743F0A19CA852200740954 /* IdolDirectories.swift */,
-				EE6BA6C119C2A6B0004F5149 /* SearchViewController.swift */,
-				EE6BA6C219C2A6B0004F5149 /* SearchViewController.xib */,
-				EE6BA6BD19C2A5DA004F5149 /* PreferenceViewController.swift */,
-				EE743F0E19CA8F9000740954 /* ScopeValueTransformer.swift */,
-				EE6BA6B919C2A5BD004F5149 /* PreferenceViewController.xib */,
-				EE50C80719C13E970005A207 /* AppDelegate.swift */,
+				EE12649319CD8C9A00ADA149 /* IDOL */,
+				EE12649219CD8C8600ADA149 /* Helpers */,
+				EE12649119CD8C5000ADA149 /* Controller */,
+				EE12649019CD8C2700ADA149 /* Data */,
+				EE12648F19CD8BE200ADA149 /* UI */,
+				EE12648E19CD8BC800ADA149 /* Model */,
 				EE50C80919C13E970005A207 /* Images.xcassets */,
-				EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */,
-				EE50C80B19C13E970005A207 /* MainMenu.xib */,
 				EE50C80319C13E970005A207 /* Supporting Files */,
-				EE14F0FE19C99A04007620AE /* IDOLMenubar.xcdatamodeld */,
 				EE14F10119C99A73007620AE /* IDOLMenubar-Bridging-Header.h */,
-				EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */,
 			);
 			path = IDOLMenubar;
 			sourceTree = "<group>";
@@ -252,10 +306,12 @@
 				EE6BA6C319C2A6B0004F5149 /* SearchViewController.swift in Sources */,
 				EE50C80819C13E970005A207 /* AppDelegate.swift in Sources */,
 				EE50C80619C13E970005A207 /* main.swift in Sources */,
+				EEEC59B119CD75820095C000 /* SelectIndexPanel.swift in Sources */,
 				EE6BA6BE19C2A5DA004F5149 /* PreferenceViewController.swift in Sources */,
 				EE743F0B19CA852200740954 /* IdolDirectories.swift in Sources */,
 				EE743F0D19CA852200740954 /* IdolIndexes.swift in Sources */,
 				EE3EAB9F19CBE52E0002D930 /* CustomTextField.swift in Sources */,
+				EE3EABA119CC30D20002D930 /* IDOLService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

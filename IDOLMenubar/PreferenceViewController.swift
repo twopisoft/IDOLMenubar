@@ -16,13 +16,9 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     @IBOutlet weak var apiKeyTextField: NSTextField!
     
-    @IBOutlet var selectIndexSheet : NSWindow!
-    
     @IBOutlet var userDefaultsController: NSUserDefaultsController!
     
     @IBOutlet var prefArrayController: NSArrayController!
-    
-    @IBOutlet var indexArrayController: NSArrayController!
     
     var managedObjectContext : NSManagedObjectContext!
     
@@ -52,6 +48,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         mo.setValue(nil, forKey: "idolDirPath")
         mo.setValue(nil, forKey: "idolIndexName")
         mo.setValue(false, forKey: "isSyncing")
+        mo.setValue(false, forKey: "syncFinished")
     }
     
     @IBAction func locateDir(sender: AnyObject) {
@@ -63,44 +60,34 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.beginSheetModalForWindow(parentWindow(), completionHandler: { (response : NSModalResponse) in
-            if response == 1 {
+            if response == NSOKButton {
                 self.prefArrayController.setValue(panel.URL!.path!, forKeyPath: "selection.idolDirPath")
             }
         })
     }
     
     @IBAction func locateIndex(sender: AnyObject) {
-        let apiKey: AnyObject! = userDefaultsController.values.valueForKey("idolApiKey")
+        let apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
         if apiKey == nil  {
             let alert = NSAlert()
             alert.messageText = "IDOL API Key not configured"
             alert.informativeText = "IDOL API Key is not configured. Please set the API Key first."
             alert.beginSheetModalForWindow(parentWindow(), completionHandler: nil)
         } else {
-            showSelectIndexSheet()
+            showSelectIndexPanel(apiKey)
         }
     }
     
-    @IBAction func closeIndexSheet(sender: AnyObject) {
-        NSApplication.sharedApplication().endSheet(self.selectIndexSheet)
-        self.selectIndexSheet.close()
-    }
-    
-    @IBAction func selectIndex(sender: AnyObject) {
-        self.prefArrayController.setValue(self.indexArrayController.valueForKeyPath("selection.name"), forKeyPath: "selection.idolIndexName")
-        closeIndexSheet(sender)
-    }
-    
-    private func showSelectIndexSheet() {
-        if selectIndexSheet == nil {
-            NSBundle.mainBundle().loadNibNamed("SelectIndexSheet", owner: self, topLevelObjects: nil)
-        }
+    private func showSelectIndexPanel(apiKey : String!) {
+        var panel = SelectIndexPanel()
+        panel.managedObjectContext = self.managedObjectContext
+        panel.apiKey = apiKey
         
-        NSApplication.sharedApplication().beginSheet(self.selectIndexSheet,
-            modalForWindow: parentWindow(),
-            modalDelegate: self,
-            didEndSelector: nil,
-            contextInfo: nil)
+        panel.beginSheetModalForWindow(parentWindow()!, completionHandler: { (response : NSModalResponse) in
+            if response == NSOKButton {
+                self.prefArrayController.setValue(panel.indexName!, forKeyPath: "selection.idolIndexName")
+            }
+        })
     }
     
     private func parentWindow() -> NSWindow? {
