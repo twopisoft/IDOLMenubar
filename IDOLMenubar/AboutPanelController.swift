@@ -26,9 +26,12 @@ class AboutPanelController: NSObject {
         
         self.handler = handler
         
-        aboutTextView.string = "Submitted by arshad01\n\n Video: https://www.youtube.com/watch?v=oesV4bhGyUs\n\nBlog: http://linkedin.com"
+        aboutTextView.string = "\n\nSubmitted by arshad01\n\n Video: https://www.youtube.com/watch?v=oesV4bhGyUs\n\nBlog: http://linkedin.com"
         aboutTextView.alignment = NSTextAlignment.CenterTextAlignment
         aboutTextView.font = NSFont(name: "Arial", size: 14)
+        aboutTextView.editable = true
+        aboutTextView.checkTextInDocument(nil)
+        aboutTextView.editable = false
 
         logoImageView.image = NSImage(named: "logo-lg.png")
         

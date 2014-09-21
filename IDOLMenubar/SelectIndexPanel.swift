@@ -61,10 +61,11 @@ class SelectIndexPanel : NSObject {
         IDOLService.sharedInstance.fetchIndexList(completionHandler: {(data:NSData?, error:NSError?) in
             if error == nil {
                 let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
-                
+                let actions = json["actions"] as NSArray
+                let result = actions[0]["result"] as NSDictionary
                 var indexes : [DBHelper.IndexTuple] = []
-                let publicIndexes: AnyObject? = json["public_index"]
-                let privateIndexes : AnyObject? = json["index"]
+                let publicIndexes: AnyObject? = result["public_index"]
+                let privateIndexes : AnyObject? = result["index"]
                 if publicIndexes != nil {
                     for pui in publicIndexes! as NSArray {
                         let indexName = pui["index"] as String

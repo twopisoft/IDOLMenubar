@@ -53,10 +53,10 @@ DQ
                             <rect key="frame" x="1" y="1" width="223" height="133"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView ambiguous="YES" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="c3g-13-4rz">
+                                <textView ambiguous="YES" editable="NO" importsGraphics="NO" findStyle="panel" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" linkDetection="YES" dataDetection="YES" dashSubstitution="YES" smartInsertDelete="YES" id="c3g-13-4rz">
                                     <rect key="frame" x="0.0" y="0.0" width="223" height="133"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" cyan="0.15461189519999999" magenta="0.0075289818550000002" yellow="0.0015751008060000001" black="0.087796118950000002" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                                     <size key="minSize" width="426" height="180"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
