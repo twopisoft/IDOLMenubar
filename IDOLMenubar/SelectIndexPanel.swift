@@ -19,7 +19,7 @@ class SelectIndexPanel : NSObject {
     var managedObjectContext : NSManagedObjectContext! = nil
     var isRefreshing : Bool = false
     var apiKey : String? = nil
-    var indexName : String? = nil
+    var selectedIndex : DBHelper.IndexTuple? = nil
     
     func beginSheetModalForWindow(_window : NSWindow!, completionHandler handler: ((NSModalResponse) -> Void)!) {
         
@@ -33,7 +33,7 @@ class SelectIndexPanel : NSObject {
     }
     
     @IBAction func cancel(sender: AnyObject) {
-        indexName = nil
+        selectedIndex = nil
         
         if handler != nil {
             handler(NSCancelButton)
@@ -42,7 +42,12 @@ class SelectIndexPanel : NSObject {
     }
     
     @IBAction func select(sender: AnyObject) {
-        indexName = indexArrayController.valueForKeyPath("selection.name") as? String
+        let indexName = indexArrayController.valueForKeyPath("selection.name") as? String
+        let indexFlavor = indexArrayController.valueForKeyPath("selection.flavor") as? String
+        let indexIsPublic = indexArrayController.valueForKeyPath("selection.isPublic") as? Bool
+        let indexInfo = indexArrayController.valueForKeyPath("selection.info") as? String
+        
+        selectedIndex = (indexName!,indexFlavor!,indexIsPublic!,indexInfo!)
         
         if handler != nil {
             handler(NSOKButton)
@@ -77,12 +82,18 @@ class SelectIndexPanel : NSObject {
                 }
                 DBHelper.updateIndexes(self.managedObjectContext, data: indexes)
             } else {
+                var title = ""
+                var desc = ""
                 if error!.domain == "IDOLService" {
-                    self.showErrorAlert(error!.code, desc: error!.userInfo!["Description"]! as String)
+                    title = "IDOLService Error"
+                    desc = error!.userInfo!["Description"]! as String + " \(error!.code)"
                 } else {
-                    self.showErrorAlert(error!.code, desc: error!.localizedDescription)
+                    title = "Operation Failed"
+                    desc = error!.localizedDescription
                 }
+                ErrorReporter.showErrorAlert(self.selectIndexPanel, title: title, desc: desc)
             }
+            
             self.setValue(false, forKey: "isRefreshing")
         })
     }
@@ -90,14 +101,5 @@ class SelectIndexPanel : NSObject {
     private func closeSheet() {
         NSApplication.sharedApplication().endSheet(self.selectIndexPanel)
         self.selectIndexPanel.close()
-    }
-    
-    private func showErrorAlert(code:Int, desc:String) {
-        dispatch_async(dispatch_get_main_queue(), {
-            let alert = NSAlert()
-            alert.messageText = "Operation Failed"
-            alert.informativeText = "Error code: \(code)\nError: \(desc)"
-            alert.beginSheetModalForWindow(self.selectIndexPanel, completionHandler: nil)
-        })
     }
 }

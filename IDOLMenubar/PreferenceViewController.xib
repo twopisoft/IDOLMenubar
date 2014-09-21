@@ -128,12 +128,12 @@
                                                                     </buttonCell>
                                                                     <connections>
                                                                         <action selector="locateDir:" target="-2" id="ofY-Km-ajR"/>
-                                                                        <binding destination="8WN-AF-bel" name="hidden" keyPath="objectValue.syncFinished" previousBinding="tE2-iP-WtI" id="JvV-Ho-MdZ"/>
                                                                         <binding destination="8WN-AF-bel" name="enabled" keyPath="objectValue.isSyncing" id="tE2-iP-WtI">
                                                                             <dictionary key="options">
                                                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                             </dictionary>
                                                                         </binding>
+                                                                        <binding destination="8WN-AF-bel" name="hidden" keyPath="objectValue.syncFinished" previousBinding="tE2-iP-WtI" id="JvV-Ho-MdZ"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
@@ -187,12 +187,12 @@
                                                                     </buttonCell>
                                                                     <connections>
                                                                         <action selector="locateIndex:" target="-2" id="B3C-Os-n2u"/>
-                                                                        <binding destination="j8R-wb-ixd" name="hidden" keyPath="objectValue.syncFinished" previousBinding="iY9-5l-Iyg" id="50C-hO-qYV"/>
                                                                         <binding destination="j8R-wb-ixd" name="enabled" keyPath="objectValue.isSyncing" id="iY9-5l-Iyg">
                                                                             <dictionary key="options">
                                                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                             </dictionary>
                                                                         </binding>
+                                                                        <binding destination="j8R-wb-ixd" name="hidden" keyPath="objectValue.syncFinished" previousBinding="iY9-5l-Iyg" id="50C-hO-qYV"/>
                                                                     </connections>
                                                                 </button>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PwG-Ox-sGW">

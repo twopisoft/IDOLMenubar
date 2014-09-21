@@ -8,7 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		EE02905D19C416EF00142D36 /* SelectIndexSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */; };
+		EE0CEF3E19CE51A400DA4A31 /* ErrorReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CEF3D19CE51A400DA4A31 /* ErrorReporter.swift */; };
+		EE0CEF4219CE5A3F00DA4A31 /* logo-lg.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0CEF4119CE5A3F00DA4A31 /* logo-lg.png */; };
+		EE0CEF4619CE5F2C00DA4A31 /* AboutPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CEF4519CE5F2C00DA4A31 /* AboutPanelController.swift */; };
 		EE12649519CDB9E900ADA149 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE12649419CDB9E900ADA149 /* DBHelper.swift */; };
+		EE13097E19CE7A250061EEB8 /* AboutPanelSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE13097D19CE7A250061EEB8 /* AboutPanelSheet.xib */; };
 		EE14F10019C99A04007620AE /* IDOLMenubar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EE14F0FE19C99A04007620AE /* IDOLMenubar.xcdatamodeld */; };
 		EE3EAB9F19CBE52E0002D930 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */; };
 		EE3EABA119CC30D20002D930 /* IDOLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EABA019CC30D20002D930 /* IDOLService.swift */; };
@@ -40,7 +44,11 @@
 
 /* Begin PBXFileReference section */
 		EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectIndexSheet.xib; sourceTree = "<group>"; };
+		EE0CEF3D19CE51A400DA4A31 /* ErrorReporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorReporter.swift; sourceTree = "<group>"; };
+		EE0CEF4119CE5A3F00DA4A31 /* logo-lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-lg.png"; sourceTree = "<group>"; };
+		EE0CEF4519CE5F2C00DA4A31 /* AboutPanelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPanelController.swift; sourceTree = "<group>"; };
 		EE12649419CDB9E900ADA149 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		EE13097D19CE7A250061EEB8 /* AboutPanelSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutPanelSheet.xib; sourceTree = "<group>"; };
 		EE14F0FF19C99A04007620AE /* IDOLMenubar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IDOLMenubar.xcdatamodel; sourceTree = "<group>"; };
 		EE14F10119C99A73007620AE /* IDOLMenubar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IDOLMenubar-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -95,6 +103,7 @@
 		EE12648F19CD8BE200ADA149 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				EE13097D19CE7A250061EEB8 /* AboutPanelSheet.xib */,
 				EE50C80B19C13E970005A207 /* MainMenu.xib */,
 				EE02905C19C416EF00142D36 /* SelectIndexSheet.xib */,
 				EE6BA6B919C2A5BD004F5149 /* PreferenceViewController.xib */,
@@ -119,6 +128,7 @@
 				EEEC59B019CD75820095C000 /* SelectIndexPanel.swift */,
 				EE6BA6BD19C2A5DA004F5149 /* PreferenceViewController.swift */,
 				EE6BA6C119C2A6B0004F5149 /* SearchViewController.swift */,
+				EE0CEF4519CE5F2C00DA4A31 /* AboutPanelController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -128,6 +138,7 @@
 			children = (
 				EE743F0E19CA8F9000740954 /* ScopeValueTransformer.swift */,
 				EE12649419CDB9E900ADA149 /* DBHelper.swift */,
+				EE0CEF3D19CE51A400DA4A31 /* ErrorReporter.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -177,6 +188,7 @@
 		EE50C80319C13E970005A207 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EE0CEF4119CE5A3F00DA4A31 /* logo-lg.png */,
 				EEEE20A919C1443500BB8A72 /* hp-logo-small.png */,
 				EE50C80419C13E970005A207 /* Info.plist */,
 				EE50C80519C13E970005A207 /* main.swift */,
@@ -281,12 +293,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE13097E19CE7A250061EEB8 /* AboutPanelSheet.xib in Resources */,
 				EE02905D19C416EF00142D36 /* SelectIndexSheet.xib in Resources */,
 				EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */,
 				EE50C80A19C13E970005A207 /* Images.xcassets in Resources */,
 				EE50C80D19C13E970005A207 /* MainMenu.xib in Resources */,
 				EE6BA6C419C2A6B0004F5149 /* SearchViewController.xib in Resources */,
 				EE6BA6BB19C2A5BD004F5149 /* PreferenceViewController.xib in Resources */,
+				EE0CEF4219CE5A3F00DA4A31 /* logo-lg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +320,7 @@
 			files = (
 				EE743F0F19CA8F9000740954 /* ScopeValueTransformer.swift in Sources */,
 				EE14F10019C99A04007620AE /* IDOLMenubar.xcdatamodeld in Sources */,
+				EE0CEF3E19CE51A400DA4A31 /* ErrorReporter.swift in Sources */,
 				EE6BA6C319C2A6B0004F5149 /* SearchViewController.swift in Sources */,
 				EE50C80819C13E970005A207 /* AppDelegate.swift in Sources */,
 				EE50C80619C13E970005A207 /* main.swift in Sources */,
@@ -315,6 +330,7 @@
 				EE743F0B19CA852200740954 /* IdolDirectories.swift in Sources */,
 				EE743F0D19CA852200740954 /* IdolIndexes.swift in Sources */,
 				EE3EAB9F19CBE52E0002D930 /* CustomTextField.swift in Sources */,
+				EE0CEF4619CE5F2C00DA4A31 /* AboutPanelController.swift in Sources */,
 				EE3EABA119CC30D20002D930 /* IDOLService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

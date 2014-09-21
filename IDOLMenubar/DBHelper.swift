@@ -44,7 +44,6 @@ class DBHelper {
                 newData.append(entry)
             }
         }
-        //NSLog("newData=\(newData)")
         
         for newEntry in newData {
             let (indexName,indexFlavor,isPublic,indexInfo) = newEntry

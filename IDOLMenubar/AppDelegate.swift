@@ -26,11 +26,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return SearchViewController(nibName: "SearchViewController", bundle: NSBundle.mainBundle())
     }()
     
-    /*lazy var manualDataAdd : Bool = {
-        let mo : NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("IdolIndexes", inManagedObjectContext: self.managedObjectContext!) as NSManagedObject
-
-        return true
-    }()*/
+    lazy var aboutPanelController : AboutPanelController = {
+        return AboutPanelController()
+    }()
     
     var statusItem : NSStatusItem = NSStatusItem()
     
@@ -68,6 +66,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func about(sender: AnyObject) {
+        NSApp.activateIgnoringOtherApps(true)
+        
+        if currentViewController != nil {
+            currentViewController!.view.removeFromSuperview()
+            currentViewController = nil
+        }
+        self.window!.title = "About IDOL Menubar"
+        self.window!.makeKeyAndOrderFront(self)
+        
+        self.aboutPanelController.showAboutPanel(self.window, { self.window!.close() })
     }
     
     @IBAction func quit(sender: AnyObject) {

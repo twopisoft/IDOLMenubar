@@ -70,10 +70,9 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         //let apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
         let apiKey = apiKeyTextField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         if apiKey.isEmpty  {
-            let alert = NSAlert()
-            alert.messageText = "IDOL API Key not configured"
-            alert.informativeText = "IDOL API Key is not configured. Please set the API Key first."
-            alert.beginSheetModalForWindow(parentWindow(), completionHandler: nil)
+            ErrorReporter.showErrorAlert(parentWindow(),
+                title: "IDOL API Key not configured",
+                desc: "IDOL API Key is not configured. Please set the API Key first.")
         } else {
             showSelectIndexPanel(apiKey)
         }
@@ -86,7 +85,12 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         
         panel.beginSheetModalForWindow(parentWindow()!, completionHandler: { (response : NSModalResponse) in
             if response == NSOKButton {
-                self.prefArrayController.setValue(panel.indexName!, forKeyPath: "selection.idolIndexName")
+                let selectedIndex = panel.selectedIndex
+                if selectedIndex!.isPublic {
+                    ErrorReporter.showErrorAlert(self.parentWindow(), title: "Error", desc: "Public Index cannot be used")
+                } else {
+                    self.prefArrayController.setValue(selectedIndex!.name, forKeyPath: "selection.idolIndexName")
+                }
             }
         })
     }
