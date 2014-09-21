@@ -40,7 +40,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
-
+        IDOLService.sharedInstance.uploadDocsToIndex("/Users/twopi/Documents/IDOLMenubar", indexName: "second", completionHandler: { (data: NSData?, error: NSError?) in
+            if error == nil {
+                let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
+                NSLog("json=\(json)")
+            } else {
+                NSLog("error=\(error)")
+            }
+        })
     }
 
     func applicationWillTerminate(aNotification: NSNotification?) {
