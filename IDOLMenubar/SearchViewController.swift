@@ -34,9 +34,9 @@ class SearchViewController: NSViewController {
     
     var isSearching = false
     
-    var sortDescriptors : [AnyObject] = [NSSortDescriptor(key: "title", ascending: true, selector: "compare:"),
-                                         NSSortDescriptor(key: "reference",ascending: true, selector: "compare:"),
-                                         NSSortDescriptor(key: "score",ascending: false, selector: "compare:")]
+    var sortDescriptors : [AnyObject] = [NSSortDescriptor(key: "score",ascending: false, selector: "compare:"),
+                                         NSSortDescriptor(key: "title", ascending: true, selector: "compare:"),
+                                         NSSortDescriptor(key: "reference",ascending: true, selector: "compare:")]
     
     //var results : [SearchResultEntry] = [SearchResultEntry(title: "Test", reference: "ABC", score: 89.9),
     //                                     SearchResultEntry(title: "ABC", reference: "Test", score: 45.5)]
@@ -104,6 +104,12 @@ class SearchViewController: NSViewController {
             }
         }
         
+    }
+    
+    @IBAction func openDocument(sender: AnyObject) {
+        let row = resultsTableView.rowForView(sender as NSView)
+        let entry = results[row]
+        NSLog("entry=\(entry.reference)")
     }
     
     private func handleSearchResults(data : NSData?, err: NSError?) {

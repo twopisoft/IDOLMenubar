@@ -314,7 +314,6 @@ CA
                                 </buttonCell>
                                 <connections>
                                     <action selector="remove:" target="ptk-ei-Y5h" id="yzu-bV-PPR"/>
-                                    <binding destination="ptk-ei-Y5h" name="hidden" keyPath="selection.syncFinished" id="YZD-HT-KkT"/>
                                     <outlet property="nextKeyView" destination="dij-FM-NSR" id="7Dz-4r-1aW"/>
                                 </connections>
                             </button>

@@ -22,9 +22,9 @@ class IDOLService {
     
     private struct URLS {
         static let listIndexUrl = "https://api.idolondemand.com/1/api/async/listindexes/v1?apikey="
-        static let jobResult = "https://api.idolondemand.com/1/job/result/"
         static let addToIndexUrl = "https://api.idolondemand.com/1/api/async/addtotextindex/v1"
         static let findSimilarUrl = "https://api.idolondemand.com/1/api/async/findsimilar/v1"
+        static let jobResult = "https://api.idolondemand.com/1/job/result/"
     }
     
     struct ErrCodes {
@@ -110,9 +110,36 @@ class IDOLService {
     }
 
     func findSimilarDocsUrl(url: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+        let (key,err) = apiKey()
+        
+        if key == nil {
+            if handler != nil {
+                handler!(nil,err)
+            }
+        } else {
+            var urlStr = URLS.findSimilarUrl + "?apikey=" + key! + "&url=" + encodeStr(url) + "&indexes=" + encodeStr(indexName) +
+            "&print=reference"
+            
+            var request = NSURLRequest(URL: NSURL(string: urlStr))
+            
+            NSLog("findSimilarDocsUrl: url=\(url), indexName=\(indexName)")
+            findSimilarDocs(request, key: key!, completionHandler: handler)
+        }
     }
     
     func findSimilarDocsFile(fileName: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+        let (key,err) = apiKey()
+        
+        if key == nil {
+            if handler != nil {
+                handler!(nil,err)
+            }
+        } else {
+            var request = createFindSimilarFileRequest(fileName, indexName: indexName, apiKey: key!)
+            
+            NSLog("findSimilarDocsFile: url=\(fileName), indexName=\(indexName)")
+            findSimilarDocs(request, key: key!, completionHandler: handler)
+        }
     }
 
     private func findSimilarDocs(request : NSURLRequest , key: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
@@ -177,23 +204,40 @@ class IDOLService {
         return fileMeta
     }
     
-    /*private func getJobResult(jobId: NSString?,jobErr: NSError?, handler: ((NSData?,NSError?)->Void)?) {
-        if jobErr == nil {
-            let urlStr = URLS.jobResult + jobId! + "?apikey=" + apiKey!
-            let request = NSURLRequest(URL: NSURL(string: urlStr))
-            let queue = NSOperationQueue()
-            
-            
-            NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
-                
-                handler!(data,error)
-                
-            })
-        } else {
-            handler!(nil, jobErr)
-        }
-    })
-    }*/
+    private func createFindSimilarFileRequest(filePath: String, indexName: String, apiKey: String) -> NSURLRequest {
+        let reqUrl = NSURL(string: URLS.findSimilarUrl)
+        var req = NSMutableURLRequest(URL: reqUrl)
+        let boundary = "---------------------------14737809831466499882746641449"
+        req.HTTPMethod = "POST"
+        req.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        let sepData = stringToData("\r\n--\(boundary)\r\n")
+        let ctData = stringToData("Content-Type: application/x-www-form-urlencoded\r\n\r\n")
+        
+        var postData = NSMutableData()
+        
+        NSLog("Processing file=\(filePath)")
+        let fileData = NSFileManager.defaultManager().contentsAtPath(filePath)
+        postData.appendData(sepData)
+        postData.appendData(stringToData("Content-Disposition: form-data; name=\"file\"; filename=\"\(filePath)\"\r\n"))
+        postData.appendData(ctData)
+        postData.appendData(fileData!)
+        
+        postData.appendData(sepData)
+        postData.appendData(stringToData("Content-Disposition: form-data; name=\"indexes\"\r\n\r\n"))
+        postData.appendData(stringToData(indexName))
+        postData.appendData(sepData)
+        postData.appendData(stringToData("Content-Disposition: form-data; name=\"print\"\r\n\r\n"))
+        postData.appendData(stringToData("reference"))
+        postData.appendData(sepData)
+        postData.appendData(stringToData("Content-Disposition: form-data; name=\"apikey\"\r\n\r\n"))
+        postData.appendData(stringToData(apiKey))
+        postData.appendData(stringToData("\r\n--\(boundary)--\r\n"))
+        
+        req.HTTPBody = postData
+        req.addValue("\(postData.length)", forHTTPHeaderField: "Content-Length")
+        return req
+    }
 
     private func createAddIndexRequest(fileMeta: [FileMeta], dirPath: String, indexName: String, apiKey: String) -> NSURLRequest {
         
@@ -213,7 +257,7 @@ class IDOLService {
                 NSLog("Processing file=\(fname)")
                 let fileData = NSFileManager.defaultManager().contentsAtPath(path)
                 postData.appendData(sepData)
-                postData.appendData(stringToData("Content-Disposition: form-data; name=\"file\"; filename=\"\(fname)\"\r\n"))
+                postData.appendData(stringToData("Content-Disposition: form-data; name=\"file\"; filename=\"file://\(path)\"\r\n"))
                 postData.appendData(ctData)
                 postData.appendData(fileData!)
             }
@@ -222,9 +266,9 @@ class IDOLService {
         postData.appendData(sepData)
         postData.appendData(stringToData("Content-Disposition: form-data; name=\"index\"\r\n\r\n"))
         postData.appendData(stringToData(indexName))
-        postData.appendData(sepData)
-        postData.appendData(stringToData("Content-Disposition: form-data; name=\"reference_prefix\"\r\n\r\n"))
-        postData.appendData(stringToData(dirPath))
+        //postData.appendData(sepData)
+        //postData.appendData(stringToData("Content-Disposition: form-data; name=\"reference_prefix\"\r\n\r\n"))
+        //postData.appendData(stringToData("file://"+dirPath))
         postData.appendData(sepData)
         postData.appendData(stringToData("Content-Disposition: form-data; name=\"apikey\"\r\n\r\n"))
         postData.appendData(stringToData(apiKey))

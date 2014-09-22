@@ -42,6 +42,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.highlightMode = true
         statusItem.image = NSImage(named: "hp-logo-small")
         statusItem.alternateImage = NSImage(named: "hp-logo-small-alt")
+        
+        NSValueTransformer.setValueTransformer(HyperlinkValueTransformer(), forName: "HyperlinkValueTransformer")
         /*var statusView = NSView(frame: NSMakeRect(0, 0, 22, 22))
         var progressBar = NSProgressIndicator(frame: NSMakeRect(0, 0, 22, 22))
         progressBar.bezeled = false
