@@ -24,6 +24,7 @@ class IDOLService {
         static let listIndexUrl = "https://api.idolondemand.com/1/api/async/listindexes/v1?apikey="
         static let jobResult = "https://api.idolondemand.com/1/job/result/"
         static let addToIndexUrl = "https://api.idolondemand.com/1/api/async/addtotextindex/v1"
+        static let findSimilarUrl = "https://api.idolondemand.com/1/api/async/findsimilar/v1"
     }
     
     struct ErrCodes {
@@ -32,18 +33,15 @@ class IDOLService {
     
     func fetchIndexList(completionHandler handler: ((NSData?,NSError?)->Void)) {
     
-        let apiKey = NSUserDefaults.standardUserDefaults().valueForKey("idolApiKey") as? String
+        let (key,err) = apiKey()
         
-        var err : NSError? = nil
-        
-        if apiKey == nil {
-            err = NSError(domain: "IDOLService", code: ErrCodes.ErrAPIKeyNotFound, userInfo: ["Description":"IDOL API Not Found"])
+        if key == nil {
             handler(nil,err)
         } else {
-            submitAsyncJob(URLS.listIndexUrl + apiKey!, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
+            submitAsyncJob(URLS.listIndexUrl + key!, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
                 
                 if jobErr == nil {
-                    let urlStr = URLS.jobResult + jobId! + "?apikey=" + apiKey!
+                    let urlStr = URLS.jobResult + jobId! + "?apikey=" + key!
                     let request = NSURLRequest(URL: NSURL(string: urlStr))
                     let queue = NSOperationQueue()
                     
@@ -61,35 +59,81 @@ class IDOLService {
     }
     
     func uploadDocsToIndex(dirPath : String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
-        let apiKey = NSUserDefaults.standardUserDefaults().valueForKey("idolApiKey") as? String
+        let (key,err) = apiKey()
         
-        if apiKey == nil {
-            let err : NSError? = NSError(domain: "IDOLService", code: ErrCodes.ErrAPIKeyNotFound, userInfo: ["Description":"IDOL API Not Found"])
+        if key == nil {
             if handler != nil {
                 handler!(nil,err)
             }
         } else {
-            let fileMeta = getFileMeta(dirPath)
-            let postRequest = createAddIndexRequest(fileMeta, indexName: indexName, apiKey: apiKey!)
-            
-            submitAsyncJob(postRequest, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+                let fileMeta = self.getFileMeta(dirPath)
+                let postRequest = self.createAddIndexRequest(fileMeta, dirPath: dirPath, indexName: indexName, apiKey: key!)
                 
-                if jobErr == nil {
-                    let urlStr = URLS.jobResult + jobId! + "?apikey=" + apiKey!
-                    let request = NSURLRequest(URL: NSURL(string: urlStr))
-                    let queue = NSOperationQueue()
+                self.submitAsyncJob(postRequest, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
                     
-                    
-                    NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
+                    if jobErr == nil {
+                        let urlStr = URLS.jobResult + jobId! + "?apikey=" + key!
+                        let request = NSURLRequest(URL: NSURL(string: urlStr))
+                        let queue = NSOperationQueue()
                         
-                        handler!(data,error)
                         
-                    })
-                } else {
-                    handler!(nil, jobErr)
-                }
+                        NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
+                            
+                            handler!(data,error)
+                            
+                        })
+                    } else {
+                        handler!(nil, jobErr)
+                    }
+                })
             })
         }
+    }
+    
+    func findSimilarDocs(text: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+        let (key,err) = apiKey()
+        
+        if key == nil {
+            if handler != nil {
+                handler!(nil,err)
+            }
+        } else {
+            var urlStr = URLS.findSimilarUrl + "?apikey=" + key! + "&text=" + encodeStr(text) + "&indexes=" + encodeStr(indexName) +
+                         "&print=reference"
+            
+            var request = NSURLRequest(URL: NSURL(string: urlStr))
+            
+            NSLog("findSimilarDocs: text=\(text), indexName=\(indexName)")
+            findSimilarDocs(request, key: key!, completionHandler: handler)
+        }
+    }
+
+    func findSimilarDocsUrl(url: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+    }
+    
+    func findSimilarDocsFile(fileName: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+    }
+
+    private func findSimilarDocs(request : NSURLRequest , key: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+        
+        submitAsyncJob(request, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
+            
+            if jobErr == nil {
+                let urlStr = URLS.jobResult + jobId! + "?apikey=" + key
+                let request = NSURLRequest(URL: NSURL(string: urlStr))
+                let queue = NSOperationQueue()
+                
+                
+                NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
+                    
+                    handler!(data,error)
+                    
+                })
+            } else {
+                handler!(nil, jobErr)
+            }
+        })
     }
     
     private func submitAsyncJob(request : NSURLRequest, completionHandler handler: ((NSString?,NSError?)->Void)) {
@@ -133,7 +177,25 @@ class IDOLService {
         return fileMeta
     }
     
-    private func createAddIndexRequest(fileMeta: [FileMeta], indexName: String, apiKey: String) -> NSURLRequest {
+    /*private func getJobResult(jobId: NSString?,jobErr: NSError?, handler: ((NSData?,NSError?)->Void)?) {
+        if jobErr == nil {
+            let urlStr = URLS.jobResult + jobId! + "?apikey=" + apiKey!
+            let request = NSURLRequest(URL: NSURL(string: urlStr))
+            let queue = NSOperationQueue()
+            
+            
+            NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
+                
+                handler!(data,error)
+                
+            })
+        } else {
+            handler!(nil, jobErr)
+        }
+    })
+    }*/
+
+    private func createAddIndexRequest(fileMeta: [FileMeta], dirPath: String, indexName: String, apiKey: String) -> NSURLRequest {
         
         let reqUrl = NSURL(string: URLS.addToIndexUrl)
         var req = NSMutableURLRequest(URL: reqUrl)
@@ -161,19 +223,30 @@ class IDOLService {
         postData.appendData(stringToData("Content-Disposition: form-data; name=\"index\"\r\n\r\n"))
         postData.appendData(stringToData(indexName))
         postData.appendData(sepData)
+        postData.appendData(stringToData("Content-Disposition: form-data; name=\"reference_prefix\"\r\n\r\n"))
+        postData.appendData(stringToData(dirPath))
+        postData.appendData(sepData)
         postData.appendData(stringToData("Content-Disposition: form-data; name=\"apikey\"\r\n\r\n"))
         postData.appendData(stringToData(apiKey))
-        /*postData.appendData(sepData)
-        postData.appendData(stringToData("Content-Disposition: form-data; name=\"additional_metadata\"\r\n\r\n"))
-        postData.appendData(stringToData(" \r\n"))
-        postData.appendData(sepData)
-        postData.appendData(stringToData("Content-Disposition: form-data; name=\"reference_prefix\"\r\n\r\n"))
-        postData.appendData(stringToData(" \r\n"))*/
         postData.appendData(stringToData("\r\n--\(boundary)--\r\n"))
         
         req.HTTPBody = postData
         req.addValue("\(postData.length)", forHTTPHeaderField: "Content-Length")
         return req
+    }
+        
+    private func apiKey() -> (String?,NSError?) {
+        let key = NSUserDefaults.standardUserDefaults().valueForKey("idolApiKey") as? String
+        
+        if key == nil {
+            let err : NSError? = NSError(domain: "IDOLService", code: ErrCodes.ErrAPIKeyNotFound, userInfo: ["Description":"IDOL API Not Found"])
+            return (nil, err)
+        }
+        return (key,nil)
+    }
+    
+    private func encodeStr(str : String) -> String {
+        return str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
     }
     
     private func stringToData(str : String) -> NSData {

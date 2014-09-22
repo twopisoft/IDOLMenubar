@@ -151,9 +151,10 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                     <connections>
-                                                        <binding destination="ptk-ei-Y5h" name="value" keyPath="arrangedObjects.idolDirPath" id="x6G-ja-IW6">
+                                                        <binding destination="ptk-ei-Y5h" name="value" keyPath="arrangedObjects.idolDirPath" id="nER-2A-mXH">
                                                             <dictionary key="options">
                                                                 <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                             </dictionary>
                                                         </binding>
                                                     </connections>
@@ -224,9 +225,10 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                     <connections>
-                                                        <binding destination="ptk-ei-Y5h" name="value" keyPath="arrangedObjects.idolIndexName" id="7AE-Zv-NoV">
+                                                        <binding destination="ptk-ei-Y5h" name="value" keyPath="arrangedObjects.idolIndexName" id="hH6-i0-lI2">
                                                             <dictionary key="options">
                                                                 <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                             </dictionary>
                                                         </binding>
                                                     </connections>
@@ -235,6 +237,7 @@
                                             <connections>
                                                 <binding destination="ptk-ei-Y5h" name="content" keyPath="arrangedObjects" id="9b3-n7-or3"/>
                                                 <binding destination="ptk-ei-Y5h" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="9b3-n7-or3" id="VAV-lm-mCG"/>
+                                                <binding destination="ptk-ei-Y5h" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="VAV-lm-mCG" id="QL0-id-GIf"/>
                                                 <outlet property="delegate" destination="-2" id="piO-Yw-xzv"/>
                                             </connections>
                                         </tableView>
@@ -311,11 +314,7 @@ CA
                                 </buttonCell>
                                 <connections>
                                     <action selector="remove:" target="ptk-ei-Y5h" id="yzu-bV-PPR"/>
-                                    <binding destination="ptk-ei-Y5h" name="enabled" keyPath="selection.syncFinished" id="3SX-yZ-LbO">
-                                        <dictionary key="options">
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="ptk-ei-Y5h" name="hidden" keyPath="selection.syncFinished" id="YZD-HT-KkT"/>
                                     <outlet property="nextKeyView" destination="dij-FM-NSR" id="7Dz-4r-1aW"/>
                                 </connections>
                             </button>
@@ -353,13 +352,14 @@ CA
             </constraints>
             <point key="canvasLocation" x="294.5" y="507"/>
         </customView>
-        <arrayController mode="entity" entityName="IdolDirectories" automaticallyPreparesContent="YES" id="ptk-ei-Y5h" userLabel="PrefArrayController">
+        <arrayController mode="entity" entityName="IdolDirectories" automaticallyPreparesContent="YES" automaticallyRearrangesObjects="YES" id="ptk-ei-Y5h" userLabel="PrefArrayController">
             <declaredKeys>
                 <string>idolDirPath</string>
                 <string>idolIndexName</string>
             </declaredKeys>
             <connections>
                 <binding destination="-2" name="managedObjectContext" keyPath="managedObjectContext" id="WeQ-Nd-LeK"/>
+                <binding destination="-2" name="sortDescriptors" keyPath="sortDescriptors" id="Phe-CY-Oam"/>
             </connections>
         </arrayController>
         <userDefaultsController representsSharedInstance="YES" id="6fq-C9-Q9H"/>

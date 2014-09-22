@@ -242,6 +242,7 @@ Gw
                                     <connections>
                                         <binding destination="xYR-Do-FVB" name="content" keyPath="arrangedObjects.name" id="qTx-kL-QIF"/>
                                         <binding destination="xYR-Do-FVB" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="qTx-kL-QIF" id="3u2-Go-nH8"/>
+                                        <binding destination="xYR-Do-FVB" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="3u2-Go-nH8" id="geM-cJ-ALw"/>
                                         <outlet property="delegate" destination="-2" id="Ayy-mF-7x1"/>
                                     </connections>
                                 </tableView>
@@ -268,6 +269,7 @@ Gw
         <arrayController mode="entity" entityName="IdolIndexes" automaticallyPreparesContent="YES" automaticallyRearrangesObjects="YES" id="xYR-Do-FVB" userLabel="IndexArrayController">
             <connections>
                 <binding destination="-2" name="managedObjectContext" keyPath="managedObjectContext" id="OeB-Qa-cE5"/>
+                <binding destination="-2" name="sortDescriptors" keyPath="sortDescriptors" id="n3Q-ru-X6g"/>
             </connections>
         </arrayController>
     </objects>

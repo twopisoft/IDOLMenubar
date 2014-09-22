@@ -22,6 +22,9 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     var managedObjectContext : NSManagedObjectContext!
     
+    var sortDescriptors : [AnyObject] = [NSSortDescriptor(key: "idolDirPath", ascending: true, selector: "compare:"),
+                                         NSSortDescriptor(key: "idolIndexName",ascending: true, selector: "compare:")]
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -32,13 +35,16 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     @IBAction func cancel(sender: AnyObject) {
         userDefaultsController.revert(self)
-        managedObjectContext.undo()
+        if managedObjectContext.hasChanges {
+            managedObjectContext.undo()
+        }
         doneEditing()
     }
     
     @IBAction func save(sender: AnyObject) {
         userDefaultsController.save(self)
-        managedObjectContext.save(nil)
+        saveData()
+        triggerDataSync()
         doneEditing()
     }
     
@@ -75,6 +81,40 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
                 desc: "IDOL API Key is not configured. Please set the API Key first.")
         } else {
             showSelectIndexPanel(apiKey)
+        }
+    }
+    
+    private func triggerDataSync() {
+        let syncReady = DBHelper.getSyncReadyDirectories(self.managedObjectContext)
+        for mo in syncReady {
+            let dirPath = mo.valueForKey("idolDirPath") as String
+            let indexName = mo.valueForKey("idolIndexName") as String
+
+            mo.setValue(true, forKey: "isSyncing")
+            self.saveData()
+            IDOLService.sharedInstance.uploadDocsToIndex(dirPath, indexName: indexName, completionHandler: { (data:NSData?, err:NSError?) in
+                if err == nil {
+                    let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
+                    
+                    if json["error"] == nil {
+                        NSLog("Sync completed for directory \(dirPath). Response=\(json)")
+                        mo.setValue(false, forKey: "isSyncing")
+                        mo.setValue(true, forKey: "syncFinished")
+                        
+                    } else {
+                        mo.setValue(false, forKey: "isSyncing")
+                        NSLog("Error while syncing directory \(dirPath)")
+                    }
+                    self.saveData()
+                }
+            })
+        }
+    }
+    
+    private func saveData() {
+        managedObjectContext.commitEditing()
+        if managedObjectContext.hasChanges {
+            managedObjectContext.save(nil)
         }
     }
     

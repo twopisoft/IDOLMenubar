@@ -16,6 +16,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBOutlet weak var currentView: NSView!
     
+    var syncInProgress : Bool = false
+    
     var currentViewController : NSViewController? = nil
     
     lazy var prefViewController : PreferenceViewController = {
@@ -31,23 +33,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
     
     var statusItem : NSStatusItem = NSStatusItem()
+    var pgbar : NSProgressIndicator = NSProgressIndicator()
+    var pgbarHolder = NSView()
     
     override func awakeFromNib() {
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1)
         statusItem.menu = menu
         statusItem.highlightMode = true
         statusItem.image = NSImage(named: "hp-logo-small")
+        statusItem.alternateImage = NSImage(named: "hp-logo-small-alt")
+        /*var statusView = NSView(frame: NSMakeRect(0, 0, 22, 22))
+        var progressBar = NSProgressIndicator(frame: NSMakeRect(0, 0, 22, 22))
+        progressBar.bezeled = false
+        progressBar.indeterminate = true
+        progressBar.usesThreadedAnimation=true
+        progressBar.style = NSProgressIndicatorStyle.SpinningStyle
+        //progressBar.controlSize = NSControlSize.SmallControlSize
+        progressBar.startAnimation(nil)
+        statusView.addSubview(progressBar)
+        statusItem.view = statusView*/
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
-        IDOLService.sharedInstance.uploadDocsToIndex("/Users/twopi/Documents/IDOLMenubar", indexName: "second", completionHandler: { (data: NSData?, error: NSError?) in
-            if error == nil {
-                let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
-                NSLog("json=\(json)")
-            } else {
-                NSLog("error=\(error)")
-            }
-        })
+
     }
 
     func applicationWillTerminate(aNotification: NSNotification?) {
@@ -98,6 +106,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         currentViewController = controller
         currentView.addSubview(currentViewController!.view)
         currentViewController!.view.frame = currentView.bounds
+    }
+    
+    func showProgressIndicator(st : NSStatusItem) {
+        pgbar.bezeled = false
+        pgbar.style = NSProgressIndicatorStyle.SpinningStyle
+        pgbar.controlSize = NSControlSize.SmallControlSize
+        pgbar.sizeToFit()
+        pgbar.usesThreadedAnimation=true
+        let holderRect = pgbarHolder.bounds
+        var indicatorRect = pgbarHolder.frame
+        indicatorRect.origin.x = (holderRect.size.width - indicatorRect.size.width)/2.0
+        indicatorRect.origin.y = (holderRect.size.height - indicatorRect.size.height)/2.0
+        pgbar.frame = indicatorRect
+        pgbarHolder.addSubview(pgbar)
+        pgbar.startAnimation(self)
+        st.view = pgbarHolder
+        //pgbarHolder.nextResponder = statusItem
     }
     
     // MARK: - Core Data stack

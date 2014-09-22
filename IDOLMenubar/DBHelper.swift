@@ -56,4 +56,24 @@ class DBHelper {
         
         return nil
     }
+    
+    class func getSyncReadyDirectories(managedObjectContext : NSManagedObjectContext) -> [NSManagedObject] {
+        
+        var syncReady : [NSManagedObject] = []
+        var freq = NSFetchRequest(entityName: "IdolDirectories")
+        let res = managedObjectContext.executeFetchRequest(freq, error: nil)
+        
+        for mo in res {
+            let (path:String?,index:String?,insync:Bool?,syncfin:Bool?) =
+                                            ((mo.valueForKey("idolDirPath") as? String),
+                                             (mo.valueForKey("idolIndexName") as? String),
+                                             (mo.valueForKey("isSyncing") as? Bool),
+                                             (mo.valueForKey("syncFinished") as? Bool))
+            let notReady = (path == nil || index == nil || path!.isEmpty || index!.isEmpty || insync! || syncfin!)
+            if !notReady {
+                syncReady.append(mo as NSManagedObject)
+            }
+        }
+        return syncReady
+    }
 }
