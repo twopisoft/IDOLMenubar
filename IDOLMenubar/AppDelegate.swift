@@ -36,9 +36,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private var statusItemImage : NSImage = NSImage(named: "hp-logo-small")
     private var statusItemAltImage : NSImage = NSImage(named: "hp-logo-small-alt")
+    private var statusErrImage : NSImage = NSImage(named: "hp-logo-small-err")
     
     private var _timer : NSTimer? = nil
     private var _syncInProgress = false
+    private var _opError = false
     
     var syncInProgress : Bool {
         get {
@@ -60,6 +62,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    var opError : Bool {
+        get {
+            return _opError
+        }
+        set {
+            _opError = newValue
+            if self._timer != nil {
+                self._timer!.invalidate()
+            }
+            if _opError {
+                statusItem.image = statusErrImage
+            } else {
+                statusItem.image = statusItemImage
+            }
+        }
+    }
+    
+    var lastError : NSError? = nil
+        
     // MARK: AppDelegate methods
     class func sharedAppDelegate() -> AppDelegate {
         return NSApplication.sharedApplication().delegate as AppDelegate
@@ -132,6 +153,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         NSApplication.sharedApplication().terminate(self)
+    }
+    
+    @IBAction func lastError(sender: AnyObject) {
+        if lastError != nil {
+            NSApp.activateIgnoringOtherApps(true)
+            if currentViewController != nil {
+                currentViewController!.view.removeFromSuperview()
+                currentViewController = nil
+            }
+            self.window!.title = "Last Error Message"
+            self.window!.makeKeyAndOrderFront(self)
+            
+            ErrorReporter.showErrorAlert(self.window, error: lastError!, closeWindow: true)
+            //self.window.close()
+            self.setValue(false, forKey: "opError")
+        }
     }
     
     // MARK: View controller management

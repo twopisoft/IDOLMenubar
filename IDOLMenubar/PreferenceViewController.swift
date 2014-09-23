@@ -28,7 +28,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     var needsSave = false
     
-    private var _apiKey : NSString? = nil
+    private var _apiKey : String? = nil
 
     // MARK: NSObject/NSViewController methods
     override func viewDidLoad() {
@@ -89,9 +89,14 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     @IBAction func locateIndex(sender: AnyObject) {
         if _apiKey == nil  {
-            ErrorReporter.showErrorAlert(parentWindow(),
-                title: "IDOL API Key not configured",
-                desc: "IDOL API Key is not configured. Please set the API Key first.")
+            _apiKey = apiKeyTextField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            if _apiKey!.isEmpty {
+                ErrorReporter.showErrorAlert(parentWindow(),
+                    title: "IDOL API Key not configured",
+                    desc: "IDOL API Key is not configured. Please set the API Key first.")
+            } else {
+                showSelectIndexPanel(_apiKey)
+            }
         } else {
             showSelectIndexPanel(_apiKey)
         }
@@ -128,6 +133,11 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
                         }
                         self.saveData()
                         AppDelegate.sharedAppDelegate().setValue(false, forKey: "syncInProgress")
+                    } else {
+                        NSLog("err=\(err)")
+                        AppDelegate.sharedAppDelegate().setValue(false, forKey: "syncInProgress")
+                        AppDelegate.sharedAppDelegate().setValue(true, forKey: "opError")
+                        AppDelegate.sharedAppDelegate().setValue(err!, forKey: "lastError")
                     }
                 })
             }

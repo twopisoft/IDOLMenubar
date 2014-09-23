@@ -170,7 +170,7 @@ class IDOLService {
                 NSLog("j1=\(json)")
                 if let jobId = json["jobID"] as? String { // Handle the jobId response
                     handler(jobId,nil)
-                } else if json["detail"] != nil {  // Handle the error response
+                } else if json["details"] != nil {  // Handle the error response
                     handler(nil,self.createError(json))
                 }
             } else {
@@ -243,7 +243,7 @@ class IDOLService {
                 NSLog("Processing file=\(fname)")
                 let fileData = NSFileManager.defaultManager().contentsAtPath(path)
                 postData.appendData(sepData)
-                postData.appendData(stringToData("Content-Disposition: form-data; name=\"file\"; filename=\"\(fname)\"\r\n"))
+                postData.appendData(stringToData("Content-Disposition: form-data; name=\"file\"; filename=\"\(path)\"\r\n"))
                 postData.appendData(ctData)
                 postData.appendData(fileData!)
             }
@@ -252,9 +252,9 @@ class IDOLService {
         postData.appendData(sepData)
         postData.appendData(stringToData("Content-Disposition: form-data; name=\"index\"\r\n\r\n"))
         postData.appendData(stringToData(indexName))
-        postData.appendData(sepData)
+        /*postData.appendData(sepData)
         postData.appendData(stringToData("Content-Disposition: form-data; name=\"reference_prefix\"\r\n\r\n"))
-        postData.appendData(stringToData(dirPath))
+        postData.appendData(stringToData(dirPath))*/
         postData.appendData(sepData)
         postData.appendData(stringToData("Content-Disposition: form-data; name=\"apikey\"\r\n\r\n"))
         postData.appendData(stringToData(apiKey))
@@ -297,10 +297,25 @@ class IDOLService {
     }
     
     private func createError(json : NSDictionary) -> NSError {
-        let detail = json["detail"] as? NSDictionary
-        let code = detail!["error"] as? Int
-        let msg = json["message"] as? String
-        return createError(code!, msg: msg!)
+        let detail = json["details"] as? NSDictionary
+        //NSLog("details=\(detail)")
+        let code = json["error"] as? Int
+        //NSLog("code=\(code)")
+        var msg = ""
+        if detail!["reason"] != nil {
+            msg = detail!["reason"] as String
+        } else {
+            if json["message"] == nil {
+                if json["reason"] != nil {
+                    msg = json["reason"] as String
+                }
+            } else {
+                msg = json["message"] as String
+            }
+        }
+        //NSLog("msg=\(msg)")
+
+        return createError(code!, msg: msg)
     }
     
     private func createError(code: Int, msg: String) -> NSError {

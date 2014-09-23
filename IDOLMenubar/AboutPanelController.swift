@@ -29,7 +29,7 @@ class AboutPanelController: NSObject {
         
         self.handler = handler
         
-        aboutTextView.string = "\n\nSubmitted by arshad01\n\n Video: https://www.youtube.com/watch?v=oesV4bhGyUs\n\nBlog: http://linkedin.com"
+        aboutTextView.string = "\n\nSubmitted by arshad01\n\n Video: http://youtu.be/WWD883MO8-8\n\nBlog: http://arshad01.wordpress.com/2014/09/23/hp-idol-menubar-application/"
         aboutTextView.alignment = NSTextAlignment.CenterTextAlignment
         aboutTextView.font = NSFont(name: "Arial", size: 14)
         aboutTextView.editable = true

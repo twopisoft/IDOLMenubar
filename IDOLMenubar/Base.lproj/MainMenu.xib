@@ -57,6 +57,17 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="eWj-DM-MCA"/>
+                <menuItem title="Last Error Message" hidden="YES" id="7Z3-N8-1nb">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="lastError:" target="Voe-Tx-rLC" id="CrY-Mb-gNh"/>
+                        <binding destination="Voe-Tx-rLC" name="hidden" keyPath="opError" id="anv-yH-mQ6">
+                            <dictionary key="options">
+                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </menuItem>
                 <menuItem title="About" id="4vl-Si-xPz">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
