@@ -43,6 +43,8 @@ class SearchViewController: NSViewController, NSTableViewDataSource, NSTableView
     
     var results : [SearchResultEntry] = []
     
+    private var _apiKey : String? = nil
+    
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,13 +57,14 @@ class SearchViewController: NSViewController, NSTableViewDataSource, NSTableView
     }
     
     @IBAction func selectIndex(sender: AnyObject) {
-        let apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
-        if apiKey == nil  {
+        _apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
+        
+        if _apiKey == nil  {
             ErrorReporter.showErrorAlert(parentWindow(),
                 title: "IDOL API Key not configured",
                 desc: "IDOL API Key is not configured. Please set the API Key first.")
         } else {
-            showSelectIndexPanel(apiKey)
+            showSelectIndexPanel(_apiKey)
         }
     }
     
@@ -81,31 +84,39 @@ class SearchViewController: NSViewController, NSTableViewDataSource, NSTableView
     // URLs are detected by using a regex. File entries must start with a @file= token
     
     @IBAction func search(sender: AnyObject) {
-        var searchItem = searchBarField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        var indexName = indexNameField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        _apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
         
-        if !searchItem.isEmpty {
-            if indexName.isEmpty {
-                indexName = "wiki_eng"
-            }
-            self.setValue(true, forKey: "isSearching")
+        if _apiKey == nil  {
+            ErrorReporter.showErrorAlert(parentWindow(),
+                title: "IDOL API Key not configured",
+                desc: "IDOL API Key is not configured. Please set the API Key first.")
+        } else {
+            var searchItem = searchBarField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            var indexName = indexNameField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             
-            if searchItem.hasPrefix("@file=") { // File based search
-                var fileName = searchItem.substringFromIndex(searchItem.rangeOfString("@file=")!.endIndex)
-                IDOLService.sharedInstance.findSimilarDocsFile(fileName, indexName: indexName, completionHandler: { (data: NSData?, err: NSError?) in
-                    
-                    self.handleSearchResults(data, err: err)
-                })
-            } else if isUrl(searchItem) { // Url based search
-                IDOLService.sharedInstance.findSimilarDocsUrl(searchItem, indexName: indexName, completionHandler: { (data: NSData?, err: NSError?) in
-                    
-                    self.handleSearchResults(data, err: err)
-                })
-            } else { // Keyword based search
-                IDOLService.sharedInstance.findSimilarDocs(searchItem, indexName: indexName, completionHandler: { (data: NSData?, err: NSError?) in
-                    
-                    self.handleSearchResults(data, err: err)
-                })
+            if !searchItem.isEmpty {
+                if indexName.isEmpty {
+                    indexName = "wiki_eng"
+                }
+                self.setValue(true, forKey: "isSearching")
+                
+                if searchItem.hasPrefix("@file=") { // File based search
+                    var fileName = searchItem.substringFromIndex(searchItem.rangeOfString("@file=")!.endIndex)
+                    IDOLService.sharedInstance.findSimilarDocsFile(_apiKey!, fileName: fileName, indexName: indexName, completionHandler: { (data: NSData?, err: NSError?) in
+                        
+                        self.handleSearchResults(data, err: err)
+                    })
+                } else if isUrl(searchItem) { // Url based search
+                    IDOLService.sharedInstance.findSimilarDocsUrl(_apiKey!, url: searchItem, indexName: indexName, completionHandler: { (data: NSData?, err: NSError?) in
+                        
+                        self.handleSearchResults(data, err: err)
+                    })
+                } else { // Keyword based search
+                    IDOLService.sharedInstance.findSimilarDocs(_apiKey!, text: searchItem, indexName: indexName, completionHandler: { (data: NSData?, err: NSError?) in
+                        
+                        self.handleSearchResults(data, err: err)
+                    })
+                }
             }
         }
         

@@ -77,7 +77,7 @@ class SelectIndexPanel : NSObject {
         self.setValue(true, forKey: "isRefreshing")
         
         // Fetch data from IDOL List Index service
-        IDOLService.sharedInstance.fetchIndexList(completionHandler: {(data:NSData?, error:NSError?) in
+        IDOLService.sharedInstance.fetchIndexList(apiKey!, completionHandler: {(data:NSData?, error:NSError?) in
             if error == nil {
                 let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
                 let actions = json["actions"] as NSArray

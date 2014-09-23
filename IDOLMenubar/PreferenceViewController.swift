@@ -27,6 +27,8 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
                                          NSSortDescriptor(key: "idolIndexName",ascending: true, selector: "compare:")]
     
     var needsSave = false
+    
+    private var _apiKey : NSString? = nil
 
     // MARK: NSObject/NSViewController methods
     override func viewDidLoad() {
@@ -86,18 +88,17 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     }
     
     @IBAction func locateIndex(sender: AnyObject) {
-        userDefaultsController.save(self)
-        let apiKey = apiKeyTextField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        if apiKey.isEmpty  {
+        if _apiKey == nil  {
             ErrorReporter.showErrorAlert(parentWindow(),
                 title: "IDOL API Key not configured",
                 desc: "IDOL API Key is not configured. Please set the API Key first.")
         } else {
-            showSelectIndexPanel(apiKey)
+            showSelectIndexPanel(_apiKey)
         }
     }
     
     override func controlTextDidChange(obj: NSNotification!) {
+        _apiKey = apiKeyTextField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         self.setValue(true, forKey: "needsSave")
     }
     
@@ -112,7 +113,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
                 mo.setValue(true, forKey: "isSyncing")
                 self.saveData()
                 AppDelegate.sharedAppDelegate().setValue(true, forKey: "syncInProgress")
-                IDOLService.sharedInstance.uploadDocsToIndex(dirPath, indexName: indexName, completionHandler: { (data:NSData?, err:NSError?) in
+                IDOLService.sharedInstance.uploadDocsToIndex(self._apiKey!, dirPath: dirPath, indexName: indexName, completionHandler: { (data:NSData?, err:NSError?) in
                     if err == nil {
                         let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
                         
