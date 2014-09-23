@@ -9,9 +9,10 @@
 import Cocoa
 import AppKit
 
+// Controller for Preference panel
 class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     
-    
+    // MARK: Properties
     @IBOutlet weak var dirPrefTableView: NSTableView!
     
     @IBOutlet weak var apiKeyTextField: NSTextField!
@@ -24,7 +25,10 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     
     var sortDescriptors : [AnyObject] = [NSSortDescriptor(key: "idolDirPath", ascending: true, selector: "compare:"),
                                          NSSortDescriptor(key: "idolIndexName",ascending: true, selector: "compare:")]
+    
+    var needsSave = false
 
+    // MARK: NSObject/NSViewController methods
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -33,19 +37,21 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         userDefaultsController.appliesImmediately = false
     }
     
+    // MARK: Actions
     @IBAction func cancel(sender: AnyObject) {
         userDefaultsController.revert(self)
-        if managedObjectContext.hasChanges {
+        while managedObjectContext.hasChanges {
             managedObjectContext.undo()
         }
+        self.setValue(false, forKey: "needsSave")
         doneEditing()
     }
     
     @IBAction func save(sender: AnyObject) {
         userDefaultsController.save(self)
         saveData()
+        self.setValue(false, forKey: "needsSave")
         triggerDataSync()
-        doneEditing()
     }
     
     @IBAction func addDir(sender: AnyObject) {
@@ -55,6 +61,13 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         mo.setValue(nil, forKey: "idolIndexName")
         mo.setValue(false, forKey: "isSyncing")
         mo.setValue(false, forKey: "syncFinished")
+        
+        self.setValue(true, forKey: "needsSave")
+    }
+    
+    @IBAction func delDir(sender: AnyObject) {
+        prefArrayController.remove(sender)
+        self.setValue(true, forKey: "needsSave")
     }
     
     @IBAction func locateDir(sender: AnyObject) {
@@ -73,7 +86,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     }
     
     @IBAction func locateIndex(sender: AnyObject) {
-        //let apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
+        userDefaultsController.save(self)
         let apiKey = apiKeyTextField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         if apiKey.isEmpty  {
             ErrorReporter.showErrorAlert(parentWindow(),
@@ -84,31 +97,40 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         }
     }
     
+    override func controlTextDidChange(obj: NSNotification!) {
+        self.setValue(true, forKey: "needsSave")
+    }
+    
+    // MARK: Helper methods
     private func triggerDataSync() {
-        let syncReady = DBHelper.getSyncReadyDirectories(self.managedObjectContext)
-        for mo in syncReady {
-            let dirPath = mo.valueForKey("idolDirPath") as String
-            let indexName = mo.valueForKey("idolIndexName") as String
+        dispatch_async(dispatch_get_main_queue(), {
+            let syncReady = DBHelper.getSyncReadyDirectories(self.managedObjectContext)
+            for mo in syncReady {
+                let dirPath = mo.valueForKey("idolDirPath") as String
+                let indexName = mo.valueForKey("idolIndexName") as String
 
-            mo.setValue(true, forKey: "isSyncing")
-            self.saveData()
-            IDOLService.sharedInstance.uploadDocsToIndex(dirPath, indexName: indexName, completionHandler: { (data:NSData?, err:NSError?) in
-                if err == nil {
-                    let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
-                    
-                    if json["error"] == nil {
-                        NSLog("Sync completed for directory \(dirPath). Response=\(json)")
-                        mo.setValue(false, forKey: "isSyncing")
-                        mo.setValue(true, forKey: "syncFinished")
+                mo.setValue(true, forKey: "isSyncing")
+                self.saveData()
+                AppDelegate.sharedAppDelegate().setValue(true, forKey: "syncInProgress")
+                IDOLService.sharedInstance.uploadDocsToIndex(dirPath, indexName: indexName, completionHandler: { (data:NSData?, err:NSError?) in
+                    if err == nil {
+                        let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
                         
-                    } else {
-                        mo.setValue(false, forKey: "isSyncing")
-                        NSLog("Error while syncing directory \(dirPath)")
+                        if json["error"] == nil {
+                            NSLog("Sync completed for directory \(dirPath). Response=\(json)")
+                            mo.setValue(false, forKey: "isSyncing")
+                            mo.setValue(true, forKey: "syncFinished")
+                            
+                        } else {
+                            mo.setValue(false, forKey: "isSyncing")
+                            NSLog("Error while syncing directory \(dirPath)")
+                        }
+                        self.saveData()
+                        AppDelegate.sharedAppDelegate().setValue(false, forKey: "syncInProgress")
                     }
-                    self.saveData()
-                }
-            })
-        }
+                })
+            }
+        })
     }
     
     private func saveData() {

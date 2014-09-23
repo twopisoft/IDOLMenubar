@@ -9,17 +9,17 @@
 import Cocoa
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-                            
+    
+    // MARK: Properties
     @IBOutlet weak var window: NSWindow!
 
     @IBOutlet weak var menu: NSMenu!
     
     @IBOutlet weak var currentView: NSView!
     
-    var syncInProgress : Bool = false
-    
     var currentViewController : NSViewController? = nil
     
+    // Properties for lazily creating various view controllers
     lazy var prefViewController : PreferenceViewController = {
         return PreferenceViewController(nibName: "PreferenceViewController", bundle: NSBundle.mainBundle())
     }()
@@ -33,27 +33,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
     
     var statusItem : NSStatusItem = NSStatusItem()
-    var pgbar : NSProgressIndicator = NSProgressIndicator()
-    var pgbarHolder = NSView()
+    
+    private var statusItemImage : NSImage = NSImage(named: "hp-logo-small")
+    private var statusItemAltImage : NSImage = NSImage(named: "hp-logo-small-alt")
+    
+    private var _timer : NSTimer? = nil
+    private var _syncInProgress = false
+    
+    var syncInProgress : Bool {
+        get {
+            return _syncInProgress
+        }
+        set {
+            _syncInProgress = newValue
+            if _syncInProgress {
+                statusItem.toolTip = "Uploading data to Index"
+                self._timer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "toggleImage:", userInfo: nil, repeats: true)
+            } else {
+                if self._timer != nil {
+                    self._timer!.invalidate()
+                }
+                statusItem.image = statusItemImage
+                statusItem.alternateImage = statusItemAltImage
+                statusItem.toolTip = "IDOLMenubar"
+            }
+        }
+    }
+    
+    // MARK: AppDelegate methods
+    class func sharedAppDelegate() -> AppDelegate {
+        return NSApplication.sharedApplication().delegate as AppDelegate
+    }
     
     override func awakeFromNib() {
+        // Set up the status bar item
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1)
         statusItem.menu = menu
         statusItem.highlightMode = true
-        statusItem.image = NSImage(named: "hp-logo-small")
-        statusItem.alternateImage = NSImage(named: "hp-logo-small-alt")
+        statusItem.image = statusItemImage
+        statusItem.alternateImage = statusItemAltImage
+        statusItem.toolTip = "IDOLMenubar"
         
         NSValueTransformer.setValueTransformer(HyperlinkValueTransformer(), forName: "HyperlinkValueTransformer")
-        /*var statusView = NSView(frame: NSMakeRect(0, 0, 22, 22))
-        var progressBar = NSProgressIndicator(frame: NSMakeRect(0, 0, 22, 22))
-        progressBar.bezeled = false
-        progressBar.indeterminate = true
-        progressBar.usesThreadedAnimation=true
-        progressBar.style = NSProgressIndicatorStyle.SpinningStyle
-        //progressBar.controlSize = NSControlSize.SmallControlSize
-        progressBar.startAnimation(nil)
-        statusView.addSubview(progressBar)
-        statusItem.view = statusView*/
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
@@ -64,6 +85,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
+    // MARK: Menu Actions
+    
+    // Menu action for preferences
     @IBAction func preferences(sender: AnyObject) {
         NSApp.activateIgnoringOtherApps(true)
         
@@ -73,6 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.window!.makeKeyAndOrderFront(self)
     }
 
+    // Menu action for concept search
     @IBAction func conceptSearch(sender: AnyObject) {
         NSApp.activateIgnoringOtherApps(true)
         
@@ -82,6 +107,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.window!.makeKeyAndOrderFront(self)
     }
     
+    // Menu action for about info. Note that AboutPanelController is not a
+    // NSViewController. Hence it is just shown as a modal panel on the main
+    // window
     @IBAction func about(sender: AnyObject) {
         NSApp.activateIgnoringOtherApps(true)
         
@@ -95,11 +123,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.aboutPanelController.showAboutPanel(self.window, { self.window!.close() })
     }
     
+    // Menu action for quit
     @IBAction func quit(sender: AnyObject) {
+        // Undo all uncommitted data
+        if let moc = managedObjectContext {
+            while moc.hasChanges {
+                moc.undo()
+            }
+        }
         NSApplication.sharedApplication().terminate(self)
     }
     
-    func changeViewController(controller: NSViewController?) {
+    // MARK: View controller management
+    private func changeViewController(controller: NSViewController?) {
         assert(controller != nil, "Nil View Controller passed")
         
         if currentViewController != nil {
@@ -110,21 +146,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         currentViewController!.view.frame = currentView.bounds
     }
     
-    func showProgressIndicator(st : NSStatusItem) {
-        pgbar.bezeled = false
-        pgbar.style = NSProgressIndicatorStyle.SpinningStyle
-        pgbar.controlSize = NSControlSize.SmallControlSize
-        pgbar.sizeToFit()
-        pgbar.usesThreadedAnimation=true
-        let holderRect = pgbarHolder.bounds
-        var indicatorRect = pgbarHolder.frame
-        indicatorRect.origin.x = (holderRect.size.width - indicatorRect.size.width)/2.0
-        indicatorRect.origin.y = (holderRect.size.height - indicatorRect.size.height)/2.0
-        pgbar.frame = indicatorRect
-        pgbarHolder.addSubview(pgbar)
-        pgbar.startAnimation(self)
-        st.view = pgbarHolder
-        //pgbarHolder.nextResponder = statusItem
+    // MARK: Progress indication
+    
+    // Simple animation. Just alternate image and alternateImage
+    func toggleImage(timer : NSTimer) {
+        let temp = statusItem.image
+        statusItem.image = statusItem.alternateImage
+        statusItem.alternateImage = temp
     }
     
     // MARK: - Core Data stack
@@ -198,70 +226,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
         }()
-    
-    // MARK: - Core Data Saving and Undo support
-    
-    /*@IBAction func saveAction(sender: AnyObject!) {
-        // Performs the save action for the application, which is to send the save: message to the application's managed object context. Any encountered errors are presented to the user.
-        if let moc = self.managedObjectContext {
-            if !moc.commitEditing() {
-                NSLog("\(NSStringFromClass(self.dynamicType)) unable to commit editing before saving")
-            }
-            var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                NSApplication.sharedApplication().presentError(error)
-            }
-        }
-    }
-    
-    func windowWillReturnUndoManager(window: NSWindow!) -> NSUndoManager! {
-        // Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
-        if let moc = self.managedObjectContext {
-            return moc.undoManager
-        } else {
-            return nil
-        }
-    }*/
-    
-    /*func applicationShouldTerminate(sender: NSApplication!) -> NSApplicationTerminateReply {
-        // Save changes in the application's managed object context before the application terminates.
-        
-        if let moc = managedObjectContext {
-            if !moc.commitEditing() {
-                NSLog("\(NSStringFromClass(self.dynamicType)) unable to commit editing to terminate")
-                return .TerminateCancel
-            }
-            
-            if !moc.hasChanges {
-                return .TerminateNow
-            }
-            
-            var error: NSError? = nil
-            if !moc.save(&error) {
-                // Customize this code block to include application-specific recovery steps.
-                let result = sender.presentError(error)
-                if (result) {
-                    return .TerminateCancel
-                }
-                
-                let question = NSLocalizedString("Could not save changes while quitting. Quit anyway?", comment: "Quit without saves error question message")
-                let info = NSLocalizedString("Quitting now will lose any changes you have made since the last successful save", comment: "Quit without saves error question info");
-                let quitButton = NSLocalizedString("Quit anyway", comment: "Quit anyway button title")
-                let cancelButton = NSLocalizedString("Cancel", comment: "Cancel button title")
-                let alert = NSAlert()
-                alert.messageText = question
-                alert.informativeText = info
-                alert.addButtonWithTitle(quitButton)
-                alert.addButtonWithTitle(cancelButton)
-                
-                let answer = alert.runModal()
-                if answer == NSAlertFirstButtonReturn {
-                    return .TerminateCancel
-                }
-            }
-        }
-        // If we got here, it is time to quit.
-        return .TerminateNow
-    }*/
 }
 

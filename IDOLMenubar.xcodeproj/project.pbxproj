@@ -13,7 +13,6 @@
 		EE0CEF4619CE5F2C00DA4A31 /* AboutPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CEF4519CE5F2C00DA4A31 /* AboutPanelController.swift */; };
 		EE12649519CDB9E900ADA149 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE12649419CDB9E900ADA149 /* DBHelper.swift */; };
 		EE13097E19CE7A250061EEB8 /* AboutPanelSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE13097D19CE7A250061EEB8 /* AboutPanelSheet.xib */; };
-		EE13098019CF17200061EEB8 /* progress.gif in Resources */ = {isa = PBXBuildFile; fileRef = EE13097F19CF17200061EEB8 /* progress.gif */; };
 		EE13098219CF1EBF0061EEB8 /* hp-logo-small-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = EE13098119CF1EBF0061EEB8 /* hp-logo-small-alt.png */; };
 		EE14F10019C99A04007620AE /* IDOLMenubar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EE14F0FE19C99A04007620AE /* IDOLMenubar.xcdatamodeld */; };
 		EE3EAB9F19CBE52E0002D930 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */; };
@@ -30,7 +29,6 @@
 		EE743F0B19CA852200740954 /* IdolDirectories.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE743F0A19CA852200740954 /* IdolDirectories.swift */; };
 		EE743F0D19CA852200740954 /* IdolIndexes.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE743F0C19CA852200740954 /* IdolIndexes.swift */; };
 		EED163BD19D049560038789B /* HyperlinkValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED163BC19D049560038789B /* HyperlinkValueTransformer.swift */; };
-		EED163C119D0550A0038789B /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED163C019D0550A0038789B /* CustomTableView.swift */; };
 		EEEC59B119CD75820095C000 /* SelectIndexPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEC59B019CD75820095C000 /* SelectIndexPanel.swift */; };
 		EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEE20A919C1443500BB8A72 /* hp-logo-small.png */; };
 /* End PBXBuildFile section */
@@ -52,7 +50,6 @@
 		EE0CEF4519CE5F2C00DA4A31 /* AboutPanelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPanelController.swift; sourceTree = "<group>"; };
 		EE12649419CDB9E900ADA149 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		EE13097D19CE7A250061EEB8 /* AboutPanelSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutPanelSheet.xib; sourceTree = "<group>"; };
-		EE13097F19CF17200061EEB8 /* progress.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = progress.gif; sourceTree = "<group>"; };
 		EE13098119CF1EBF0061EEB8 /* hp-logo-small-alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-small-alt.png"; sourceTree = "<group>"; };
 		EE14F0FF19C99A04007620AE /* IDOLMenubar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IDOLMenubar.xcdatamodel; sourceTree = "<group>"; };
 		EE14F10119C99A73007620AE /* IDOLMenubar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IDOLMenubar-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -74,7 +71,6 @@
 		EE743F0A19CA852200740954 /* IdolDirectories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IdolDirectories.swift; path = ../IdolDirectories.swift; sourceTree = "<group>"; };
 		EE743F0C19CA852200740954 /* IdolIndexes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IdolIndexes.swift; path = ../IdolIndexes.swift; sourceTree = "<group>"; };
 		EED163BC19D049560038789B /* HyperlinkValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperlinkValueTransformer.swift; sourceTree = "<group>"; };
-		EED163C019D0550A0038789B /* CustomTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		EEEC59B019CD75820095C000 /* SelectIndexPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectIndexPanel.swift; sourceTree = "<group>"; };
 		EEEE20A919C1443500BB8A72 /* hp-logo-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-small.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,7 +131,6 @@
 				EE6BA6BD19C2A5DA004F5149 /* PreferenceViewController.swift */,
 				EE6BA6C119C2A6B0004F5149 /* SearchViewController.swift */,
 				EE0CEF4519CE5F2C00DA4A31 /* AboutPanelController.swift */,
-				EED163C019D0550A0038789B /* CustomTableView.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -196,7 +191,6 @@
 			isa = PBXGroup;
 			children = (
 				EE13098119CF1EBF0061EEB8 /* hp-logo-small-alt.png */,
-				EE13097F19CF17200061EEB8 /* progress.gif */,
 				EE0CEF4119CE5A3F00DA4A31 /* logo-lg.png */,
 				EEEE20A919C1443500BB8A72 /* hp-logo-small.png */,
 				EE50C80419C13E970005A207 /* Info.plist */,
@@ -306,7 +300,6 @@
 				EE02905D19C416EF00142D36 /* SelectIndexSheet.xib in Resources */,
 				EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */,
 				EE50C80A19C13E970005A207 /* Images.xcassets in Resources */,
-				EE13098019CF17200061EEB8 /* progress.gif in Resources */,
 				EE50C80D19C13E970005A207 /* MainMenu.xib in Resources */,
 				EE13098219CF1EBF0061EEB8 /* hp-logo-small-alt.png in Resources */,
 				EE6BA6C419C2A6B0004F5149 /* SearchViewController.xib in Resources */,
@@ -334,7 +327,6 @@
 				EE6BA6C319C2A6B0004F5149 /* SearchViewController.swift in Sources */,
 				EE50C80819C13E970005A207 /* AppDelegate.swift in Sources */,
 				EE50C80619C13E970005A207 /* main.swift in Sources */,
-				EED163C119D0550A0038789B /* CustomTableView.swift in Sources */,
 				EEEC59B119CD75820095C000 /* SelectIndexPanel.swift in Sources */,
 				EE6BA6BE19C2A5DA004F5149 /* PreferenceViewController.swift in Sources */,
 				EE12649519CDB9E900ADA149 /* DBHelper.swift in Sources */,

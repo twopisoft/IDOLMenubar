@@ -8,8 +8,10 @@
 
 import Cocoa
 
+// Controller for About panel
 class AboutPanelController: NSObject {
 
+    // MARK: Properties
     private var handler : (() -> Void)! = nil
     
     @IBOutlet var aboutPanelSheet: NSPanel!
@@ -18,6 +20,7 @@ class AboutPanelController: NSObject {
     
     @IBOutlet weak var logoImageView: NSImageView!
     
+    // MARK: Instance methods
     func showAboutPanel(_window: NSWindow!, completionHandler handler: (() -> Void)!) {
         
         if aboutPanelSheet == nil {

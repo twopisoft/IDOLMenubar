@@ -8,6 +8,11 @@
 
 import Cocoa
 
+// Custom NSValueTransformer to convert a URL into a hyperlink. To be used for a NSTextField
+// when displayed inside a NSTableCellView
+
+// This transformer changes the string value to an attributed string value
+
 class HyperlinkValueTransformer: NSValueTransformer {
     override class func transformedValueClass() -> AnyClass {
         return NSAttributedString.Type.self
@@ -27,7 +32,6 @@ class HyperlinkValueTransformer: NSValueTransformer {
             attrStr.addAttribute(NSForegroundColorAttributeName, value: NSColor.blackColor(), range: range)
             attrStr.addAttribute(NSUnderlineStyleAttributeName, value: NSNumber(integer: NSSingleUnderlineStyle), range: range)
             attrStr.endEditing()
-            //NSLog("attrStr=\(attrStr)")
             return attrStr
         }
         return nil
@@ -36,7 +40,6 @@ class HyperlinkValueTransformer: NSValueTransformer {
     override func reverseTransformedValue(value: AnyObject!) -> AnyObject! {
         if value != nil {
             if value.respondsToSelector("string") {
-                //NSLog("rev: \(value.string)")
                 return value.string
             }
         }

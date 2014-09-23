@@ -42,6 +42,7 @@
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="6fq-C9-Q9H" name="value" keyPath="values.idolApiKey" id="K2s-FL-TeI"/>
+                                    <outlet property="delegate" destination="-2" id="lTI-yB-SYN"/>
                                 </connections>
                             </textField>
                         </subviews>
@@ -71,7 +72,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <scrollView borderType="none" horizontalLineScroll="29" horizontalPageScroll="10" verticalLineScroll="29" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vHH-Sr-OIW">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="29" horizontalPageScroll="10" verticalLineScroll="29" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vHH-Sr-OIW">
                                 <rect key="frame" x="18" y="44" width="501" height="218"/>
                                 <clipView key="contentView" id="wb5-gX-2Bq">
                                     <rect key="frame" x="1" y="17" width="238" height="117"/>
@@ -84,7 +85,7 @@
                                             <tableViewGridLines key="gridStyleMask" vertical="YES" dashed="YES"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="DirectoryCell" width="285" minWidth="40" maxWidth="1000" id="ynZ-cf-i7R">
+                                                <tableColumn identifier="DirectoryCell" width="300" minWidth="40" maxWidth="1000" id="ynZ-cf-i7R">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Directory">
                                                         <font key="font" size="11" name="Arial-Black"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -98,10 +99,10 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="8WN-AF-bel">
-                                                            <rect key="frame" x="2" y="2" width="285" height="25"/>
+                                                            <rect key="frame" x="2" y="2" width="300" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="44b-FM-h3y">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="44b-FM-h3y">
                                                                     <rect key="frame" x="1" y="3" width="246" height="19"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="&lt;Select a Directory>" id="BRx-Gh-XmS">
                                                                         <font key="font" size="13" name="ArialMT"/>
@@ -116,7 +117,7 @@
                                                                         </binding>
                                                                     </connections>
                                                                 </textField>
-                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="sTH-74-fl0">
+                                                                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sTH-74-fl0">
                                                                     <rect key="frame" x="253" y="2" width="29" height="22"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="22" id="ff0-Fi-cOa"/>
@@ -244,11 +245,11 @@
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="1bi-WQ-lbj">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="1bi-WQ-lbj">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="Uag-tW-fXC">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="Uag-tW-fXC">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -268,6 +269,7 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="save:" target="-2" id="j8b-ER-xpI"/>
+                                    <binding destination="-2" name="enabled" keyPath="needsSave" id="dUL-nT-DFg"/>
                                 </connections>
                             </button>
                             <button horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dij-FM-NSR">
@@ -275,7 +277,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="66" id="cIc-A6-Qr4"/>
                                 </constraints>
-                                <buttonCell key="cell" type="bevel" title="Cancel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wje-Jh-aOG">
+                                <buttonCell key="cell" type="bevel" title="Close" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wje-Jh-aOG">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -313,7 +315,7 @@ CA
                                     </connections>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="remove:" target="ptk-ei-Y5h" id="yzu-bV-PPR"/>
+                                    <action selector="delDir:" target="-2" id="vlX-jU-VQA"/>
                                     <outlet property="nextKeyView" destination="dij-FM-NSR" id="7Dz-4r-1aW"/>
                                 </connections>
                             </button>

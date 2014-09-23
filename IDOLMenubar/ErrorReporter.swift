@@ -19,4 +19,18 @@ class ErrorReporter {
             alert.beginSheetModalForWindow(_window, completionHandler: nil)
         })
     }
+    
+    class func showErrorAlert(_window:NSWindow!, error: NSError) {
+        var title = ""
+        var desc = ""
+        if error.domain == "IDOLService" {
+            title = "IDOLService Error"
+            desc = error.userInfo!["Description"]! as String + " \(error.code)"
+        } else {
+            title = "Operation Failed"
+            desc = error.localizedDescription
+        }
+        
+        showErrorAlert(_window, title: title, desc: desc)
+    }
 }

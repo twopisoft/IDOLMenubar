@@ -8,6 +8,7 @@
 
 import Cocoa
 
+// Custom Text field class for handling cut/copy/paste/undo
 class CustomTextField: NSTextField {
 
     override func drawRect(dirtyRect: NSRect) {

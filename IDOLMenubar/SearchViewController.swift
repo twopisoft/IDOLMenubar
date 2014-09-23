@@ -8,6 +8,7 @@
 
 import Cocoa
 
+// Search result entry class used by array controller
 class SearchResultEntry : NSObject {
     var title : String = ""
     var reference : String = ""
@@ -20,8 +21,10 @@ class SearchResultEntry : NSObject {
     }
 }
 
-class SearchViewController: NSViewController {
+// Controller class for SearchView panel
+class SearchViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
  
+    // MARK: Properties
     var managedObjectContext : NSManagedObjectContext!
     
     @IBOutlet weak var searchBarField: NSTextField!
@@ -38,16 +41,15 @@ class SearchViewController: NSViewController {
                                          NSSortDescriptor(key: "title", ascending: true, selector: "compare:"),
                                          NSSortDescriptor(key: "reference",ascending: true, selector: "compare:")]
     
-    //var results : [SearchResultEntry] = [SearchResultEntry(title: "Test", reference: "ABC", score: 89.9),
-    //                                     SearchResultEntry(title: "ABC", reference: "Test", score: 45.5)]
-    
     var results : [SearchResultEntry] = []
     
+    // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
     }
     
+    // MARK: Action methods
     @IBAction func close(sender: AnyObject) {
         parentWindow()!.close()
     }
@@ -75,6 +77,9 @@ class SearchViewController: NSViewController {
         })
     }
     
+    // Invokes search. Depending on what user specified, calls the appropriate method in IDOLService
+    // URLs are detected by using a regex. File entries must start with a @file= token
+    
     @IBAction func search(sender: AnyObject) {
         var searchItem = searchBarField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         var indexName = indexNameField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -85,18 +90,18 @@ class SearchViewController: NSViewController {
             }
             self.setValue(true, forKey: "isSearching")
             
-            if searchItem.hasPrefix("@file=") {
+            if searchItem.hasPrefix("@file=") { // File based search
                 var fileName = searchItem.substringFromIndex(searchItem.rangeOfString("@file=")!.endIndex)
                 IDOLService.sharedInstance.findSimilarDocsFile(fileName, indexName: indexName, completionHandler: { (data: NSData?, err: NSError?) in
                     
                     self.handleSearchResults(data, err: err)
                 })
-            } else if isUrl(searchItem) {
+            } else if isUrl(searchItem) { // Url based search
                 IDOLService.sharedInstance.findSimilarDocsUrl(searchItem, indexName: indexName, completionHandler: { (data: NSData?, err: NSError?) in
                     
                     self.handleSearchResults(data, err: err)
                 })
-            } else {
+            } else { // Keyword based search
                 IDOLService.sharedInstance.findSimilarDocs(searchItem, indexName: indexName, completionHandler: { (data: NSData?, err: NSError?) in
                     
                     self.handleSearchResults(data, err: err)
@@ -106,12 +111,20 @@ class SearchViewController: NSViewController {
         
     }
     
+    // Open a document when user click the disclose button
     @IBAction func openDocument(sender: AnyObject) {
         let row = resultsTableView.rowForView(sender as NSView)
         let entry = results[row]
-        NSLog("entry=\(entry.reference)")
+        
+        var filePath = entry.reference.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
+        if filePath.hasPrefix("/") {
+            filePath = "file://" + filePath
+        }
+        NSWorkspace.sharedWorkspace().openURL(NSURL(string: filePath))
     }
     
+    // MARK: Helper
     private func handleSearchResults(data : NSData?, err: NSError?) {
         
         dispatch_async(dispatch_get_main_queue(), {
@@ -127,8 +140,11 @@ class SearchViewController: NSViewController {
                 if documents != nil {
                     var newResult : [SearchResultEntry] = []
                     for doc in documents! as NSArray {
-                        let title = doc["title"] as String
                         let reference = doc["reference"] as String
+                        var title = reference
+                        if let t: AnyObject? = doc["title"] {
+                            title = t != nil ? t as String : ""
+                        }
                         let score = doc["weight"] as Double
                         let entry = SearchResultEntry(title: title, reference: reference, score: score)
                         newResult.append(entry)
@@ -137,6 +153,7 @@ class SearchViewController: NSViewController {
                 }
             } else {
                 NSLog("err=\(err)")
+                ErrorReporter.showErrorAlert(self.parentWindow()!, error: err!)
             }
         })
     }
@@ -162,6 +179,10 @@ class SearchViewController: NSViewController {
     
     private func parentWindow() -> NSWindow? {
         return self.view.superview?.window
+    }
+    
+    private func encodeStr(str : String) -> String {
+        return str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
     }
     
 }

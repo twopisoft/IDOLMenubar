@@ -8,8 +8,11 @@
 
 import Cocoa
 
+// Controller class for Index select panel
 
 class SelectIndexPanel : NSObject {
+    
+    // MARK: Properties
     
     private var handler : ((NSModalResponse) -> Void)! = nil
     
@@ -22,7 +25,19 @@ class SelectIndexPanel : NSObject {
     var selectedIndex : DBHelper.IndexTuple? = nil
     
     var sortDescriptors : [AnyObject] = [NSSortDescriptor(key: "name", ascending: true, selector: "compare:")]
-            
+    
+    // MARK: NSObject methods
+    
+    override func awakeFromNib() {
+        // Do an auto refresh if we do not have any index data
+        if !DBHelper.hasIndexList(managedObjectContext) {
+            refresh(self)
+        }
+    }
+    
+    // MARK: Select panel management
+    
+    // Show the sheet as modal
     func beginSheetModalForWindow(_window : NSWindow!, completionHandler handler: ((NSModalResponse) -> Void)!) {
         
         if selectIndexPanel == nil {
@@ -57,9 +72,11 @@ class SelectIndexPanel : NSObject {
         closeSheet()
     }
     
+    // Refresh index data
     @IBAction func refresh(sender: AnyObject) {
         self.setValue(true, forKey: "isRefreshing")
         
+        // Fetch data from IDOL List Index service
         IDOLService.sharedInstance.fetchIndexList(completionHandler: {(data:NSData?, error:NSError?) in
             if error == nil {
                 let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
@@ -87,16 +104,7 @@ class SelectIndexPanel : NSObject {
                 }
                 DBHelper.updateIndexes(self.managedObjectContext, data: indexes)
             } else {
-                var title = ""
-                var desc = ""
-                if error!.domain == "IDOLService" {
-                    title = "IDOLService Error"
-                    desc = error!.userInfo!["Description"]! as String + " \(error!.code)"
-                } else {
-                    title = "Operation Failed"
-                    desc = error!.localizedDescription
-                }
-                ErrorReporter.showErrorAlert(self.selectIndexPanel, title: title, desc: desc)
+                ErrorReporter.showErrorAlert(self.selectIndexPanel, error: error!)
             }
             
             self.setValue(false, forKey: "isRefreshing")
