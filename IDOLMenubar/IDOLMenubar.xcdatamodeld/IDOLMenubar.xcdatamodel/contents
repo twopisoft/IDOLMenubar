@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6220.14" systemVersion="13F34" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="IdolDirectories" representedClassName="IdolDirectories" syncable="YES">
+        <attribute name="idolDirPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idolIndexName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isSyncing" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="syncFinished" optional="YES" attributeType="Boolean" syncable="YES"/>
+    </entity>
+    <entity name="IdolIndexes" representedClassName="IdolIndexes" syncable="YES">
+        <attribute name="flavor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="info" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isPublic" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="IdolDirectories" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="IdolIndexes" positionX="-63" positionY="0" width="128" height="103"/>
+    </elements>
+</model>

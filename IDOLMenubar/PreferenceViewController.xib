@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6206.8"/>
     </dependencies>
@@ -8,6 +8,8 @@
             <connections>
                 <outlet property="apiKeyTextField" destination="2Lg-GY-9aM" id="FNW-Nc-JxV"/>
                 <outlet property="dirPrefTableView" destination="1cT-hk-kh8" id="Zdz-en-wKG"/>
+                <outlet property="prefArrayController" destination="ptk-ei-Y5h" id="87c-jH-hMI"/>
+                <outlet property="userDefaultsController" destination="6fq-C9-Q9H" id="CET-my-4SJ"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -31,13 +33,17 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Lg-GY-9aM">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Lg-GY-9aM" customClass="CustomTextField" customModule="IDOLMenubar" customModuleProvider="target">
                                 <rect key="frame" x="18" y="14" width="501" height="22"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="vwk-hb-cEJ">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="&lt;Copy IDOL API Key>" drawsBackground="YES" id="vwk-hb-cEJ">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <binding destination="6fq-C9-Q9H" name="value" keyPath="values.idolApiKey" id="K2s-FL-TeI"/>
+                                    <outlet property="delegate" destination="-2" id="lTI-yB-SYN"/>
+                                </connections>
                             </textField>
                         </subviews>
                     </view>
@@ -66,7 +72,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <scrollView borderType="none" horizontalLineScroll="29" horizontalPageScroll="10" verticalLineScroll="29" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vHH-Sr-OIW">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="29" horizontalPageScroll="10" verticalLineScroll="29" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vHH-Sr-OIW">
                                 <rect key="frame" x="18" y="44" width="501" height="218"/>
                                 <clipView key="contentView" id="wb5-gX-2Bq">
                                     <rect key="frame" x="1" y="17" width="238" height="117"/>
@@ -79,7 +85,7 @@
                                             <tableViewGridLines key="gridStyleMask" vertical="YES" dashed="YES"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="DirectoryCell" width="285" minWidth="40" maxWidth="1000" id="ynZ-cf-i7R">
+                                                <tableColumn identifier="DirectoryCell" width="300" minWidth="40" maxWidth="1000" id="ynZ-cf-i7R">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Directory">
                                                         <font key="font" size="11" name="Arial-Black"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -93,18 +99,25 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="8WN-AF-bel">
-                                                            <rect key="frame" x="2" y="2" width="285" height="25"/>
+                                                            <rect key="frame" x="2" y="2" width="300" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="44b-FM-h3y">
-                                                                    <rect key="frame" x="1" y="5" width="246" height="17"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="BRx-Gh-XmS">
-                                                                        <font key="font" metaFont="system"/>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="44b-FM-h3y">
+                                                                    <rect key="frame" x="1" y="3" width="246" height="19"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="&lt;Select a Directory>" id="BRx-Gh-XmS">
+                                                                        <font key="font" size="13" name="ArialMT"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <binding destination="8WN-AF-bel" name="value" keyPath="objectValue.idolDirPath" id="Asv-hZ-BSN">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSNullPlaceholder">&lt;Select a Directory&gt;</string>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                    </connections>
                                                                 </textField>
-                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="sTH-74-fl0">
+                                                                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sTH-74-fl0">
                                                                     <rect key="frame" x="253" y="2" width="29" height="22"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="22" id="ff0-Fi-cOa"/>
@@ -116,6 +129,12 @@
                                                                     </buttonCell>
                                                                     <connections>
                                                                         <action selector="locateDir:" target="-2" id="ofY-Km-ajR"/>
+                                                                        <binding destination="8WN-AF-bel" name="enabled" keyPath="objectValue.isSyncing" id="tE2-iP-WtI">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                        <binding destination="8WN-AF-bel" name="hidden" keyPath="objectValue.syncFinished" previousBinding="tE2-iP-WtI" id="JvV-Ho-MdZ"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
@@ -132,6 +151,14 @@
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
+                                                    <connections>
+                                                        <binding destination="ptk-ei-Y5h" name="value" keyPath="arrangedObjects.idolDirPath" id="nER-2A-mXH">
+                                                            <dictionary key="options">
+                                                                <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                            </dictionary>
+                                                        </binding>
+                                                    </connections>
                                                 </tableColumn>
                                                 <tableColumn identifier="IndexCell" width="191" minWidth="40" maxWidth="1000" id="Sq0-pY-i67">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="IDOL Index">
@@ -156,21 +183,34 @@
                                                                         <constraint firstAttribute="height" constant="18" id="RyW-X4-I7s"/>
                                                                         <constraint firstAttribute="width" constant="32" id="cV4-lo-cF2"/>
                                                                     </constraints>
-                                                                    <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="NSRevealFreestandingTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lu5-fS-acf">
+                                                                    <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="NSRevealFreestandingTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lu5-fS-acf">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="cellTitle"/>
                                                                     </buttonCell>
                                                                     <connections>
                                                                         <action selector="locateIndex:" target="-2" id="B3C-Os-n2u"/>
+                                                                        <binding destination="j8R-wb-ixd" name="enabled" keyPath="objectValue.isSyncing" id="iY9-5l-Iyg">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                        <binding destination="j8R-wb-ixd" name="hidden" keyPath="objectValue.syncFinished" previousBinding="iY9-5l-Iyg" id="50C-hO-qYV"/>
                                                                     </connections>
                                                                 </button>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PwG-Ox-sGW">
-                                                                    <rect key="frame" x="1" y="4" width="155" height="17"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="g5n-Fj-llB">
-                                                                        <font key="font" metaFont="system"/>
+                                                                    <rect key="frame" x="1" y="2" width="155" height="19"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="&lt;Select an Index>" id="g5n-Fj-llB">
+                                                                        <font key="font" size="13" name="ArialMT"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <binding destination="j8R-wb-ixd" name="value" keyPath="objectValue.idolIndexName" id="OKO-HK-Cow">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSNullPlaceholder">&lt;Select an Index&gt;</string>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
@@ -185,21 +225,31 @@
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
+                                                    <connections>
+                                                        <binding destination="ptk-ei-Y5h" name="value" keyPath="arrangedObjects.idolIndexName" id="hH6-i0-lI2">
+                                                            <dictionary key="options">
+                                                                <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                            </dictionary>
+                                                        </binding>
+                                                    </connections>
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <outlet property="dataSource" destination="-2" id="H0Y-7x-zZU"/>
-                                                <outlet property="delegate" destination="-2" id="RZg-pp-jx2"/>
+                                                <binding destination="ptk-ei-Y5h" name="content" keyPath="arrangedObjects" id="9b3-n7-or3"/>
+                                                <binding destination="ptk-ei-Y5h" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="9b3-n7-or3" id="VAV-lm-mCG"/>
+                                                <binding destination="ptk-ei-Y5h" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="VAV-lm-mCG" id="QL0-id-GIf"/>
+                                                <outlet property="delegate" destination="-2" id="piO-Yw-xzv"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="1bi-WQ-lbj">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="1bi-WQ-lbj">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="Uag-tW-fXC">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="Uag-tW-fXC">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -208,75 +258,82 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X8z-k7-5F0">
-                                <rect key="frame" x="63" y="12" width="37" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="37" id="WHI-l8-AUf"/>
-                                </constraints>
-                                <buttonCell key="cell" type="roundTextured" title="-" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NOD-Qv-K9w">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="removeEntry:" target="-2" id="I9O-KL-aAo"/>
-                                    <outlet property="nextKeyView" destination="dij-FM-NSR" id="7Dz-4r-1aW"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tK3-5X-e34">
-                                <rect key="frame" x="453" y="12" width="66" height="25"/>
+                                <rect key="frame" x="455" y="6" width="70" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="66" id="ehA-C4-v0X"/>
                                 </constraints>
-                                <buttonCell key="cell" type="roundTextured" title="Save" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hFQ-3R-4Qb">
+                                <buttonCell key="cell" type="bevel" title="Save" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hFQ-3R-4Qb">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="save:" target="-2" id="OWz-bX-CBh"/>
+                                    <action selector="save:" target="-2" id="j8b-ER-xpI"/>
+                                    <binding destination="-2" name="enabled" keyPath="needsSave" id="dUL-nT-DFg"/>
                                 </connections>
                             </button>
                             <button horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dij-FM-NSR">
-                                <rect key="frame" x="374" y="12" width="66" height="25"/>
+                                <rect key="frame" x="384" y="6" width="70" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="66" id="cIc-A6-Qr4"/>
                                 </constraints>
-                                <buttonCell key="cell" type="roundTextured" title="Cancel" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wje-Jh-aOG">
+                                <buttonCell key="cell" type="bevel" title="Close" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wje-Jh-aOG">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="cancel:" target="-2" id="IeZ-UF-YLR"/>
+                                    <action selector="cancel:" target="-2" id="Lir-xp-wwN"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CUL-LJ-R3b">
-                                <rect key="frame" x="18" y="12" width="37" height="25"/>
+                                <rect key="frame" x="16" y="6" width="41" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="37" id="P3C-IH-YxC"/>
                                 </constraints>
-                                <buttonCell key="cell" type="roundTextured" title="+" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8zg-Hn-7lu">
+                                <buttonCell key="cell" type="bevel" title="+" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8zg-Hn-7lu">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="insertNewEntry:" target="-2" id="kVz-cz-pIa"/>
+                                    <action selector="addDir:" target="-2" id="pfO-NL-aOJ"/>
                                     <outlet property="nextKeyView" destination="dij-FM-NSR" id="9PX-za-PgO"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X8z-k7-5F0">
+                                <rect key="frame" x="58" y="6" width="41" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="37" id="WHI-l8-AUf"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="-" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NOD-Qv-K9w">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                    <connections>
+                                        <binding destination="ptk-ei-Y5h" name="enabled" keyPath="canRemove" id="bF5-Rm-dkE"/>
+                                    </connections>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="delDir:" target="-2" id="vlX-jU-VQA"/>
+                                    <outlet property="nextKeyView" destination="dij-FM-NSR" id="7Dz-4r-1aW"/>
                                 </connections>
                             </button>
                         </subviews>
                     </view>
                     <constraints>
-                        <constraint firstItem="X8z-k7-5F0" firstAttribute="top" secondItem="vHH-Sr-OIW" secondAttribute="bottom" constant="8" id="01y-QK-tJs"/>
+                        <constraint firstItem="X8z-k7-5F0" firstAttribute="top" secondItem="vHH-Sr-OIW" secondAttribute="bottom" constant="11" id="01y-QK-tJs"/>
                         <constraint firstAttribute="bottom" secondItem="vHH-Sr-OIW" secondAttribute="bottom" constant="41" id="3PD-82-JpC"/>
                         <constraint firstItem="CUL-LJ-R3b" firstAttribute="leading" secondItem="jIy-L4-ApR" secondAttribute="leading" constant="16" id="92C-C6-Gg0"/>
-                        <constraint firstAttribute="trailing" secondItem="dij-FM-NSR" secondAttribute="trailing" constant="99" id="Lq6-kR-haz"/>
+                        <constraint firstAttribute="trailing" secondItem="dij-FM-NSR" secondAttribute="trailing" constant="87" id="Lq6-kR-haz"/>
                         <constraint firstItem="vHH-Sr-OIW" firstAttribute="top" secondItem="jIy-L4-ApR" secondAttribute="top" constant="54" id="Q55-s6-7QL"/>
                         <constraint firstItem="MWe-LS-TKY" firstAttribute="top" secondItem="jIy-L4-ApR" secondAttribute="top" constant="25" id="aA5-AG-48r"/>
-                        <constraint firstAttribute="trailing" secondItem="tK3-5X-e34" secondAttribute="trailing" constant="20" id="bV6-nX-B0o"/>
-                        <constraint firstItem="X8z-k7-5F0" firstAttribute="leading" secondItem="jIy-L4-ApR" secondAttribute="leading" constant="61" id="ccD-JH-EZC"/>
+                        <constraint firstAttribute="trailing" secondItem="tK3-5X-e34" secondAttribute="trailing" constant="16" id="bV6-nX-B0o"/>
+                        <constraint firstItem="X8z-k7-5F0" firstAttribute="leading" secondItem="jIy-L4-ApR" secondAttribute="leading" constant="58" id="ccD-JH-EZC"/>
                         <constraint firstItem="vHH-Sr-OIW" firstAttribute="leading" secondItem="jIy-L4-ApR" secondAttribute="leading" constant="16" id="exf-5W-zZo"/>
-                        <constraint firstItem="dij-FM-NSR" firstAttribute="top" secondItem="vHH-Sr-OIW" secondAttribute="bottom" constant="8" id="h2z-34-KXa"/>
-                        <constraint firstItem="CUL-LJ-R3b" firstAttribute="top" secondItem="vHH-Sr-OIW" secondAttribute="bottom" constant="8" id="jL0-Om-wul"/>
-                        <constraint firstItem="tK3-5X-e34" firstAttribute="top" secondItem="vHH-Sr-OIW" secondAttribute="bottom" constant="8" id="lcd-Fw-aaL"/>
+                        <constraint firstItem="dij-FM-NSR" firstAttribute="top" secondItem="vHH-Sr-OIW" secondAttribute="bottom" constant="11" id="h2z-34-KXa"/>
+                        <constraint firstItem="CUL-LJ-R3b" firstAttribute="top" secondItem="vHH-Sr-OIW" secondAttribute="bottom" constant="11" id="jL0-Om-wul"/>
+                        <constraint firstItem="tK3-5X-e34" firstAttribute="top" secondItem="vHH-Sr-OIW" secondAttribute="bottom" constant="11" id="lcd-Fw-aaL"/>
                         <constraint firstItem="dij-FM-NSR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="X8z-k7-5F0" secondAttribute="trailing" constant="274" id="oNG-jE-9cb"/>
                         <constraint firstItem="MWe-LS-TKY" firstAttribute="leading" secondItem="jIy-L4-ApR" secondAttribute="leading" constant="16" id="sUo-Dv-uUf"/>
                         <constraint firstAttribute="trailing" secondItem="vHH-Sr-OIW" secondAttribute="trailing" constant="20" id="uc8-yd-6DY"/>
@@ -296,6 +353,17 @@
             </constraints>
             <point key="canvasLocation" x="294.5" y="507"/>
         </customView>
+        <arrayController mode="entity" entityName="IdolDirectories" automaticallyPreparesContent="YES" automaticallyRearrangesObjects="YES" id="ptk-ei-Y5h" userLabel="PrefArrayController">
+            <declaredKeys>
+                <string>idolDirPath</string>
+                <string>idolIndexName</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="-2" name="managedObjectContext" keyPath="managedObjectContext" id="WeQ-Nd-LeK"/>
+                <binding destination="-2" name="sortDescriptors" keyPath="sortDescriptors" id="Phe-CY-Oam"/>
+            </connections>
+        </arrayController>
+        <userDefaultsController representsSharedInstance="YES" id="6fq-C9-Q9H"/>
     </objects>
     <resources>
         <image name="NSFolder" width="32" height="32"/>
