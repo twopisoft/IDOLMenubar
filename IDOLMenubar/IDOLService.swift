@@ -33,8 +33,10 @@ class IDOLService {
     }
     
     struct ErrCodes {
-        static let ErrAPIKeyNotFound = -1000
-        static let ErrMethodFailed   = -1001
+        static let ErrUnknown           = -1000
+        static let ErrAPIKeyNotFound    = -1001
+        static let ErrMethodFailed      = -1002
+        static let ErrAPIKeyInvalid     = -1003
     }
     
     // MARK: - IDOL Service
@@ -150,7 +152,22 @@ class IDOLService {
                 // Get the results using the jobId
                 NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
                     
-                    handler!(data,error)
+                    if error == nil {
+                        var json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.convertFromNilLiteral(), error: nil) as NSDictionary
+                        let actions = json["actions"] as NSArray
+                        NSLog("actions=\(actions)")
+                        for act in actions {
+                            if let a  = act["errors"] as? NSArray {
+                                let code = a[0]["error"] as Int
+                                let msg = a[0]["reason"] as NSString
+                                return handler!(nil,self.createError(code, msg: msg))
+                            } else {
+                                handler!(data,nil)
+                            }
+                        }
+                    } else {
+                        handler!(data,error)
+                    }
                     
                 })
             } else {
@@ -174,7 +191,8 @@ class IDOLService {
                     handler(nil,self.createError(json))
                 }
             } else {
-                handler(nil,error)
+                NSLog("Job submission error: \(error)")
+                handler(nil,self.createError(error))
             }
             
         })
@@ -298,24 +316,36 @@ class IDOLService {
     
     private func createError(json : NSDictionary) -> NSError {
         let detail = json["details"] as? NSDictionary
-        //NSLog("details=\(detail)")
-        let code = json["error"] as? Int
-        //NSLog("code=\(code)")
-        var msg = ""
-        if detail!["reason"] != nil {
-            msg = detail!["reason"] as String
-        } else {
-            if json["message"] == nil {
-                if json["reason"] != nil {
-                    msg = json["reason"] as String
-                }
+        
+        var msg = "Unknown Error"
+        if var code = json["error"] as? Int {
+            if code == -1012 {
+                msg = "Operation Failed.\nPossible reason: Invalid API Key"
             } else {
-                msg = json["message"] as String
+                if let d = detail!["reason"] as? String {
+                    msg = d
+                } else {
+                    if let m = json["message"] as? String {
+                        msg = json["message"] as String
+                    } else {
+                        if let r = json["reason"] as? String {
+                            msg = r
+                        }
+                    }
+                }
             }
+            return createError(code, msg: msg)
         }
-        //NSLog("msg=\(msg)")
-
-        return createError(code!, msg: msg)
+        
+        return createError(ErrCodes.ErrUnknown, msg: msg)
+    }
+    
+    private func createError(error: NSError) -> NSError {
+        if error.code == -1012 {
+            return createError(error.code, msg: "Operation Failed.\nPossible reason: Invalid API Key")
+        }
+        
+        return error
     }
     
     private func createError(code: Int, msg: String) -> NSError {

@@ -30,7 +30,7 @@ class ErrorReporter {
         var desc = ""
         if error.domain == "IDOLService" {
             title = "IDOLService Error"
-            desc = error.userInfo!["Description"]! as String + " \(error.code)"
+            desc = error.userInfo!["Description"]! as String + "\nCode: \(error.code)"
         } else {
             title = "Operation Failed"
             desc = error.localizedDescription

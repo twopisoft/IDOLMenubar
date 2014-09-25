@@ -173,6 +173,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     }
     
     private func doneEditing() {
+        parentWindow()!.orderBack(self)
         parentWindow()!.close()
     }
     

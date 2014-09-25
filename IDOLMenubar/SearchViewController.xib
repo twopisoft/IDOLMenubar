@@ -32,6 +32,9 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="-2" id="7cG-a1-yMi"/>
+                                </connections>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rYI-yK-5Gi">
                                 <rect key="frame" x="734" y="75" width="116" height="25"/>
@@ -84,6 +87,9 @@
                                 <buttonCell key="cell" type="push" title="Search" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EZV-Ol-6EO">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
                                     <connections>
                                         <action selector="search:" target="-2" id="5eJ-ir-JrP"/>
                                     </connections>
@@ -261,7 +267,7 @@
                                                                 </textField>
                                                                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eJl-b8-Zj3">
                                                                     <rect key="frame" x="392" y="-2" width="29" height="22"/>
-                                                                    <buttonCell key="cell" type="disclosure" bezelStyle="roundedDisclosure" image="1F21FD2C-5CE9-4D3C-B5BC-6535175FF9D0" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="E8T-p9-0Io">
+                                                                    <buttonCell key="cell" type="disclosure" bezelStyle="roundedDisclosure" image="9C525100-9EAA-4B2D-B9B5-60075BD91432" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="E8T-p9-0Io">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>
@@ -409,7 +415,7 @@
         <userDefaultsController id="FG3-RV-ksc"/>
     </objects>
     <resources>
-        <image name="1F21FD2C-5CE9-4D3C-B5BC-6535175FF9D0" width="1" height="1">
+        <image name="9C525100-9EAA-4B2D-B9B5-60075BD91432" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

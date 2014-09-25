@@ -9,7 +9,7 @@
 import Cocoa
 
 // Search result entry class used by array controller
-class SearchResultEntry : NSObject {
+class SearchResultEntry : NSObject, NSTextFieldDelegate {
     var title : String = ""
     var reference : String = ""
     var score : Double = 0.0
@@ -53,6 +53,7 @@ class SearchViewController: NSViewController, NSTableViewDataSource, NSTableView
     
     // MARK: Action methods
     @IBAction func close(sender: AnyObject) {
+        parentWindow()!.orderBack(sender)
         parentWindow()!.close()
     }
     
