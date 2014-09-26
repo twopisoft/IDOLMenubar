@@ -164,7 +164,7 @@ class SearchViewController: NSViewController, NSTableViewDataSource, NSTableView
                     self.setValue(newResult, forKey: "results")
                 }
             } else {
-                NSLog("err=\(err)")
+                NSLog("SearchViewController: err=\(err)")
                 ErrorReporter.showErrorAlert(self.parentWindow()!, error: err!)
             }
         })

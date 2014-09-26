@@ -14,7 +14,8 @@ class SelectIndexPanel : NSObject {
     
     // MARK: Properties
     
-    private var handler : ((NSModalResponse) -> Void)! = nil
+    // Optional user defined handler, to be called when panel closes
+    private var _handler : ((NSModalResponse) -> Void)! = nil
     
     @IBOutlet var indexArrayController: NSArrayController!
     @IBOutlet var selectIndexPanel: NSPanel!
@@ -22,9 +23,12 @@ class SelectIndexPanel : NSObject {
     var managedObjectContext : NSManagedObjectContext! = nil
     var isRefreshing : Bool = false
     var apiKey : String? = nil
+    var listPublicIndex : Bool = true
     var selectedIndex : DBHelper.IndexTuple? = nil
     
     var sortDescriptors : [AnyObject] = [NSSortDescriptor(key: "name", ascending: true, selector: "compare:")]
+    
+    var filterPredicate : NSPredicate? = nil
     
     // MARK: NSObject methods
     
@@ -44,20 +48,23 @@ class SelectIndexPanel : NSObject {
             NSBundle.mainBundle().loadNibNamed("SelectIndexSheet", owner: self, topLevelObjects: nil)
         }
         
-        self.handler = handler
+        self._handler = handler
+        indexArrayController.filterPredicate = !listPublicIndex ? NSPredicate(format: "isPublic=%@", argumentArray: [listPublicIndex]) : nil
         
         NSApplication.sharedApplication().beginSheet(selectIndexPanel, modalForWindow: _window!, modalDelegate: self, didEndSelector: nil, contextInfo: nil)
     }
     
+    // Cancel action
     @IBAction func cancel(sender: AnyObject) {
         selectedIndex = nil
         
-        if handler != nil {
-            handler(NSCancelButton)
+        if _handler != nil {
+            _handler(NSCancelButton)
         }
         closeSheet()
     }
     
+    // Select action
     @IBAction func select(sender: AnyObject) {
         let indexName = indexArrayController.valueForKeyPath("selection.name") as? String
         let indexFlavor = indexArrayController.valueForKeyPath("selection.flavor") as? String
@@ -66,8 +73,8 @@ class SelectIndexPanel : NSObject {
         
         selectedIndex = (indexName!,indexFlavor!,indexIsPublic!,indexInfo!)
         
-        if handler != nil {
-            handler(NSOKButton)
+        if _handler != nil {
+            _handler(NSOKButton)
         }
         closeSheet()
     }

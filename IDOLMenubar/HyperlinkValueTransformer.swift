@@ -22,6 +22,7 @@ class HyperlinkValueTransformer: NSValueTransformer {
         return true
     }
     
+    // Transform the incoming string value to a attributed string, for displaying as a hyperlink
     override func transformedValue(value: AnyObject!) -> AnyObject! {
         if value != nil {
             let origVal = value as String

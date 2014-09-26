@@ -9,6 +9,7 @@
 import Cocoa
 
 // Custom Text field class for handling cut/copy/paste/undo
+// Needed since NSTextField does not automatically handle these actions when Edit menu is not present
 class CustomTextField: NSTextField {
 
     override func drawRect(dirtyRect: NSRect) {
@@ -17,6 +18,11 @@ class CustomTextField: NSTextField {
         // Drawing code here.
     }
     
+    // Perform actions for edit keys
+    // Keycode = 6 = Cmd Z : Undo
+    // Keycode = 7 = Cmd X : Cut
+    // Keycode = 8 = Cmd C : Copy
+    // Keycode = 9 = Cmd V : Paste
     override func performKeyEquivalent(theEvent: NSEvent) -> Bool {
         if (theEvent.type == .KeyDown &&
             (theEvent.modifierFlags & .CommandKeyMask) == .CommandKeyMask) {

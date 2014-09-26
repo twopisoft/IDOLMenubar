@@ -34,9 +34,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var statusItem : NSStatusItem = NSStatusItem()
     
-    private var statusItemImage : NSImage = NSImage(named: "hp-logo-small")
-    private var statusItemAltImage : NSImage = NSImage(named: "hp-logo-small-alt")
-    private var statusErrImage : NSImage = NSImage(named: "hp-logo-small-err")
+    private var _statusItemImage : NSImage = NSImage(named: "hp-logo-alpha-small")
+    private var _statusItemAltImage : NSImage = NSImage(named: "hp-logo-alpha-small-alt")
+    private var _statusErrImage : NSImage = NSImage(named: "hp-logo-alpha-small-err")
     
     private var _timer : NSTimer? = nil
     private var _syncInProgress = false
@@ -52,11 +52,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 statusItem.toolTip = "Uploading data to Index"
                 self._timer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "toggleImage:", userInfo: nil, repeats: true)
             } else {
+                NSLog("Stopping timer")
                 if self._timer != nil {
                     self._timer!.invalidate()
                 }
-                statusItem.image = statusItemImage
-                statusItem.alternateImage = statusItemAltImage
+                statusItem.image = _statusItemImage
+                statusItem.alternateImage = _statusItemAltImage
                 statusItem.toolTip = "IDOLMenubar"
             }
         }
@@ -72,9 +73,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self._timer!.invalidate()
             }
             if _opError {
-                statusItem.image = statusErrImage
+                NSLog("Set error image")
+                statusItem.image = _statusErrImage
             } else {
-                statusItem.image = statusItemImage
+                statusItem.image = _statusItemImage
             }
         }
     }
@@ -91,8 +93,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1)
         statusItem.menu = menu
         statusItem.highlightMode = true
-        statusItem.image = statusItemImage
-        statusItem.alternateImage = statusItemAltImage
+        statusItem.image = _statusItemImage
+        statusItem.alternateImage = _statusItemAltImage
         statusItem.toolTip = "IDOLMenubar"
         
         NSValueTransformer.setValueTransformer(HyperlinkValueTransformer(), forName: "HyperlinkValueTransformer")
@@ -155,6 +157,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSApplication.sharedApplication().terminate(self)
     }
     
+    // Displays the last error encountered by the service
     @IBAction func lastError(sender: AnyObject) {
         if lastError != nil {
             NSApp.activateIgnoringOtherApps(true)

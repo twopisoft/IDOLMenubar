@@ -14,6 +14,9 @@
 		EE12649519CDB9E900ADA149 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE12649419CDB9E900ADA149 /* DBHelper.swift */; };
 		EE13097E19CE7A250061EEB8 /* AboutPanelSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE13097D19CE7A250061EEB8 /* AboutPanelSheet.xib */; };
 		EE13098219CF1EBF0061EEB8 /* hp-logo-small-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = EE13098119CF1EBF0061EEB8 /* hp-logo-small-alt.png */; };
+		EE14A1C519D4F03C005FFEF5 /* hp-logo-alpha-small-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = EE14A1C419D4F03C005FFEF5 /* hp-logo-alpha-small-alt.png */; };
+		EE14A1CD19D518F7005FFEF5 /* hp-logo-alpha-small-err.png in Resources */ = {isa = PBXBuildFile; fileRef = EE14A1CC19D518F7005FFEF5 /* hp-logo-alpha-small-err.png */; };
+		EE14A1D119D53D19005FFEF5 /* hp-logo-alpha-small.png in Resources */ = {isa = PBXBuildFile; fileRef = EE14A1D019D53D19005FFEF5 /* hp-logo-alpha-small.png */; };
 		EE14F10019C99A04007620AE /* IDOLMenubar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EE14F0FE19C99A04007620AE /* IDOLMenubar.xcdatamodeld */; };
 		EE3EAB9F19CBE52E0002D930 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */; };
 		EE3EABA119CC30D20002D930 /* IDOLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EABA019CC30D20002D930 /* IDOLService.swift */; };
@@ -52,6 +55,9 @@
 		EE12649419CDB9E900ADA149 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		EE13097D19CE7A250061EEB8 /* AboutPanelSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutPanelSheet.xib; sourceTree = "<group>"; };
 		EE13098119CF1EBF0061EEB8 /* hp-logo-small-alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-small-alt.png"; sourceTree = "<group>"; };
+		EE14A1C419D4F03C005FFEF5 /* hp-logo-alpha-small-alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-alpha-small-alt.png"; sourceTree = "<group>"; };
+		EE14A1CC19D518F7005FFEF5 /* hp-logo-alpha-small-err.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-alpha-small-err.png"; sourceTree = "<group>"; };
+		EE14A1D019D53D19005FFEF5 /* hp-logo-alpha-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-alpha-small.png"; sourceTree = "<group>"; };
 		EE14F0FF19C99A04007620AE /* IDOLMenubar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IDOLMenubar.xcdatamodel; sourceTree = "<group>"; };
 		EE14F10119C99A73007620AE /* IDOLMenubar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IDOLMenubar-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -192,6 +198,9 @@
 		EE50C80319C13E970005A207 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EE14A1D019D53D19005FFEF5 /* hp-logo-alpha-small.png */,
+				EE14A1CC19D518F7005FFEF5 /* hp-logo-alpha-small-err.png */,
+				EE14A1C419D4F03C005FFEF5 /* hp-logo-alpha-small-alt.png */,
 				EED2B60D19D180A40021745E /* hp-logo-small-err.png */,
 				EE13098119CF1EBF0061EEB8 /* hp-logo-small-alt.png */,
 				EE0CEF4119CE5A3F00DA4A31 /* logo-lg.png */,
@@ -305,10 +314,13 @@
 				EE50C80A19C13E970005A207 /* Images.xcassets in Resources */,
 				EE50C80D19C13E970005A207 /* MainMenu.xib in Resources */,
 				EE13098219CF1EBF0061EEB8 /* hp-logo-small-alt.png in Resources */,
+				EE14A1CD19D518F7005FFEF5 /* hp-logo-alpha-small-err.png in Resources */,
 				EE6BA6C419C2A6B0004F5149 /* SearchViewController.xib in Resources */,
 				EE6BA6BB19C2A5BD004F5149 /* PreferenceViewController.xib in Resources */,
 				EED2B60E19D180A40021745E /* hp-logo-small-err.png in Resources */,
 				EE0CEF4219CE5A3F00DA4A31 /* logo-lg.png in Resources */,
+				EE14A1C519D4F03C005FFEF5 /* hp-logo-alpha-small-alt.png in Resources */,
+				EE14A1D119D53D19005FFEF5 /* hp-logo-alpha-small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

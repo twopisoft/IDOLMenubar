@@ -269,7 +269,7 @@ Gw
         <arrayController mode="entity" entityName="IdolIndexes" automaticallyPreparesContent="YES" automaticallyRearrangesObjects="YES" id="xYR-Do-FVB" userLabel="IndexArrayController">
             <connections>
                 <binding destination="-2" name="managedObjectContext" keyPath="managedObjectContext" id="OeB-Qa-cE5"/>
-                <binding destination="-2" name="sortDescriptors" keyPath="sortDescriptors" id="n3Q-ru-X6g"/>
+                <binding destination="-2" name="sortDescriptors" keyPath="sortDescriptors" id="bcc-r3-qWO"/>
             </connections>
         </arrayController>
     </objects>

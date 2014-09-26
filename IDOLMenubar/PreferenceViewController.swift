@@ -134,7 +134,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
                         self.saveData()
                         AppDelegate.sharedAppDelegate().setValue(false, forKey: "syncInProgress")
                     } else {
-                        NSLog("err=\(err)")
+                        NSLog("PreferenceViewController: err=\(err)")
                         AppDelegate.sharedAppDelegate().setValue(false, forKey: "syncInProgress")
                         AppDelegate.sharedAppDelegate().setValue(true, forKey: "opError")
                         AppDelegate.sharedAppDelegate().setValue(err!, forKey: "lastError")
@@ -155,6 +155,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         var panel = SelectIndexPanel()
         panel.managedObjectContext = self.managedObjectContext
         panel.apiKey = apiKey
+        panel.listPublicIndex = false
         
         panel.beginSheetModalForWindow(parentWindow()!, completionHandler: { (response : NSModalResponse) in
             if response == NSOKButton {

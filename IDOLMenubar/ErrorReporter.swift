@@ -11,6 +11,7 @@ import Cocoa
 
 class ErrorReporter {
     
+    // Show error modal when title and description strings are provided
     class func showErrorAlert(_window:NSWindow!, title:String, desc:String, closeWindow:Bool = false) {
         dispatch_async(dispatch_get_main_queue(), {
             let alert = NSAlert()
@@ -25,6 +26,7 @@ class ErrorReporter {
         })
     }
     
+    // Show error modal when NSError is provided
     class func showErrorAlert(_window:NSWindow!, error: NSError, closeWindow: Bool = false) {
         var title = ""
         var desc = ""

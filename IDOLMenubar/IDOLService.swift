@@ -25,11 +25,12 @@ class IDOLService {
     }
     
     // URL strings for various IDOL services
-    private struct URLS {
-        static let listIndexUrl = "https://api.idolondemand.com/1/api/async/listindexes/v1?apikey="
-        static let addToIndexUrl = "https://api.idolondemand.com/1/api/async/addtotextindex/v1"
-        static let findSimilarUrl = "https://api.idolondemand.com/1/api/async/findsimilar/v1"
-        static let jobResult = "https://api.idolondemand.com/1/job/result/"
+    private struct _URLS {
+        static let baseURL          = "https://api.idolondemand.com/1/api/async"
+        static let listIndexUrl     = baseURL + "/listindexes/v1?apikey="
+        static let addToIndexUrl    = baseURL + "/addtotextindex/v1"
+        static let findSimilarUrl   = baseURL + "/findsimilar/v1"
+        static let jobResult        = "https://api.idolondemand.com/1/job/result/"
     }
     
     struct ErrCodes {
@@ -44,10 +45,10 @@ class IDOLService {
     
     func fetchIndexList(apiKey:String, completionHandler handler: ((NSData?,NSError?)->Void)) {
         // First submit the async job and get back the job id
-        submitAsyncJob(URLS.listIndexUrl + apiKey, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
+        submitAsyncJob(_URLS.listIndexUrl + apiKey, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
             
             if jobErr == nil {
-                let urlStr = URLS.jobResult + jobId! + "?apikey=" + apiKey
+                let urlStr = _URLS.jobResult + jobId! + "?apikey=" + apiKey
                 let request = NSURLRequest(URL: NSURL(string: urlStr))
                 let queue = NSOperationQueue()
                 
@@ -79,7 +80,7 @@ class IDOLService {
             self.submitAsyncJob(postRequest, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
                 
                 if jobErr == nil {
-                    let urlStr = URLS.jobResult + jobId! + "?apikey=" + apiKey
+                    let urlStr = _URLS.jobResult + jobId! + "?apikey=" + apiKey
                     let request = NSURLRequest(URL: NSURL(string: urlStr))
                     let queue = NSOperationQueue()
                     
@@ -101,7 +102,7 @@ class IDOLService {
     func findSimilarDocs(apiKey:String, text: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
         
         // For keyword term search, we make use of HTTP GET request
-        var urlStr = URLS.findSimilarUrl + "?apikey=" + apiKey + "&text=" + encodeStr(text) + "&indexes=" + encodeStr(indexName) +
+        var urlStr = _URLS.findSimilarUrl + "?apikey=" + apiKey + "&text=" + encodeStr(text) + "&indexes=" + encodeStr(indexName) +
                      "&print=reference"
         
         var request = NSURLRequest(URL: NSURL(string: urlStr))
@@ -114,7 +115,7 @@ class IDOLService {
     func findSimilarDocsUrl(apiKey:String, url: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
     
         // For keyword term search, we make use of HTTP GET request
-        var urlStr = URLS.findSimilarUrl + "?apikey=" + apiKey + "&url=" + encodeStr(url) + "&indexes=" + encodeStr(indexName) +
+        var urlStr = _URLS.findSimilarUrl + "?apikey=" + apiKey + "&url=" + encodeStr(url) + "&indexes=" + encodeStr(indexName) +
         "&print=reference"
         
         var request = NSURLRequest(URL: NSURL(string: urlStr))
@@ -145,7 +146,7 @@ class IDOLService {
         submitAsyncJob(request, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
             
             if jobErr == nil {
-                let urlStr = URLS.jobResult + jobId! + "?apikey=" + key
+                let urlStr = _URLS.jobResult + jobId! + "?apikey=" + key
                 let request = NSURLRequest(URL: NSURL(string: urlStr))
                 let queue = NSOperationQueue()
                 
@@ -206,7 +207,7 @@ class IDOLService {
     
     // Create a HTTP POST request for Find Similar service when user specifies a file
     private func createFindSimilarFileRequest(filePath: String, indexName: String, apiKey: String) -> NSURLRequest {
-        let reqUrl = NSURL(string: URLS.findSimilarUrl)
+        let reqUrl = NSURL(string: _URLS.findSimilarUrl)
         var req = NSMutableURLRequest(URL: reqUrl)
         let boundary = "---------------------------14737809831466499882746641449"
         req.HTTPMethod = "POST"
@@ -245,7 +246,7 @@ class IDOLService {
     // *large size* files, this method may cause problems
     private func createAddIndexRequest(fileMeta: [FileMeta], dirPath: String, indexName: String, apiKey: String) -> NSURLRequest {
         
-        let reqUrl = NSURL(string: URLS.addToIndexUrl)
+        let reqUrl = NSURL(string: _URLS.addToIndexUrl)
         var req = NSMutableURLRequest(URL: reqUrl)
         let boundary = "---------------------------14737809831466499882746641449"
         req.HTTPMethod = "POST"
