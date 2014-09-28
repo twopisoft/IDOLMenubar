@@ -11,6 +11,10 @@ import Cocoa
 
 class ErrorReporter {
     
+    private struct Services {
+        static let IDOLService = "IDOLService"
+    }
+    
     // Show error modal when title and description strings are provided
     class func showErrorAlert(_window:NSWindow!, title:String, desc:String, closeWindow:Bool = false) {
         dispatch_async(dispatch_get_main_queue(), {
@@ -30,7 +34,7 @@ class ErrorReporter {
     class func showErrorAlert(_window:NSWindow!, error: NSError, closeWindow: Bool = false) {
         var title = ""
         var desc = ""
-        if error.domain == "IDOLService" {
+        if error.domain == Services.IDOLService {
             title = "IDOLService Error"
             desc = error.userInfo!["Description"]! as String + "\nCode: \(error.code)"
         } else {

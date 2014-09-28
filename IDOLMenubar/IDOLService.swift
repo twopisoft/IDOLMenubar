@@ -43,6 +43,8 @@ class IDOLService {
         static let ErrAPIKeyInvalid     = -10003
     }
     
+    private let Boundary = "---------------------------" + NSUUID.UUID().UUIDString
+    
     // MARK: - IDOL Service
     // Method to invoke List Index service and get back the results to caller in a completion handler
     
@@ -189,34 +191,23 @@ class IDOLService {
     
     // Create a HTTP POST request for Find Similar service when user specifies a file
     private func createFindSimilarFileRequest(filePath: String, indexName: String, apiKey: String) -> NSURLRequest {
-        let reqUrl = NSURL(string: _URLS.findSimilarUrl)
-        var req = NSMutableURLRequest(URL: reqUrl)
-        let boundary = "---------------------------14737809831466499882746641449"
-        req.HTTPMethod = "POST"
-        req.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-        let sepData = stringToData("\r\n--\(boundary)\r\n")
-        let ctData = stringToData("Content-Type: application/x-www-form-urlencoded\r\n\r\n")
-        
-        var postData = NSMutableData()
+        var (req, postData) = initPostRequest(apiKey, reqUrlStr: _URLS.findSimilarUrl)
         
         NSLog("Processing file=\(filePath)")
         let fileData = NSFileManager.defaultManager().contentsAtPath(filePath)
-        postData.appendData(sepData)
+        postData.appendData(paramSeparatorData(Boundary))
         postData.appendData(stringToData("Content-Disposition: form-data; name=\"file\"; filename=\"\(filePath)\"\r\n"))
-        postData.appendData(ctData)
+        postData.appendData(contentTypeData())
         postData.appendData(fileData!)
         
-        postData.appendData(sepData)
-        postData.appendData(stringToData("Content-Disposition: form-data; name=\"indexes\"\r\n\r\n"))
+        postData.appendData(paramSeparatorData(Boundary))
+        postData.appendData(contentDispositionData("indexes"))
         postData.appendData(stringToData(indexName))
-        postData.appendData(sepData)
-        postData.appendData(stringToData("Content-Disposition: form-data; name=\"print\"\r\n\r\n"))
+        postData.appendData(paramSeparatorData(Boundary))
+        postData.appendData(contentDispositionData("print"))
         postData.appendData(stringToData("reference"))
-        postData.appendData(sepData)
-        postData.appendData(stringToData("Content-Disposition: form-data; name=\"apikey\"\r\n\r\n"))
-        postData.appendData(stringToData(apiKey))
-        postData.appendData(stringToData("\r\n--\(boundary)--\r\n"))
+        postData.appendData(stringToData("\r\n--\(Boundary)--\r\n"))
         
         req.HTTPBody = postData
         req.addValue("\(postData.length)", forHTTPHeaderField: "Content-Length")
@@ -229,41 +220,46 @@ class IDOLService {
     private func createAddIndexRequest(fileMeta: [FileMeta], dirPath: String, indexName: String, apiKey: String) -> NSURLRequest {
         
         let reqUrl = NSURL(string: _URLS.addToIndexUrl)
-        var req = NSMutableURLRequest(URL: reqUrl)
-        let boundary = "---------------------------14737809831466499882746641449"
-        req.HTTPMethod = "POST"
-        req.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        var (req, postData) = initPostRequest(apiKey, reqUrlStr: _URLS.addToIndexUrl)
         
-        let sepData = stringToData("\r\n--\(boundary)\r\n")
-        let ctData = stringToData("Content-Type: application/x-www-form-urlencoded\r\n\r\n")
-        
-        var postData = NSMutableData()
-        
+        // Note that we have used the full path for the filename because the reference_prefix sometimes
+        // return strange error for some files
         for (path,fname,isDir) in fileMeta {
             if !isDir {
                 NSLog("Processing file=\(fname)")
                 let fileData = NSFileManager.defaultManager().contentsAtPath(path)
-                postData.appendData(sepData)
+                postData.appendData(paramSeparatorData(Boundary))
                 postData.appendData(stringToData("Content-Disposition: form-data; name=\"file\"; filename=\"\(path)\"\r\n"))
-                postData.appendData(ctData)
+                postData.appendData(contentTypeData())
                 postData.appendData(fileData!)
             }
         }
         
-        postData.appendData(sepData)
+        postData.appendData(paramSeparatorData(Boundary))
         postData.appendData(stringToData("Content-Disposition: form-data; name=\"index\"\r\n\r\n"))
         postData.appendData(stringToData(indexName))
-        /*postData.appendData(sepData)
-        postData.appendData(stringToData("Content-Disposition: form-data; name=\"reference_prefix\"\r\n\r\n"))
-        postData.appendData(stringToData(dirPath))*/
-        postData.appendData(sepData)
-        postData.appendData(stringToData("Content-Disposition: form-data; name=\"apikey\"\r\n\r\n"))
-        postData.appendData(stringToData(apiKey))
-        postData.appendData(stringToData("\r\n--\(boundary)--\r\n"))
+        postData.appendData(stringToData("\r\n--\(Boundary)--\r\n"))
         
-        req.HTTPBody = postData
         req.addValue("\(postData.length)", forHTTPHeaderField: "Content-Length")
         return req
+    }
+    
+    // Method to initialize a POST request with common fields
+    private func initPostRequest(apiKey: String, reqUrlStr: String) -> (request:NSMutableURLRequest, postData: NSMutableData) {
+        let reqUrl = NSURL(string: reqUrlStr)
+        var req = NSMutableURLRequest(URL: reqUrl)
+        
+        req.HTTPMethod = "POST"
+        req.addValue("multipart/form-data; boundary=\(Boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var postData = NSMutableData()
+        
+        postData.appendData(paramSeparatorData(Boundary))
+        postData.appendData(contentDispositionData("apikey"))
+        postData.appendData(stringToData(apiKey))
+        
+        req.HTTPBody = postData
+        return (req, postData)
     }
     
     // MARK: Method to read directory and file info
@@ -289,12 +285,27 @@ class IDOLService {
     
     // MARK: Miscellaneous methods
     
+    // Encode non-URL characters to URL allowed ones
     private func encodeStr(str : String) -> String {
         return str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
     }
     
+    // Converts a string to Data
     private func stringToData(str : String) -> NSData {
         return (str as NSString).dataUsingEncoding(NSUTF8StringEncoding)!
+    }
+    
+    // Returns a Data for parameter Boundary string
+    private func paramSeparatorData(boundary: String) -> NSData {
+        return stringToData("\r\n--\(boundary)\r\n")
+    }
+    
+    private func contentTypeData () -> NSData {
+        return stringToData("Content-Type: application/x-www-form-urlencoded\r\n\r\n")
+    }
+    
+    private func contentDispositionData(name: String) -> NSData {
+        return stringToData("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
     }
     
     private func createError(json : NSDictionary) -> NSError {

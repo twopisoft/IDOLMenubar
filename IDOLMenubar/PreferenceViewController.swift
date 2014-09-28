@@ -88,16 +88,19 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     }
     
     @IBAction func locateIndex(sender: AnyObject) {
-        if _apiKey == nil  {
+        if _apiKey == nil  { // If the API key was not set
+            // First see if the text field has any value
             _apiKey = apiKeyTextField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             if _apiKey!.isEmpty {
-                ErrorReporter.showErrorAlert(parentWindow(),
-                    title: "IDOL API Key not configured",
-                    desc: "IDOL API Key is not configured. Please set the API Key first.")
+                // If not, show error
+                reportEmptyApiKeyError()
             } else {
+                // Otherwise, show index select panel
                 showSelectIndexPanel(_apiKey)
             }
-        } else {
+        } else if _apiKey!.isEmpty { // Api key was set before, but is empty now
+            reportEmptyApiKeyError()
+        }else {
             showSelectIndexPanel(_apiKey)
         }
     }
@@ -167,6 +170,12 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
                 }
             }
         })
+    }
+    
+    private func reportEmptyApiKeyError() {
+        ErrorReporter.showErrorAlert(parentWindow(),
+            title: "IDOL API Key not configured",
+            desc: "IDOL API Key is not configured. Please set the API Key first.")
     }
     
     private func parentWindow() -> NSWindow? {
