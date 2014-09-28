@@ -189,12 +189,21 @@
                                                                     </buttonCell>
                                                                     <connections>
                                                                         <action selector="locateIndex:" target="-2" id="B3C-Os-n2u"/>
+                                                                        <binding destination="-2" name="enabled2" keyPath="apiKey" previousBinding="iY9-5l-Iyg" id="Fk6-gk-nez">
+                                                                            <dictionary key="options">
+                                                                                <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                                <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                                <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                                <integer key="NSNullPlaceholder" value="-1"/>
+                                                                                <string key="NSValueTransformerName">NSIsNotNil</string>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                        <binding destination="j8R-wb-ixd" name="hidden" keyPath="objectValue.syncFinished" previousBinding="Fk6-gk-nez" id="m2E-98-9sv"/>
                                                                         <binding destination="j8R-wb-ixd" name="enabled" keyPath="objectValue.isSyncing" id="iY9-5l-Iyg">
                                                                             <dictionary key="options">
                                                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                             </dictionary>
                                                                         </binding>
-                                                                        <binding destination="j8R-wb-ixd" name="hidden" keyPath="objectValue.syncFinished" previousBinding="iY9-5l-Iyg" id="50C-hO-qYV"/>
                                                                     </connections>
                                                                 </button>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PwG-Ox-sGW">
@@ -269,6 +278,15 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="save:" target="-2" id="j8b-ER-xpI"/>
+                                    <binding destination="-2" name="enabled2" keyPath="apiKey" previousBinding="dUL-nT-DFg" id="YIj-ax-OUs">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                            <integer key="NSNullPlaceholder" value="-1"/>
+                                            <string key="NSValueTransformerName">NSIsNotNil</string>
+                                        </dictionary>
+                                    </binding>
                                     <binding destination="-2" name="enabled" keyPath="needsSave" id="dUL-nT-DFg"/>
                                 </connections>
                             </button>

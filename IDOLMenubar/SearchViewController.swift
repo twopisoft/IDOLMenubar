@@ -61,9 +61,7 @@ class SearchViewController: NSViewController, NSTableViewDataSource, NSTableView
         _apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
         
         if _apiKey == nil  {
-            ErrorReporter.showErrorAlert(parentWindow(),
-                title: "IDOL API Key not configured",
-                desc: "IDOL API Key is not configured. Please set the API Key first.")
+            reportEmptyApiKeyError()
         } else {
             showSelectIndexPanel(_apiKey)
         }
@@ -88,9 +86,7 @@ class SearchViewController: NSViewController, NSTableViewDataSource, NSTableView
         _apiKey = userDefaultsController.values.valueForKey("idolApiKey") as? String
         
         if _apiKey == nil  {
-            ErrorReporter.showErrorAlert(parentWindow(),
-                title: "IDOL API Key not configured",
-                desc: "IDOL API Key is not configured. Please set the API Key first.")
+            reportEmptyApiKeyError()
         } else {
             var searchItem = searchBarField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             var indexName = indexNameField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -187,6 +183,12 @@ class SearchViewController: NSViewController, NSTableViewDataSource, NSTableView
                 self.indexNameField.stringValue = selectedIndex!.name
             }
         })
+    }
+    
+    private func reportEmptyApiKeyError() {
+        ErrorReporter.showErrorAlert(parentWindow(),
+            title: "IDOL API Key not configured",
+            desc: "IDOL API Key is not configured. Please set the API Key first.")
     }
     
     private func parentWindow() -> NSWindow? {

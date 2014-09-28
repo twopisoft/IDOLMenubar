@@ -46,7 +46,7 @@
                                     <action selector="selectFile:" target="-2" id="AUR-6a-oHC"/>
                                 </connections>
                             </button>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="npk-Eg-89p">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="npk-Eg-89p" customClass="CustomTextField" customModule="IDOLMenubar" customModuleProvider="target">
                                 <rect key="frame" x="18" y="41" width="207" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Index Name (default: wiki_eng)" drawsBackground="YES" id="KGp-iP-PnG">
                                     <font key="font" metaFont="system"/>
@@ -267,7 +267,7 @@ DQ
                                                                 </textField>
                                                                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eJl-b8-Zj3">
                                                                     <rect key="frame" x="392" y="-2" width="29" height="22"/>
-                                                                    <buttonCell key="cell" type="disclosure" bezelStyle="roundedDisclosure" image="7F0411BF-9E8E-4DE9-BBF2-33219E3FA808" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="E8T-p9-0Io">
+                                                                    <buttonCell key="cell" type="disclosure" bezelStyle="roundedDisclosure" image="804C6B47-EFCE-4CAE-980E-AFC574ABC866" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="E8T-p9-0Io">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>
@@ -415,7 +415,7 @@ DQ
         <userDefaultsController id="FG3-RV-ksc"/>
     </objects>
     <resources>
-        <image name="7F0411BF-9E8E-4DE9-BBF2-33219E3FA808" width="1" height="1">
+        <image name="804C6B47-EFCE-4CAE-980E-AFC574ABC866" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

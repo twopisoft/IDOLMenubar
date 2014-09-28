@@ -19,9 +19,10 @@ class IDOLService {
     typealias ResponseHandler   = (data:NSData?, error:NSError?) -> ()
     typealias JobRespHandler    = (jobId:String?, jobError:NSError?) -> ()
     
+    // MARK: Inner Class and Structs
     class var sharedInstance : IDOLService {
-    struct Singleton {
-        static let instance = IDOLService()
+        struct Singleton {
+            static let instance = IDOLService()
         }
         return Singleton.instance
     }
@@ -43,6 +44,7 @@ class IDOLService {
         static let ErrAPIKeyInvalid     = -10003
     }
     
+    // For HTTP parameter boundary
     private let Boundary = "---------------------------" + NSUUID.UUID().UUIDString
     
     // MARK: - IDOL Service
@@ -126,6 +128,7 @@ class IDOLService {
         })
     }
     
+    // Method to request for and recieve the async job result
     private func processJobResult(apiKey:String, jobId: String?, jobErr: NSError?, handler: ResponseHandler?) {
         if handler != nil {
             if jobErr == nil {
@@ -161,7 +164,7 @@ class IDOLService {
         }
     }
     
-    // Submits an async request
+    // Submits an async request and gets back a job id. Usually this method is chained with the processJobResult method
     private func submitAsyncJob(request : NSURLRequest, completionHandler handler: JobRespHandler) {
         let queue = NSOperationQueue()
         
@@ -169,7 +172,7 @@ class IDOLService {
             
             if error == nil {
                 var json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
-                NSLog("j1=\(json)")
+                NSLog("jobId response=\(json)")
                 if let jobId = json["jobID"] as? String { // Handle the jobId response
                     handler(jobId: jobId,jobError: nil)
                 } else if json["details"] != nil {  // Handle the error response
@@ -308,6 +311,7 @@ class IDOLService {
         return stringToData("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
     }
     
+    // Create NSError instance by parsing the json response
     private func createError(json : NSDictionary) -> NSError {
         let detail = json["details"] as? NSDictionary
         
@@ -334,6 +338,7 @@ class IDOLService {
         return createError(ErrCodes.ErrUnknown, msg: msg)
     }
     
+    // Special function to convert the error code -1012 to Invalid API Key response message.
     private func createError(error: NSError) -> NSError {
         if error.code == -1012 {
             return createError(error.code, msg: "Operation Failed.\nPossible reason: Invalid API Key")
@@ -342,6 +347,7 @@ class IDOLService {
         return error
     }
     
+    // Create NSError instance using an error code and message
     private func createError(code: Int, msg: String) -> NSError {
        return NSError(domain: "IDOLService", code: code, userInfo: ["Description":msg])
     }

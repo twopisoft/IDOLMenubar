@@ -18,6 +18,7 @@
 		EE14A1CD19D518F7005FFEF5 /* hp-logo-alpha-small-err.png in Resources */ = {isa = PBXBuildFile; fileRef = EE14A1CC19D518F7005FFEF5 /* hp-logo-alpha-small-err.png */; };
 		EE14A1D119D53D19005FFEF5 /* hp-logo-alpha-small.png in Resources */ = {isa = PBXBuildFile; fileRef = EE14A1D019D53D19005FFEF5 /* hp-logo-alpha-small.png */; };
 		EE14F10019C99A04007620AE /* IDOLMenubar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EE14F0FE19C99A04007620AE /* IDOLMenubar.xcdatamodeld */; };
+		EE2867C619D81EDE00FB9BE4 /* submission.txt in Resources */ = {isa = PBXBuildFile; fileRef = EE2867C519D81EDE00FB9BE4 /* submission.txt */; };
 		EE3EAB9F19CBE52E0002D930 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */; };
 		EE3EABA119CC30D20002D930 /* IDOLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3EABA019CC30D20002D930 /* IDOLService.swift */; };
 		EE50C80619C13E970005A207 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE50C80519C13E970005A207 /* main.swift */; };
@@ -60,6 +61,7 @@
 		EE14A1D019D53D19005FFEF5 /* hp-logo-alpha-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp-logo-alpha-small.png"; sourceTree = "<group>"; };
 		EE14F0FF19C99A04007620AE /* IDOLMenubar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IDOLMenubar.xcdatamodel; sourceTree = "<group>"; };
 		EE14F10119C99A73007620AE /* IDOLMenubar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IDOLMenubar-Bridging-Header.h"; sourceTree = "<group>"; };
+		EE2867C519D81EDE00FB9BE4 /* submission.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = submission.txt; sourceTree = "<group>"; };
 		EE3EAB9E19CBE52E0002D930 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		EE3EABA019CC30D20002D930 /* IDOLService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDOLService.swift; sourceTree = "<group>"; };
 		EE50C80019C13E970005A207 /* IDOLMenubar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IDOLMenubar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +166,7 @@
 		EE50C7F719C13E970005A207 = {
 			isa = PBXGroup;
 			children = (
+				EE2867C519D81EDE00FB9BE4 /* submission.txt */,
 				EE50C80219C13E970005A207 /* IDOLMenubar */,
 				EE50C81519C13E970005A207 /* IDOLMenubarTests */,
 				EE50C80119C13E970005A207 /* Products */,
@@ -312,6 +315,7 @@
 				EE02905D19C416EF00142D36 /* SelectIndexSheet.xib in Resources */,
 				EEEE20AA19C1443500BB8A72 /* hp-logo-small.png in Resources */,
 				EE50C80A19C13E970005A207 /* Images.xcassets in Resources */,
+				EE2867C619D81EDE00FB9BE4 /* submission.txt in Resources */,
 				EE50C80D19C13E970005A207 /* MainMenu.xib in Resources */,
 				EE13098219CF1EBF0061EEB8 /* hp-logo-small-alt.png in Resources */,
 				EE14A1CD19D518F7005FFEF5 /* hp-logo-alpha-small-err.png in Resources */,
@@ -458,6 +462,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -486,6 +491,7 @@
 				INFOPLIST_FILE = IDOLMenubar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "IDOLMenubar/IDOLMenubar-Bridging-Header.h";
 			};

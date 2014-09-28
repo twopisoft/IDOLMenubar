@@ -29,7 +29,20 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     var needsSave = false
     
     private var _apiKey : String? = nil
-
+    var apiKey : String? {
+        get {
+            return _apiKey
+        }
+        set {
+            if newValue == nil {
+                _apiKey = nil
+            } else {
+                let trimmed : String = newValue!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                _apiKey = trimmed.isEmpty ? nil : trimmed
+            }
+        }
+    }
+    
     // MARK: NSObject/NSViewController methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,14 +77,18 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         mo.setValue(false, forKey: "isSyncing")
         mo.setValue(false, forKey: "syncFinished")
         
+        self.setValue(apiKeyTextField.stringValue, forKey: "apiKey")
         self.setValue(true, forKey: "needsSave")
     }
     
     @IBAction func delDir(sender: AnyObject) {
         prefArrayController.remove(sender)
+        
+        self.setValue(apiKeyTextField.stringValue, forKey: "apiKey")
         self.setValue(true, forKey: "needsSave")
     }
     
+    // Open an NSOpen Panel to let user select a file
     @IBAction func locateDir(sender: AnyObject) {
         let row = dirPrefTableView.rowForView(sender as NSView)
         prefArrayController.setSelectionIndex(row)
@@ -88,25 +105,13 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
     }
     
     @IBAction func locateIndex(sender: AnyObject) {
-        if _apiKey == nil  { // If the API key was not set
-            // First see if the text field has any value
-            _apiKey = apiKeyTextField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            if _apiKey!.isEmpty {
-                // If not, show error
-                reportEmptyApiKeyError()
-            } else {
-                // Otherwise, show index select panel
-                showSelectIndexPanel(_apiKey)
-            }
-        } else if _apiKey!.isEmpty { // Api key was set before, but is empty now
-            reportEmptyApiKeyError()
-        }else {
-            showSelectIndexPanel(_apiKey)
-        }
+        let row = dirPrefTableView.rowForView(sender as NSView)
+        prefArrayController.setSelectionIndex(row)
+        showSelectIndexPanel(apiKey)
     }
     
     override func controlTextDidChange(obj: NSNotification!) {
-        _apiKey = apiKeyTextField.stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        self.setValue(apiKeyTextField.stringValue, forKey: "apiKey")
         self.setValue(true, forKey: "needsSave")
     }
     
@@ -154,6 +159,7 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
         }
     }
     
+    // Displays the selectIndexPanel. This is only shown if apiKey is set
     private func showSelectIndexPanel(apiKey : String!) {
         var panel = SelectIndexPanel()
         panel.managedObjectContext = self.managedObjectContext
@@ -170,12 +176,6 @@ class PreferenceViewController: NSViewController, NSTableViewDataSource, NSTable
                 }
             }
         })
-    }
-    
-    private func reportEmptyApiKeyError() {
-        ErrorReporter.showErrorAlert(parentWindow(),
-            title: "IDOL API Key not configured",
-            desc: "IDOL API Key is not configured. Please set the API Key first.")
     }
     
     private func parentWindow() -> NSWindow? {
