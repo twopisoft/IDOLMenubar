@@ -15,7 +15,9 @@ import CoreData
 
 class IDOLService {
     
-    typealias FileMeta = (path:String,name:String,isDir:Bool)
+    typealias FileMeta          = (path:String,name:String,isDir:Bool)
+    typealias ResponseHandler   = (data:NSData?, error:NSError?) -> ()
+    typealias JobRespHandler    = (jobId:String?, jobError:NSError?) -> ()
     
     class var sharedInstance : IDOLService {
     struct Singleton {
@@ -44,30 +46,16 @@ class IDOLService {
     // MARK: - IDOL Service
     // Method to invoke List Index service and get back the results to caller in a completion handler
     
-    func fetchIndexList(apiKey:String, completionHandler handler: ((NSData?,NSError?)->Void)) {
+    func fetchIndexList(apiKey:String, completionHandler handler: ResponseHandler?) {
         // First submit the async job and get back the job id
-        submitAsyncJob(_URLS.listIndexUrl + apiKey, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
-            
-            if jobErr == nil {
-                let urlStr = _URLS.jobResult + jobId! + "?apikey=" + apiKey
-                let request = NSURLRequest(URL: NSURL(string: urlStr))
-                let queue = NSOperationQueue()
-                
-                // Now submit result request
-                NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
-                    
-                    handler(data,error)
-                    
-                })
-            } else {
-                handler(nil, jobErr)
-            }
+        submitAsyncJob(_URLS.listIndexUrl + apiKey, completionHandler: { (jobId: String?,jobErr: NSError?) in
+            // Then process the job result
+            self.processJobResult(apiKey, jobId: jobId, jobErr: jobErr, handler)
         })
-
     }
     
     // Method to upload documents to an IDOL index using the Add to Index service
-    func uploadDocsToIndex(apiKey:String, dirPath : String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+    func uploadDocsToIndex(apiKey:String, dirPath : String, indexName: String, completionHandler handler: ResponseHandler?) {
         
         // Dipatch the request on a background thread
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
@@ -77,30 +65,16 @@ class IDOLService {
             // Then create an HTTP POST request containing file data
             let postRequest = self.createAddIndexRequest(fileMeta, dirPath: dirPath, indexName: indexName, apiKey: apiKey)
             
-            // Submit the asyn job
-            self.submitAsyncJob(postRequest, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
-                
-                if jobErr == nil {
-                    let urlStr = _URLS.jobResult + jobId! + "?apikey=" + apiKey
-                    let request = NSURLRequest(URL: NSURL(string: urlStr))
-                    let queue = NSOperationQueue()
-                    
-                    
-                    NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
-                        
-                        handler!(data,error)
-                        
-                    })
-                } else {
-                    handler!(nil, jobErr)
-                }
+            // Submit the async job
+            self.submitAsyncJob(postRequest, completionHandler: { (jobId: String?,jobErr: NSError?) in
+                // Then process the job result
+                self.processJobResult(apiKey, jobId: jobId, jobErr: jobErr, handler: handler)
             })
         })
- 
     }
     
     // Method to invoke IDOL Find Similar Documents API when user has provided a keyword term
-    func findSimilarDocs(apiKey:String, text: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+    func findSimilarDocs(apiKey:String, text: String, indexName: String, completionHandler handler: ResponseHandler?) {
         
         // For keyword term search, we make use of HTTP GET request
         var urlStr = _URLS.findSimilarUrl + "?apikey=" + apiKey + "&text=" + encodeStr(text) + "&indexes=" + encodeStr(indexName) +
@@ -109,11 +83,11 @@ class IDOLService {
         var request = NSURLRequest(URL: NSURL(string: urlStr))
         
         NSLog("findSimilarDocs: text=\(text), indexName=\(indexName)")
-        findSimilarDocs(request, key: apiKey, completionHandler: handler)
+        findSimilarDocs(apiKey, request: request, completionHandler: handler)
     }
 
     // Method to invoke IDOL Find Similar Documents API when user has provided a url
-    func findSimilarDocsUrl(apiKey:String, url: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+    func findSimilarDocsUrl(apiKey:String, url: String, indexName: String, completionHandler handler: ResponseHandler?) {
     
         // For keyword term search, we make use of HTTP GET request
         var urlStr = _URLS.findSimilarUrl + "?apikey=" + apiKey + "&url=" + encodeStr(url) + "&indexes=" + encodeStr(indexName) +
@@ -122,18 +96,18 @@ class IDOLService {
         var request = NSURLRequest(URL: NSURL(string: urlStr))
         
         NSLog("findSimilarDocsUrl: url=\(url), indexName=\(indexName)")
-        findSimilarDocs(request, key: apiKey, completionHandler: handler)
+        findSimilarDocs(apiKey, request: request, completionHandler: handler)
 
     }
     
     // Method to invoke IDOL Find Similar Documents API when user has provided a file
-    func findSimilarDocsFile(apiKey:String, fileName: String, indexName: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+    func findSimilarDocsFile(apiKey:String, fileName: String, indexName: String, completionHandler handler: ResponseHandler?) {
         
         // For file requests, create a HTTP POST request
         var request = createFindSimilarFileRequest(fileName, indexName: indexName, apiKey: apiKey)
         
         NSLog("findSimilarDocsFile: url=\(fileName), indexName=\(indexName)")
-        findSimilarDocs(request, key: apiKey, completionHandler: handler)
+        findSimilarDocs(apiKey, request: request, completionHandler: handler)
 
     }
 
@@ -141,17 +115,23 @@ class IDOLService {
     // MARK: Request creation and submission
     
     // Common method used by all the findSimilar* methods
-    private func findSimilarDocs(request : NSURLRequest , key: String, completionHandler handler: ((NSData?,NSError?)->Void)?) {
+    private func findSimilarDocs(apiKey:String, request : NSURLRequest, completionHandler handler: ResponseHandler?) {
         
         // Submit async job
-        submitAsyncJob(request, completionHandler: { (jobId: NSString?,jobErr: NSError?) in
-            
+        submitAsyncJob(request, completionHandler: { (jobId: String?,jobErr: NSError?) in
+            // Then process the job result
+            self.processJobResult(apiKey, jobId: jobId, jobErr: jobErr, handler: handler)
+        })
+    }
+    
+    private func processJobResult(apiKey:String, jobId: String?, jobErr: NSError?, handler: ResponseHandler?) {
+        if handler != nil {
             if jobErr == nil {
-                let urlStr = _URLS.jobResult + jobId! + "?apikey=" + key
+                let urlStr = _URLS.jobResult + jobId! + "?apikey=" + apiKey
                 let request = NSURLRequest(URL: NSURL(string: urlStr))
                 let queue = NSOperationQueue()
                 
-                // Get the results using the jobId
+                // Now submit for result request
                 NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
                     
                     if error == nil {
@@ -161,25 +141,26 @@ class IDOLService {
                         for act in actions {
                             if let a  = act["errors"] as? NSArray {
                                 let code = a[0]["error"] as Int
-                                let msg = a[0]["reason"] as NSString
-                                return handler!(nil,self.createError(code, msg: msg))
+                                let msg = a[0]["reason"] as String
+                                return handler!(data: nil,error: self.createError(code, msg: msg))
                             } else {
-                                handler!(data,nil)
+                                handler!(data: data,error: nil)
                             }
                         }
                     } else {
-                        handler!(data,error)
+                        handler!(data: nil, error: error)
                     }
-                    
                 })
             } else {
-                handler!(nil, jobErr)
+                handler!(data: nil, error: jobErr)
             }
-        })
+        } else {
+            NSLog("processJobResult: No response handler provided. Doing nothing...")
+        }
     }
     
     // Submits an async request
-    private func submitAsyncJob(request : NSURLRequest, completionHandler handler: ((NSString?,NSError?)->Void)) {
+    private func submitAsyncJob(request : NSURLRequest, completionHandler handler: JobRespHandler) {
         let queue = NSOperationQueue()
         
         NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
@@ -188,20 +169,20 @@ class IDOLService {
                 var json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
                 NSLog("j1=\(json)")
                 if let jobId = json["jobID"] as? String { // Handle the jobId response
-                    handler(jobId,nil)
+                    handler(jobId: jobId,jobError: nil)
                 } else if json["details"] != nil {  // Handle the error response
-                    handler(nil,self.createError(json))
+                    handler(jobId: nil,jobError: self.createError(json))
                 }
             } else {
                 NSLog("Job submission error: \(error)")
-                handler(nil,self.createError(error))
+                handler(jobId: nil,jobError: self.createError(error))
             }
             
         })
     }
     
     // Convenience method. Mainly used for GET requests
-    private func submitAsyncJob(url : String, completionHandler handler: ((NSString?,NSError?)->Void)) {
+    private func submitAsyncJob(url : String, completionHandler handler: JobRespHandler) {
         let request = NSURLRequest(URL: NSURL(string: url))
         submitAsyncJob(request, completionHandler: handler)
     }
