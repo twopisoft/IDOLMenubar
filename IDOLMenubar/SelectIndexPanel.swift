@@ -105,7 +105,7 @@ class SelectIndexPanel : NSObject {
                     for pri in privateIndexes! as NSArray {
                         let indexName = pri["index"] as String
                         let indexFlavor = pri["flavor"] as String
-                        let indexInfo = pri["description"] as String
+                        let indexInfo = pri["description"]! != nil ?  pri["description"] as String : ""
                         indexes.append((name:indexName,flavor:indexFlavor,isPublic:false,info:indexInfo))
                     }
                 }

@@ -50,8 +50,7 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="aJq-5f-rFt"/>
-                <menuItem title="Preferences..." id="gWs-Xx-Gbs">
-                    <modifierMask key="keyEquivalentModifierMask"/>
+                <menuItem title="Preferences..." keyEquivalent="," id="gWs-Xx-Gbs">
                     <connections>
                         <action selector="preferences:" target="Voe-Tx-rLC" id="m5e-zE-gEB"/>
                     </connections>

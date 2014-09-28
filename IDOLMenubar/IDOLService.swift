@@ -26,18 +26,19 @@ class IDOLService {
     
     // URL strings for various IDOL services
     private struct _URLS {
-        static let baseURL          = "https://api.idolondemand.com/1/api/async"
-        static let listIndexUrl     = baseURL + "/listindexes/v1?apikey="
-        static let addToIndexUrl    = baseURL + "/addtotextindex/v1"
-        static let findSimilarUrl   = baseURL + "/findsimilar/v1"
-        static let jobResult        = "https://api.idolondemand.com/1/job/result/"
+        static let baseURL          = "https://api.idolondemand.com/1"
+        static let asyncSvc         = baseURL + "/api/async"
+        static let listIndexUrl     = asyncSvc + "/listindexes/v1?apikey="
+        static let addToIndexUrl    = asyncSvc + "/addtotextindex/v1"
+        static let findSimilarUrl   = asyncSvc + "/findsimilar/v1"
+        static let jobResult        = baseURL + "/job/result/"
     }
     
     struct ErrCodes {
-        static let ErrUnknown           = -1000
-        static let ErrAPIKeyNotFound    = -1001
-        static let ErrMethodFailed      = -1002
-        static let ErrAPIKeyInvalid     = -1003
+        static let ErrUnknown           = -10000
+        static let ErrAPIKeyNotFound    = -10001
+        static let ErrMethodFailed      = -10002
+        static let ErrAPIKeyInvalid     = -10003
     }
     
     // MARK: - IDOL Service
