@@ -198,12 +198,12 @@
                                                                                 <string key="NSValueTransformerName">NSIsNotNil</string>
                                                                             </dictionary>
                                                                         </binding>
-                                                                        <binding destination="j8R-wb-ixd" name="hidden" keyPath="objectValue.syncFinished" previousBinding="Fk6-gk-nez" id="m2E-98-9sv"/>
                                                                         <binding destination="j8R-wb-ixd" name="enabled" keyPath="objectValue.isSyncing" id="iY9-5l-Iyg">
                                                                             <dictionary key="options">
                                                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                             </dictionary>
                                                                         </binding>
+                                                                        <binding destination="j8R-wb-ixd" name="hidden" keyPath="objectValue.syncFinished" previousBinding="Fk6-gk-nez" id="m2E-98-9sv"/>
                                                                     </connections>
                                                                 </button>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PwG-Ox-sGW">

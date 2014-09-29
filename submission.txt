@@ -1,2 +1,21 @@
-Video: http://youtu.be/WWD883MO8-8
-Blog: http://arshad01.wordpress.com/2014/09/23/hp-idol-menubar-application/
+Video:
+------
+
+http://youtu.be/WWD883MO8-8
+
+Blog:
+-----
+
+http://arshad01.wordpress.com/2014/09/23/hp-idol-menubar-application/
+
+How to Run:
+-----------
+
+1. From XCode: Load the project and build/run the project
+2. Directly: Run the IDOLMenubar.app
+
+
+Latest code on:
+---------------
+
+https://github.com/twopisoft/IDOLMenubar.git
